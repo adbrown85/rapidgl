@@ -1,6 +1,6 @@
 To install RapidGL from a distribution, first make sure you have the necessary
 tools and dependencies installed.  You will need g++, GNU Make, GLFW, and
-CppUnit, M3d, Gloop, and Glycerin.  Windows users will need to install a
+CppUnit, Poco, M3d, Gloop, and Glycerin.  Windows users will need to install a
 Bourne-compatible shell, like the one provided with MinGW.
 
 Then extract the archive and execute the following three commands:
