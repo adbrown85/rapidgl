@@ -4,7 +4,10 @@ RapidGL is a framework for creating and prototyping OpenGL applications
 quickly and efficiently.  Rather than coding OpenGL directly, developers
 compose a scene out of nodes corresponding to OpenGL operations.  The nodes
 take care of tying themselves together, and the scene can be written in XML to
-avoid recompiling the program each time.
+avoid recompiling the program each time.  RapidGL can be particularly useful
+for experimenting with new shaders and effects.  Once the developer is
+satisfied with their results, he or she can then always rewrite the
+application normally for better performance.
 
 To install RapidGL, see the INSTALL document.  For a rundown on the changes
 between versions, see the NEWS document.  Lastly, if you want to experiment
