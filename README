@@ -1,0 +1,12 @@
+RapidGL - Rapid prototyping for OpenGL
+
+RapidGL is a framework for creating and prototyping OpenGL applications
+quickly and efficiently.  Rather than coding OpenGL directly, developers
+compose a scene out of nodes corresponding to OpenGL operations.  The nodes
+take care of tying themselves together, and the scene can be written in XML to
+avoid recompiling the program each time.
+
+To install RapidGL, see the INSTALL document.  For a rundown on the changes
+between versions, see the NEWS document.  Lastly, if you want to experiment
+with the code or contribute new features or fixes, please see the HACKING
+document.
