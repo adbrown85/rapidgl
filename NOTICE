@@ -7,3 +7,12 @@ For unit testing, RapidGL uses CppUnit, developed by Michael Feathers, Jerome
 Lacoste, E. Sommerlade, Baptiste Lepilleur, Bastiaan Bakker, Steve Robbins, and
 Harvey Brydon.  It is licensed under the LGPL v2.1, and it may be obtained from
 http://sourceforge.net/projects/cppunit.
+
+3D math functionality is provided my M3d, written by Andrew Brown.  It is
+under the BSD license and may be obtained from
+http://github.com/adbrown85/m3d.
+
+Much of the low-level graphics facilities are provided by Gloop and Glycerin,
+written by Andrew Brown.  Gloop is under the BSD license and may be obtained
+from http://github.com/adbrown85/gloop.  Glycerin is licensed under the GPL
+and may be obtained from http://github.com/adbrown85/glycerin.
