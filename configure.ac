@@ -103,6 +103,17 @@ error_no_glycerin() {
 AC_MSG_CHECKING([for Glycerin])
 PKG_CHECK_EXISTS([glycerin-0] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
+# Check for Poco XML
+error_no_poco_xml() {
+    echo "------------------------------------------------------------"
+    echo " Poco XML is needed to build MY_NAME."
+    echo " Please visit 'http://www.pocoproject.org'"
+    echo "------------------------------------------------------------"
+    (exit 1); exit 1;
+}
+AC_CHECK_HEADER([Poco/SAX/XMLReader.h], , [error_no_poco_xml])
+AC_CHECK_LIB([PocoXML], [exit], , [error_no_poco_xml])
+
 # Finish
 AC_CONFIG_FILES(MY_TARNAME-MY_MAJOR_VERSION.pc [Makefile])
 PKG_CHECK_MODULES([DEPS], libglfw cppunit gloop-0 m3d-0 glycerin-0)
