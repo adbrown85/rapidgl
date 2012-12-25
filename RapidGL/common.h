@@ -32,4 +32,36 @@
 #define SIZE_MAX ((size_t) -1)
 #endif
 
+namespace RapidGL {
+
+
+/**
+ * Pair of iterators.
+ */
+template<typename T>
+struct Range {
+
+    /**
+     * Iterator for the beginning of this range.
+     */
+    T begin;
+
+    /**
+     * Iterator for the end of this range.
+     */
+    T end;
+
+    /**
+     * Constructs a range from two iterators.
+     *
+     * @param begin Iterator for the beginning of this range
+     * @param end Iterator for the end of this range
+     */
+    Range(const T& begin, const T& end) : begin(begin), end(end) {
+        // empty
+    }
+};
+
+} /* namespace RapidGL */
+
 #endif
