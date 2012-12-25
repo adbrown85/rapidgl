@@ -17,7 +17,6 @@
  */
 #include "config.h"
 #include "RapidGL/Unmarshaller.hxx"
-using namespace std;
 namespace RapidGL {
 
 /**
@@ -42,6 +41,18 @@ Unmarshaller::~Unmarshaller() {
  */
 Node* Unmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
     return NULL;
+}
+
+/**
+ * Returns the value of a key in a map.
+ *
+ * @param map Map of keys to values
+ * @param key Key to get value for
+ * @return Value of the key in the map, or the empty string if could not be found
+ */
+std::string Unmarshaller::findValue(const std::map<std::string,std::string>& map, const std::string& key) {
+    const std::map<std::string,std::string>::const_iterator it = map.find(key);
+    return (it == map.end()) ? "" : it->second;
 }
 
 } /* namespace RapidGL */

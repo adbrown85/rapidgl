@@ -33,6 +33,9 @@ public:
     Unmarshaller();
     virtual ~Unmarshaller();
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes) = 0;
+protected:
+// Methods
+    static std::string findValue(const std::map<std::string,std::string>& map, const std::string& key);
 };
 
 } /* namespace RapidGL */
