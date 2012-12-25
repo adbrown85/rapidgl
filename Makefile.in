@@ -7,6 +7,7 @@ major        := @PACKAGE_MAJOR_VERSION@
 minor        := @PACKAGE_MINOR_VERSION@
 incremental  := @PACKAGE_INCREMENTAL_VERSION@
 tarname      := @PACKAGE_TARNAME@
+namespace    := @PACKAGE_NAMESPACE@
 
 # Directories
 prefix       := @prefix@
@@ -19,7 +20,7 @@ builddir     := build
 docdir       := doc
 distdir      := dist
 tardir       := $(tarname)-$(version)
-VPATH        := $(srcdir) $(srcdir)/$(tarname) $(builddir)
+VPATH        := $(srcdir) $(srcdir)/$(namespace) $(builddir)
 pkgcfgdir    := $(libdir)/pkgconfig
 
 # Tools
@@ -45,7 +46,7 @@ DEPS_LIBS    := @DEPS_LIBS@
 LDOPTS       := $(LDFLAGS) $(LIBS) $(DEPS_LIBS)
 
 # Files
-all_sources  := $(wildcard $(srcdir)/$(tarname)/*.cxx)
+all_sources  := $(wildcard $(srcdir)/$(namespace)/*.cxx)
 main_sources := $(filter-out %Test.cxx,$(all_sources))
 test_sources := $(filter %Test.cxx,$(all_sources))
 headers      := $(subst .cxx,.hxx,$(main_sources))
@@ -132,9 +133,9 @@ install: all
 	@$(LIBTOOL) --mode=install --quiet $(INSTALL) $(builddir)/$(library) $(libdir)
 	@$(LIBTOOL) --mode=finish -n --quiet $(libdir)
 	@echo "  INSTALL $(includedir)/$(tarname)-$(major)"
-	@$(INSTALL) -d $(includedir)/$(tarname)-$(major)/$(tarname)
-	@$(INSTALL) -m 0644 $(headers) $(includedir)/$(tarname)-$(major)/$(tarname)
-	@$(INSTALL) -m 0644 $(tarname)/common.h $(includedir)/$(tarname)-$(major)/$(tarname)
+	@$(INSTALL) -d $(includedir)/$(tarname)-$(major)/$(namespace)
+	@$(INSTALL) -m 0644 $(headers) $(includedir)/$(tarname)-$(major)/$(namespace)
+	@$(INSTALL) -m 0644 $(namespace)/common.h $(includedir)/$(tarname)-$(major)/$(namespace)
 	@echo "  INSTALL $(pkgcfgdir)/$(pkgcfgfile)"
 	@$(INSTALL) -d $(pkgcfgdir)
 	@$(INSTALL) -m 0644 $(pkgcfgfile) $(pkgcfgdir)
@@ -191,11 +192,11 @@ html:
 dist: all
 	@echo "  TAR   $(tarfile)"
 	@$(MKDIR) $(tardir)
-	@$(MKDIR) $(tardir)/$(tarname)
-	@$(CP) $(tarname)/common.h $(tardir)/$(tarname)
-	@$(CP) $(main_sources) $(tardir)/$(tarname)
-	@$(CP) $(headers) $(tardir)/$(tarname)
-	@$(CP) $(test_sources) $(tardir)/$(tarname)
+	@$(MKDIR) $(tardir)/$(namespace)
+	@$(CP) $(namespace)/common.h $(tardir)/$(namespace)
+	@$(CP) $(main_sources) $(tardir)/$(namespace)
+	@$(CP) $(headers) $(tardir)/$(namespace)
+	@$(CP) $(test_sources) $(tardir)/$(namespace)
 	@$(CP) README $(tardir)
 	@$(CP) INSTALL $(tardir)
 	@$(CP) HACKING $(tardir)
