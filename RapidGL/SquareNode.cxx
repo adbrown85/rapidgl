@@ -1,0 +1,191 @@
+/*
+ * RapidGL - Rapid prototyping for OpenGL
+ * Copyright (C) 2012  Andrew Brown
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#include "config.h"
+#include <stdexcept>
+#include <glycerin/BufferLayoutBuilder.hxx>
+#include <glycerin/BufferRegion.hxx>
+#include "RapidGL/SquareNode.hxx"
+using std::map;
+using std::string;
+namespace RapidGL {
+
+Gloop::BufferTarget SquareNode::arrayBuffer = Gloop::BufferTarget::arrayBuffer();
+Glycerin::BufferLayout SquareNode::bufferLayout = createBufferLayout();
+
+/**
+ * Constructs a square node.
+ */
+SquareNode::SquareNode() :
+        prepared(false),
+        vao(Gloop::VertexArrayObject::generate()),
+        vbo(Gloop::BufferObject::generate()) {
+
+    // Bind the VBO
+    arrayBuffer.bind(vbo);
+
+    // Allocate buffer
+    arrayBuffer.data(bufferLayout.sizeInBytes(), NULL, GL_STATIC_DRAW);
+
+    // Add vertices
+    const Glycerin::BufferRegion vertexRegion = *(bufferLayout.find("VERTEX"));
+    GLfloat points[COUNT][2] = { { +0.5f, +0.5f },
+                                 { -0.5f, +0.5f },
+                                 { -0.5f, -0.5f },
+                                 { +0.5f, +0.5f },
+                                 { -0.5f, -0.5f },
+                                 { +0.5f, -0.5f } };
+    arrayBuffer.subData(vertexRegion.offset(), vertexRegion.sizeInBytes(), points);
+
+    // Add coordinates
+    const Glycerin::BufferRegion coordRegion = *(bufferLayout.find("COORDINATE"));
+    GLfloat coords[COUNT][2] = { { 1.0f, 1.0f },
+                                 { 0.0f, 1.0f },
+                                 { 0.0f, 0.0f },
+                                 { 1.0f, 1.0f },
+                                 { 0.0f, 0.0f },
+                                 { 1.0f, 0.0f } };
+    arrayBuffer.subData(coordRegion.offset(), coordRegion.sizeInBytes(), coords);
+
+    // Unbind the VBO
+    arrayBuffer.unbind(vbo);
+}
+
+/**
+ * Destructs this square node.
+ */
+SquareNode::~SquareNode() {
+    vao.dispose();
+    vbo.dispose();
+}
+
+/**
+ * Checks if a key is in a map.
+ *
+ * @param mapping Map to look in
+ * @param key Key to look for
+ * @return `true` if key is in map
+ */
+bool SquareNode::containsKey(const map<string,string>& mapping, const string& key) {
+    const map<string,string>::const_iterator it = mapping.find(key);
+    return it != mapping.end();
+}
+
+/**
+ * Creates the buffer layout.
+ */
+Glycerin::BufferLayout SquareNode::createBufferLayout() {
+    return Glycerin::BufferLayoutBuilder()
+        .count(COUNT)
+        .components(2)
+        .region("VERTEX")
+        .region("COORDINATE")
+        .build();
+}
+
+/**
+ * Returns the value of a key in a map.
+ *
+ * @param mapping Map to look in
+ * @param key Key to get value of
+ * @return Value of key, or the empty string if not found
+ */
+string SquareNode::getValue(const map<string,string>& mapping, const string& key) {
+    const map<string,string>::const_iterator it = mapping.find(key);
+    if (it == mapping.end()) {
+        return "";
+    } else {
+        return it->second;
+    }
+}
+
+void SquareNode::preVisit(State& state) {
+
+    // Skip if already prepared
+    if (prepared) {
+        return;
+    }
+
+    // Find the program
+    const ProgramNode* programNode = findAncestor<ProgramNode>(this);
+    Gloop::Program program = programNode->getProgram();
+
+    // Look for attributes
+    map<string,string> namesByUsage;
+    node_range_t programNodeChildren = programNode->getChildren();
+    for (node_iterator_t it = programNodeChildren.begin; it != programNodeChildren.end; ++it) {
+        const AttributeNode* attributeNode = dynamic_cast<const AttributeNode*>(*it);
+        if (attributeNode != NULL) {
+            const string name = attributeNode->getName();
+            const string usage = toString(attributeNode->getUsage());
+            namesByUsage[usage] = name;
+        }
+    }
+
+    // Bind VAO and VBO
+    vao.bind();
+    arrayBuffer.bind(vbo);
+
+    // Set up VAO
+    for (Glycerin::BufferLayout::const_iterator it = bufferLayout.begin(); it != bufferLayout.end(); ++it) {
+        const string usage = it->name();
+        if (containsKey(namesByUsage, usage)) {
+            const string name = getValue(namesByUsage, usage);
+            const GLint location = program.attribLocation(name);
+            if (location != -1) {
+                vao.enableVertexAttribArray(location);
+                vao.vertexAttribPointer(Gloop::VertexAttribPointer()
+                        .index(location)
+                        .size(it->components())
+                        .type(it->type())
+                        .normalized(it->normalized())
+                        .stride(it->stride())
+                        .offset(it->offset()));
+            }
+        }
+    }
+
+    // Successfully prepared
+    prepared = true;
+}
+
+/**
+ * Converts an attribute usage to a string.
+ *
+ * @param usage Attribute usage to convert
+ * @return Corresponding string, e.g. _VERTEX_, _NORMAL_, or _COORDINATE_
+ * @throws runtime_error if usage has unexpected value
+ */
+std::string SquareNode::toString(const AttributeNode::Usage usage) {
+    switch (usage) {
+    case AttributeNode::VERTEX:
+        return "VERTEX";
+    case AttributeNode::NORMAL:
+        return "NORMAL";
+    case AttributeNode::COORDINATE:
+        return "COORDINATE";
+    default:
+        throw std::runtime_error("[SquareNode] Unexpected enumeration value!");
+    }
+}
+
+void SquareNode::visit(State& state) {
+    vao.bind();
+    glDrawArrays(GL_TRIANGLES, 0, COUNT);
+}
+
+} /* namespace RapidGL */
