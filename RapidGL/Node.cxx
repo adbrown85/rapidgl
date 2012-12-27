@@ -24,7 +24,7 @@ namespace RapidGL {
 /**
  * Constructs a node with no identifier.
  */
-Node::Node() {
+Node::Node() : parent(NULL) {
     // empty
 }
 
@@ -55,6 +55,7 @@ void Node::addChild(Node* const node) {
         throw std::invalid_argument("[Node] Child node is NULL!");
     }
     children.push_back(node);
+    node->parent = this;
 }
 
 /**
@@ -73,6 +74,15 @@ Node::node_range_t Node::getChildren() const {
  */
 std::string Node::getId() const {
     return id;
+}
+
+/**
+ * Returns a pointer to this node's parent.
+ *
+ * @return Pointer to this node's parent, which may be `NULL`
+ */
+Node* Node::getParent() const {
+    return parent;
 }
 
 /**
@@ -131,6 +141,7 @@ bool Node::removeChild(Node* const node) {
 
     // Remove it
     children.erase(it);
+    (*it)->parent = NULL;
     return true;
 }
 

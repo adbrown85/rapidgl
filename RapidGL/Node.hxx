@@ -39,6 +39,7 @@ public:
     void addChild(Node* node);
     node_range_t getChildren() const;
     std::string getId() const;
+    Node* getParent() const;
     bool hasChildren() const;
     bool hasId() const;
     virtual void postVisit(State& state);
@@ -49,6 +50,7 @@ private:
 // Attributes
     std::vector<Node*> children;
     std::string id;
+    Node* parent;
 // Methods
     Node(const Node& node);
     Node& operator=(const Node& node);

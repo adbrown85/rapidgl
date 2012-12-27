@@ -41,9 +41,10 @@ public:
         parent.addChild(&child);
         CPPUNIT_ASSERT(parent.hasChildren());
 
-        // Check the pointer
+        // Check the pointers
         RapidGL::Node::node_range_t children = parent.getChildren();
         CPPUNIT_ASSERT_EQUAL((*(children.begin)), &child);
+        CPPUNIT_ASSERT_EQUAL(&parent, child.getParent());
     }
 
     /**
@@ -62,6 +63,7 @@ public:
         // Remove child
         parent.removeChild(&child);
         CPPUNIT_ASSERT(!parent.hasChildren());
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, child.getParent());
     }
 
     CPPUNIT_TEST_SUITE(NodeTest);
