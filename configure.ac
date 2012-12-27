@@ -103,6 +103,17 @@ error_no_glycerin() {
 AC_MSG_CHECKING([for Glycerin])
 PKG_CHECK_EXISTS([glycerin-0 >= 0.1.1] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
+# Check for Poco Foundation
+error_no_poco_foundation() {
+    echo "------------------------------------------------------------"
+    echo " Poco Foundation is needed to build MY_NAME."
+    echo " Please visit 'http://www.pocoproject.org'"
+    echo "------------------------------------------------------------"
+    (exit 1); exit 1;
+}
+AC_CHECK_HEADER([Poco/String.h], , [error_no_poco_foundation])
+AC_CHECK_LIB([PocoFoundation], [exit], , [error_no_poco_foundation])
+
 # Check for Poco XML
 error_no_poco_xml() {
     echo "------------------------------------------------------------"
