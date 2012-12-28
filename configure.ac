@@ -71,13 +71,13 @@ PKG_CHECK_EXISTS([cppunit], [AC_MSG_RESULT([yes])], [error_no_cppunit])
 error_no_gloop() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
-    echo " Gloop is needed to build MY_NAME."
+    echo " Gloop v0.3 is needed to build MY_NAME."
     echo " Please visit 'http://github.com/adbrown85/gloop'"
     echo "------------------------------------------------------------"
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Gloop])
-PKG_CHECK_EXISTS([gloop-0], [AC_MSG_RESULT([yes])], [error_no_gloop])
+PKG_CHECK_EXISTS([gloop-0 = 0.3.0], [AC_MSG_RESULT([yes])], [error_no_gloop])
 
 # Check for M3d
 error_no_m3d() {
