@@ -18,6 +18,7 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
+#include <Poco/Path.h>
 #include "RapidGL/ShaderNode.hxx"
 #include "RapidGL/ShaderNodeUnmarshaller.hxx"
 
@@ -72,11 +73,7 @@ int main(int argc, char* argv[]) {
 
     // Capture the initial working directory before GLFW changes it
 #ifdef __APPLE__
-    char* const cwd = new char[PATH_MAX];
-    if (!getcwd(cwd, PATH_MAX)) {
-        std::cerr << "Could not get current working directory!" << std::endl;
-        return 1;
-    }
+    const std::string cwd = Poco::Path::current();
 #endif
 
     // Initialize GLFW
@@ -87,8 +84,7 @@ int main(int argc, char* argv[]) {
 
     // Reset current directory
 #ifdef __APPLE__
-    chdir(cwd);
-    delete[] cwd;
+    chdir(cwd.c_str());
 #endif
 
     // Open window
