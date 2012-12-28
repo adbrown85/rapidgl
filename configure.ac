@@ -95,13 +95,13 @@ PKG_CHECK_EXISTS([m3d-0 >= 0.1.1], [AC_MSG_RESULT([yes])], [error_no_m3d])
 error_no_glycerin() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
-    echo " Glycerin version 0.1.1 or greater is needed."
+    echo " Glycerin version 0.2.1 or greater is needed."
     echo " Please visit 'http://github.com/adbrown85/glycerin'"
     echo "------------------------------------------------------------"
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Glycerin])
-PKG_CHECK_EXISTS([glycerin-0 >= 0.1.1] [AC_MSG_RESULT([yes])], [error_no_glycerin])
+PKG_CHECK_EXISTS([glycerin-0 >= 0.2.1] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
 # Check for Poco Foundation
 error_no_poco_foundation() {
