@@ -40,7 +40,7 @@ public:
         // Make a map of attributes
         std::map<std::string,std::string> attributes;
         attributes["type"] = "fragment";
-        attributes["file"] = "RapidGL/solid.frag";
+        attributes["file"] = "RapidGL/basic.frag";
 
         // Unmarshal the node
         RapidGL::Node* node = unmarshaller.unmarshal(attributes);

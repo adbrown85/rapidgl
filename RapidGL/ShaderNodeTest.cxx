@@ -40,14 +40,14 @@ public:
      * Ensures ShaderNode(GLenum, const string&) throws an exception if passed a bad type.
      */
     void testConstructorWithBadType() {
-        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_TEXTURE_2D, "RapidGL/solid.frag"), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_TEXTURE_2D, "RapidGL/basic.frag"), std::invalid_argument);
     }
 
     /**
      * Ensures ShaderNode(GLenum, const string&) works with a fragment shader.
      */
     void testConstructorWithGoodFragmentShader() {
-        RapidGL::ShaderNode node(GL_FRAGMENT_SHADER, "RapidGL/solid.frag");
+        RapidGL::ShaderNode node(GL_FRAGMENT_SHADER, "RapidGL/basic.frag");
         Gloop::Shader shader = node.getShader();
         CPPUNIT_ASSERT(shader.compiled());
     }
