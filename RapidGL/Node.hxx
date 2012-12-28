@@ -19,6 +19,7 @@
 #define RAPIDGL_NODE_HXX
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "RapidGL/common.h"
 #include "RapidGL/State.hxx"
 namespace RapidGL {
@@ -55,6 +56,32 @@ private:
     Node(const Node& node);
     Node& operator=(const Node& node);
 };
+
+/**
+ * Finds an ancestor of a particular type.
+ *
+ * @param node Node to find ancestor of
+ * @return Ancestor of node, or `NULL` if one of appropriate type is not found
+ * @throws invalid_argument if node is `NULL`
+ */
+template<typename T>
+T* findAncestor(Node* node) {
+
+    if (node == NULL) {
+        throw std::invalid_argument("Node is null!");
+    }
+
+    node = node->getParent();
+    while (node != NULL) {
+        T* t = dynamic_cast<T*>(node);
+        if (t != NULL) {
+            return t;
+        }
+        node = node->getParent();
+    }
+
+    return NULL;
+}
 
 } /* namespace RapidGL */
 

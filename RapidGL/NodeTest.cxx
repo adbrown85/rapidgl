@@ -29,6 +29,20 @@ class NodeTest : public CppUnit::TestFixture {
 public:
 
     /**
+     * Fake node for testing.
+     */
+    class FooNode : public RapidGL::Node {
+        // empty
+    };
+
+    /**
+     * Fake node for testing.
+     */
+    class BarNode : public RapidGL::Node {
+        // empty
+    };
+
+    /**
      * Checks that Node::addChild(Node*) works correctly.
      */
     void testAddChild() {
@@ -45,6 +59,63 @@ public:
         RapidGL::Node::node_range_t children = parent.getChildren();
         CPPUNIT_ASSERT_EQUAL((*(children.begin)), &child);
         CPPUNIT_ASSERT_EQUAL(&parent, child.getParent());
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*) finds the correct ancestor.
+     */
+    void testFindAncestorWithAncestorOfType() {
+
+        // Make nodes
+        FooNode n1;
+        BarNode n2;
+        BarNode n3;
+        FooNode n4;
+
+        // Connect nodes
+        n1.addChild(&n2);
+        n2.addChild(&n3);
+        n3.addChild(&n4);
+
+        // Find 'FooNode' ancestor
+        FooNode* node = RapidGL::findAncestor<FooNode>(&n4);
+        CPPUNIT_ASSERT_EQUAL(&n1, node);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*) returns `NULL` when node does not have an ancestor of that type.
+     */
+    void testFindAncestorWithNoAncestorOfType() {
+
+        // Make nodes
+        BarNode n1;
+        BarNode n2;
+        BarNode n3;
+        FooNode n4;
+
+        // Connect Nodes
+        n1.addChild(&n2);
+        n2.addChild(&n3);
+        n3.addChild(&n4);
+
+        // Find 'FooNode' ancestor
+        FooNode* node = RapidGL::findAncestor<FooNode>(&n4);
+        CPPUNIT_ASSERT_EQUAL((FooNode*) NULL, node);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*) returns `NULL` when node has no parent.
+     */
+    void testFindAncestorWithNoParent() {
+        FooNode node;
+        CPPUNIT_ASSERT_EQUAL((FooNode*) NULL, RapidGL::findAncestor<FooNode>(&node));
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*) throws an exception if passed `NULL`.
+     */
+    void testFindAncestorWithNull() {
+        CPPUNIT_ASSERT_THROW(RapidGL::findAncestor<FooNode>(NULL), std::invalid_argument);
     }
 
     /**
@@ -68,6 +139,10 @@ public:
 
     CPPUNIT_TEST_SUITE(NodeTest);
     CPPUNIT_TEST(testAddChild);
+    CPPUNIT_TEST(testFindAncestorWithAncestorOfType);
+    CPPUNIT_TEST(testFindAncestorWithNoAncestorOfType);
+    CPPUNIT_TEST(testFindAncestorWithNoParent);
+    CPPUNIT_TEST(testFindAncestorWithNull);
     CPPUNIT_TEST(testRemoveChild);
     CPPUNIT_TEST_SUITE_END();
 };
