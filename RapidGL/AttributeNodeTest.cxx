@@ -18,7 +18,6 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include <Poco/Path.h>
 #include <stdexcept>
 #include "RapidGL/AttributeNode.hxx"
 #include "RapidGL/State.hxx"
@@ -71,13 +70,29 @@ public:
      */
     void testPreVisitWithValidParent() {
 
-        // Make nodes
-        RapidGL::ProgramNode programNode;
-        RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, "RapidGL/basic.vert");
-        RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, "RapidGL/basic.frag");
+        // Make vertex shader node
+        RapidGL::ShaderNode vertexShaderNode(
+                GL_VERTEX_SHADER,
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "    gl_Position = MCVertex;\n"
+                "}\n");
+
+        // Make fragment shader node
+        RapidGL::ShaderNode fragmentShaderNode(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "    FragColor = vec4(1);\n"
+                "}\n");
+
+        // Make attribute node
         RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::VERTEX);
 
-        // Arrange nodes
+        // Make program node and add children
+        RapidGL::ProgramNode programNode;
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&attributeNode);
@@ -91,21 +106,11 @@ public:
 
 int main(int argc, char* argv[]) {
 
-    // Capture current working directory before GLFW changes it
-#ifdef __APPLE__
-    const std::string cwd = Poco::Path::current();
-#endif
-
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Could not initialize GLFW!" << std::endl;
         return 1;
     }
-
-    // Change the working directory back
-#ifdef __APPLE__
-    chdir(cwd.c_str());
-#endif
 
     // Open window
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);

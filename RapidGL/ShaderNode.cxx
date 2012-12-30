@@ -24,11 +24,11 @@ namespace RapidGL {
  * Constructs a shader node.
  *
  * @param type Type of shader, e.g. `GL_VERTEX_SHADER` or `GL_FRAGMENT_SHADER`
- * @param filename Path to file containing source code of shader
- * @throws invalid_argument if type is invalid or file cannot be opened
+ * @param source Source code of shader
+ * @throws invalid_argument if type is invalid or source is empty
  * @throws runtime_error if shader could not be compiled
  */
-ShaderNode::ShaderNode(const GLenum type, const std::string& filename) : shader(createShader(type, filename)) {
+ShaderNode::ShaderNode(const GLenum type, const std::string& source) : shader(createShader(type, source)) {
     // empty
 }
 
@@ -43,14 +43,14 @@ ShaderNode::~ShaderNode() {
  * Creates a shader from a type and a file.
  *
  * @param type Type of shader
- * @param filename Path to file containing source code of shader
+ * @param source Source code of shader
  * @return Resulting shader
- * @throws invalid_argument if type is invalid or file could not be opened
+ * @throws invalid_argument if type is invalid or source is empty
  * @throws runtime_error if shader could not be compiled
  */
-Gloop::Shader ShaderNode::createShader(const GLenum type, const std::string& filename) {
+Gloop::Shader ShaderNode::createShader(const GLenum type, const std::string& source) {
     Glycerin::ShaderFactory factory;
-    return factory.createShaderFromFile(type, filename);
+    return factory.createShaderFromString(type, source);
 }
 
 /**

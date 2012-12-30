@@ -18,7 +18,6 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include <Poco/Path.h>
 #include <stdexcept>
 #include "RapidGL/ShaderNode.hxx"
 
@@ -30,24 +29,30 @@ class ShaderNodeTest {
 public:
 
     /**
-     * Ensures ShaderNode(GLenum, const string&) throws an exception if passed a bad file.
-     */
-    void testConstructorWithBadFile() {
-        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_FRAGMENT_SHADER, "foo"), std::invalid_argument);
-    }
-
-    /**
      * Ensures ShaderNode(GLenum, const string&) throws an exception if passed a bad type.
      */
     void testConstructorWithBadType() {
-        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_TEXTURE_2D, "RapidGL/basic.frag"), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_TEXTURE_2D, ""), std::invalid_argument);
+    }
+
+    /**
+     * Ensures ShaderNode(GLenum, const string&) throws an exception if passed a bad file.
+     */
+    void testConstructorWithEmptyString() {
+        CPPUNIT_ASSERT_THROW(new RapidGL::ShaderNode(GL_FRAGMENT_SHADER, ""), std::invalid_argument);
     }
 
     /**
      * Ensures ShaderNode(GLenum, const string&) works with a fragment shader.
      */
     void testConstructorWithGoodFragmentShader() {
-        RapidGL::ShaderNode node(GL_FRAGMENT_SHADER, "RapidGL/basic.frag");
+        RapidGL::ShaderNode node(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "    FragColor = vec4(1);\n"
+                "}\n");
         Gloop::Shader shader = node.getShader();
         CPPUNIT_ASSERT(shader.compiled());
     }
@@ -56,7 +61,13 @@ public:
      * Ensures ShaderNode(GLenum, const string&) works with a vertex shader.
      */
     void testConstructorWithGoodVertexShader() {
-        RapidGL::ShaderNode node(GL_VERTEX_SHADER, "RapidGL/basic.vert");
+        RapidGL::ShaderNode node(
+                GL_VERTEX_SHADER,
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "    gl_Position = MCVertex;\n"
+                "}\n");
         Gloop::Shader shader = node.getShader();
         CPPUNIT_ASSERT(shader.compiled());
     }
@@ -64,21 +75,11 @@ public:
 
 int main(int argc, char* argv[]) {
 
-    // Capture the initial working directory before GLFW changes it
-#ifdef __APPLE__
-    const std::string cwd = Poco::Path::current();
-#endif
-
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Could not initialize GLFW!" << std::endl;
         return 1;
     }
-
-    // Reset current directory
-#ifdef __APPLE__
-    chdir(cwd.c_str());
-#endif
 
     // Open window
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
@@ -89,8 +90,8 @@ int main(int argc, char* argv[]) {
     // Run test
     ShaderNodeTest test;
     try {
-        test.testConstructorWithBadFile();
         test.testConstructorWithBadType();
+        test.testConstructorWithEmptyString();
         test.testConstructorWithGoodFragmentShader();
         test.testConstructorWithGoodVertexShader();
     } catch (std::exception& e) {

@@ -32,7 +32,10 @@ public:
     ShaderNodeUnmarshaller();
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
 private:
+// Constants
+    static const int BUFFER_SIZE = 2048;
 // Methods
+    static std::string copyFile(const std::string& path);
     static std::string getFile(const std::map<std::string,std::string>& attributes);
     static GLenum getType(const std::map<std::string,std::string>& attributes);
 };

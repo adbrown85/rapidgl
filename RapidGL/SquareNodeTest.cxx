@@ -18,7 +18,6 @@
 #include "config.h"
 #include <GL/glfw.h>
 #include <iostream>
-#include <Poco/Path.h>
 #include "RapidGL/AttributeNode.hxx"
 #include "RapidGL/ProgramNode.hxx"
 #include "RapidGL/ShaderNode.hxx"
@@ -52,11 +51,39 @@ public:
     RapidGL::SquareNode squareNode;
 
     /**
+     * Returns the source code for the vertex shader.
+     */
+    static std::string getVertexShaderSource() {
+        return
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "in vec4 TexCoord0;\n"
+                "out vec4 Coord0;\n"
+                "void main() {\n"
+                "  gl_Position = MCVertex;\n"
+                "  Coord0 = TexCoord0;\n"
+                "}\n";
+    }
+
+    /**
+     * Returns the source code for the fragment shader.
+     */
+    static std::string getFragmentShaderSource() {
+        return
+                "#version 140\n"
+                "in vec4 Coord0;\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  FragColor = Coord0;\n"
+                "}\n";
+    }
+
+    /**
      * Constructs a SquareNodeTest.
      */
     SquareNodeTest() :
-            vertexShaderNode(GL_VERTEX_SHADER, "RapidGL/coords.vert"),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, "RapidGL/coords.frag"),
+            vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
+            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::VERTEX),
             coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
         programNode.addChild(&vertexShaderNode);
@@ -78,21 +105,11 @@ public:
 
 int main(int argc, char* argv[]) {
 
-    // Capture current working directory before GLFW changes it
-#ifdef __APPLE__
-    const std::string cwd = Poco::Path::current();
-#endif
-
     // Initialize GLFW
     if (!glfwInit()) {
         std::cerr << "Could not initialize GLFW!" << std::endl;
         return 1;
     }
-
-    // Reset current working directory
-#ifdef __APPLE__
-    chdir(cwd.c_str());
-#endif
 
     // Open window
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);

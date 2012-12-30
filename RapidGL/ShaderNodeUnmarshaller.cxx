@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
+#include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include "RapidGL/ShaderNodeUnmarshaller.hxx"
 namespace RapidGL {
@@ -25,6 +27,33 @@ namespace RapidGL {
  */
 ShaderNodeUnmarshaller::ShaderNodeUnmarshaller() {
     // empty
+}
+
+/**
+ * Copies a file to a string.
+ *
+ * @param path Path of file to copy
+ * @return Contents of file as a string
+ * @throws runtime_error if file could not be opened
+ */
+std::string ShaderNodeUnmarshaller::copyFile(const std::string& path) {
+
+    // Open file
+    std::ifstream file(path.c_str());
+    if (!file) {
+        throw std::runtime_error("[ShaderNodeUnmarshaller] Could not open file!");
+    }
+
+    // Copy file to a string
+    std::stringstream copy;
+    char buf[BUFFER_SIZE];
+    while (file) {
+        file.read(buf, BUFFER_SIZE);
+        copy.write(buf, file.gcount());
+    }
+
+    // Return string
+    return copy.str();
 }
 
 /**
@@ -71,9 +100,16 @@ GLenum ShaderNodeUnmarshaller::getType(const std::map<std::string,std::string>& 
 }
 
 Node* ShaderNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
+
+    // Get type and file
     const GLenum type = getType(attributes);
     const std::string file = getFile(attributes);
-    return new RapidGL::ShaderNode(type, file);
+
+    // Get source code from file
+    const std::string source = copyFile(file);
+
+    // Return the node
+    return new RapidGL::ShaderNode(type, source);
 }
 
 } /* namespace RapidGL */

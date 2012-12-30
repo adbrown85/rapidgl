@@ -32,14 +32,14 @@ namespace RapidGL {
 class ShaderNode : public Node {
 public:
 // Methods
-    ShaderNode(GLenum type, const std::string& filename);
+    ShaderNode(GLenum type, const std::string& source);
     virtual ~ShaderNode();
     Gloop::Shader getShader() const;
 private:
 // Attributes
     Gloop::Shader shader;
 // Methods
-    static Gloop::Shader createShader(GLenum type, const std::string& filename);
+    static Gloop::Shader createShader(GLenum type, const std::string& source);
 };
 
 } /* namespace RapidGL */
