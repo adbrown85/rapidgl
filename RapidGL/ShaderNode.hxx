@@ -19,6 +19,7 @@
 #define RAPIDGL_SHADERNODE_HXX
 #include <gloop/Shader.hxx>
 #include <glycerin/ShaderFactory.hxx>
+#include <string>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.hxx"
 #include "RapidGL/State.hxx"
