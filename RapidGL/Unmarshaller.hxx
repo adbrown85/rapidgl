@@ -38,6 +38,7 @@ protected:
 // Methods
     static std::string findValue(const std::map<std::string,std::string>& map, const std::string& key);
     static GLfloat parseFloat(const std::string& str);
+    static GLint parseInt(const std::string& str);
     static std::vector<std::string> tokenize(const std::string& str);
 };
 

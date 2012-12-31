@@ -76,6 +76,24 @@ GLfloat Unmarshaller::parseFloat(const std::string& str) {
 }
 
 /**
+ * Parses an integer from a string.
+ *
+ * @param str String to parse
+ * @return Integer parsed from string
+ * @throws invalid_argument if string cannot be parsed as a valid integer
+ */
+GLint Unmarshaller::parseInt(const std::string& str) {
+    std::stringstream stream(str);
+    GLint value;
+    stream >> value;
+    if (stream.fail()) {
+        throw std::invalid_argument("[Unmarshaller] String is not a valid integer!");
+    } else {
+        return value;
+    }
+}
+
+/**
  * Breaks up a string into tokens.
  *
  * @param str String to break up into tokens
