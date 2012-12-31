@@ -32,6 +32,9 @@ using namespace std;
 class ClearNodeTest {
 public:
 
+    // Number of seconds to sleep after rendering
+    static const int SLEEP_TIME_IN_SECONDS = 1;
+
     // Threshold for floating-point comparisons
     static const GLfloat TOLERANCE = 1e-6f;
 
@@ -66,12 +69,14 @@ public:
     }
 
     /**
-     * Renders the test.
+     * Ensures `ClearNode::visit` works correctly.
      */
-    void render() {
+    void testVisit() {
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
         visitor.visit(clearNode);
+        glfwSwapBuffers();
+        sleep(SLEEP_TIME_IN_SECONDS);
     }
 };
 
@@ -96,12 +101,7 @@ int main(int argc, char* argv[]) {
 
     // Run test
     ClearNodeTest clearNodeTest;
-    while (open) {
-        glfwWaitEvents();
-        clearNodeTest.render();
-        glfwSwapBuffers();
-        open = glfwGetWindowParam(GLFW_OPENED);
-    }
+    clearNodeTest.testVisit();
 
     // Exit
     glfwTerminate();
