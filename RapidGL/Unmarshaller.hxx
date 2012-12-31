@@ -40,6 +40,8 @@ protected:
     static GLfloat parseFloat(const std::string& str);
     static GLint parseInt(const std::string& str);
     static std::vector<std::string> tokenize(const std::string& str);
+// Friends
+    friend class UnmarshallerTest;
 };
 
 } /* namespace RapidGL */
