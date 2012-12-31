@@ -32,6 +32,9 @@
 class SquareNodeTest {
 public:
 
+    // Number of seconds to sleep after rendering
+    static const int SLEEP_TIME_IN_SECONDS = 1;
+
     /**
      * Returns the source code for the vertex shader.
      */
@@ -94,12 +97,14 @@ public:
     }
 
     /**
-     * Renders the square.
+     * Ensures `SquareNode::visit` works correctly.
      */
-    void render() {
+    void testVisit() {
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
         visitor.visit(&programNode);
+        glfwSwapBuffers();
+        sleep(SLEEP_TIME_IN_SECONDS);
     }
 };
 
@@ -115,8 +120,7 @@ int main(int argc, char* argv[]) {
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    int open = glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW);
-    if (!open) {
+    if (!glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
         std::cerr << "Could not open GLFW window!" << std::endl;
         return 1;
     }
@@ -124,12 +128,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         SquareNodeTest test;
-        while (open) {
-            glfwWaitEvents();
-            test.render();
-            glfwSwapBuffers();
-            open = glfwGetWindowParam(GLFW_OPENED);
-        }
+        test.testVisit();
     } catch (std::exception&e ) {
         std::cerr << e.what() << std::endl;
         return 1;
