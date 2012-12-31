@@ -19,6 +19,7 @@
 #define RAPIDGL_UNMARSHALLER_HXX
 #include <map>
 #include <string>
+#include <vector>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.hxx"
 namespace RapidGL {
@@ -37,6 +38,7 @@ protected:
 // Methods
     static std::string findValue(const std::map<std::string,std::string>& map, const std::string& key);
     static GLfloat parseFloat(const std::string& str);
+    static std::vector<std::string> tokenize(const std::string& str);
 };
 
 } /* namespace RapidGL */

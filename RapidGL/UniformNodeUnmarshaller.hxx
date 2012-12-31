@@ -19,7 +19,6 @@
 #define RAPIDGL_UNIFORM_NODE_UNMARSHALLER_HXX
 #include <map>
 #include <string>
-#include <vector>
 #include "RapidGL/Node.hxx"
 #include "RapidGL/FloatUniformNode.hxx"
 #include "RapidGL/Mat3UniformNode.hxx"
@@ -66,7 +65,6 @@ private:
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static std::string getValue(const std::map<std::string,std::string>& attributes);
     static bool isValidType(const std::string& str);
-    static std::vector<std::string> tokenize(const std::string& str);
 };
 
 } /* namespace RapidGL */

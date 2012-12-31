@@ -75,4 +75,22 @@ GLfloat Unmarshaller::parseFloat(const std::string& str) {
     }
 }
 
+/**
+ * Breaks up a string into tokens.
+ *
+ * @param str String to break up into tokens
+ * @return Vector of tokens
+ */
+std::vector<std::string> Unmarshaller::tokenize(const std::string& str) {
+    std::vector<std::string> tokens;
+    std::stringstream stream(str);
+    std::string token;
+    stream >> token;
+    while (stream) {
+        tokens.push_back(token);
+        stream >> token;
+    }
+    return tokens;
+}
+
 } /* namespace RapidGL */

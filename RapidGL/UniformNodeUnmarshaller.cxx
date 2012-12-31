@@ -17,12 +17,11 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include <sstream>
+#include <vector>
 #include "RapidGL/UniformNodeUnmarshaller.hxx"
 using std::map;
 using std::runtime_error;
 using std::string;
-using std::stringstream;
 using std::vector;
 namespace RapidGL {
 
@@ -207,24 +206,6 @@ Node* UniformNodeUnmarshaller::Mat4UniformNodeCreator::create(const string& name
 
     // Return the node
     return node;
-}
-
-/**
- * Breaks up a string into tokens.
- *
- * @param str String to break up into tokens
- * @return Vector of tokens
- */
-vector<string> UniformNodeUnmarshaller::tokenize(const string& str) {
-    vector<string> tokens;
-    stringstream stream(str);
-    string token;
-    stream >> token;
-    while (stream) {
-        tokens.push_back(token);
-        stream >> token;
-    }
-    return tokens;
 }
 
 Node* UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
