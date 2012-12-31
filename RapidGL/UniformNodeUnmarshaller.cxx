@@ -52,6 +52,7 @@ map<string,Unmarshaller*> UniformNodeUnmarshaller::createDelegatesByType() {
     delegatesByType["float"] = new FloatUniformNodeUnmarshaller();
     delegatesByType["mat3"] = new Mat3UniformNodeUnmarshaller();
     delegatesByType["mat4"] = new Mat4UniformNodeUnmarshaller();
+    delegatesByType["sampler2d"] = new Sampler2dUniformNodeUnmarshaller();
     delegatesByType["vec3"] = new Vec3UniformNodeUnmarshaller();
     delegatesByType["vec4"] = new Vec4UniformNodeUnmarshaller();
     return delegatesByType;
@@ -84,6 +85,21 @@ Node* UniformNodeUnmarshaller::FloatUniformNodeUnmarshaller::unmarshal(const map
 
     // Return the node
     return node;
+}
+
+/**
+ * Finds the value of the _link_ attribute in a map.
+ *
+ * @param attributes Map of attribute keys and values
+ * @return Value of the _link_ attribute
+ * @throws runtime_error if value is unspecified or empty
+ */
+string UniformNodeUnmarshaller::getLink(const map<string,string>& attributes) {
+    const string link = findValue(attributes, "link");
+    if (link.empty()) {
+        throw runtime_error("[UniformNodeUnmarshaller] Link is unspecified!");
+    }
+    return link;
 }
 
 /**
@@ -215,6 +231,22 @@ Node* UniformNodeUnmarshaller::Mat4UniformNodeUnmarshaller::unmarshal(const map<
 
     // Return the node
     return node;
+}
+
+/**
+ * Creates a `Sampler2dUniformNode`.
+ *
+ * @param attributes Map of XML attributes
+ * @return Pointer to the node
+ */
+Node* UniformNodeUnmarshaller::Sampler2dUniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and link
+    const std::string name = getName(attributes);
+    const std::string link = getLink(attributes);
+
+    // Make the node
+    return new Sampler2dUniformNode(name, link);
 }
 
 Node* UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {

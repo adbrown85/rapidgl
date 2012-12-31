@@ -24,6 +24,7 @@
 #include "RapidGL/Mat3UniformNode.hxx"
 #include "RapidGL/Mat4UniformNode.hxx"
 #include "RapidGL/Unmarshaller.hxx"
+#include "RapidGL/Sampler2dUniformNode.hxx"
 #include "RapidGL/Vec3UniformNode.hxx"
 #include "RapidGL/Vec4UniformNode.hxx"
 namespace RapidGL {
@@ -48,6 +49,9 @@ private:
     struct Mat4UniformNodeUnmarshaller : public Unmarshaller {
         virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
+    struct Sampler2dUniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
+    };
     struct Vec3UniformNodeUnmarshaller : public Unmarshaller {
         virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
@@ -58,6 +62,7 @@ private:
     static std::map<std::string,Unmarshaller*> delegatesByType;
 // Methods
     static std::map<std::string,Unmarshaller*> createDelegatesByType();
+    static std::string getLink(const std::map<std::string,std::string>& attributes);
     static std::string getName(const std::map<std::string,std::string>& attributes);
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static std::string getValue(const std::map<std::string,std::string>& attributes);
