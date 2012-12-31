@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
+#include <sstream>
+#include <stdexcept>
 #include "RapidGL/Unmarshaller.hxx"
 namespace RapidGL {
 
@@ -53,6 +55,24 @@ Node* Unmarshaller::unmarshal(const std::map<std::string,std::string>& attribute
 std::string Unmarshaller::findValue(const std::map<std::string,std::string>& map, const std::string& key) {
     const std::map<std::string,std::string>::const_iterator it = map.find(key);
     return (it == map.end()) ? "" : it->second;
+}
+
+/**
+ * Parses a float from a string.
+ *
+ * @param str String to parse
+ * @return Float parsed from string
+ * @throws invalid_argument if string cannot be parsed as a valid float
+ */
+GLfloat Unmarshaller::parseFloat(const std::string& str) {
+    std::stringstream stream(str);
+    GLfloat value;
+    stream >> value;
+    if (stream.fail()) {
+        throw std::invalid_argument("[Unmarshaller] String is not a valid float!");
+    } else {
+        return value;
+    }
 }
 
 } /* namespace RapidGL */

@@ -36,6 +36,7 @@ public:
 protected:
 // Methods
     static std::string findValue(const std::map<std::string,std::string>& map, const std::string& key);
+    static GLfloat parseFloat(const std::string& str);
 };
 
 } /* namespace RapidGL */

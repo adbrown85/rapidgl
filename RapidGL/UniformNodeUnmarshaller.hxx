@@ -66,7 +66,6 @@ private:
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static std::string getValue(const std::map<std::string,std::string>& attributes);
     static bool isValidType(const std::string& str);
-    static GLfloat parseFloat(const std::string& str);
     static std::vector<std::string> tokenize(const std::string& str);
 };
 

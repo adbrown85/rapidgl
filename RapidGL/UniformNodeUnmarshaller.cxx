@@ -210,24 +210,6 @@ Node* UniformNodeUnmarshaller::Mat4UniformNodeCreator::create(const string& name
 }
 
 /**
- * Parses a float from a string.
- *
- * @param str String to parse
- * @return Float parsed from string
- * @throws invalid_argument if string cannot be parsed as a valid float
- */
-GLfloat UniformNodeUnmarshaller::parseFloat(const string& str) {
-    stringstream stream(str);
-    GLfloat value;
-    stream >> value;
-    if (stream.fail()) {
-        throw std::invalid_argument("[UniformNodeUnmarshaller] String is not a valid float!");
-    } else {
-        return value;
-    }
-}
-
-/**
  * Breaks up a string into tokens.
  *
  * @param str String to break up into tokens
