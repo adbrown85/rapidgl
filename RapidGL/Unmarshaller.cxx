@@ -66,9 +66,10 @@ std::string Unmarshaller::findValue(const std::map<std::string,std::string>& map
  */
 GLfloat Unmarshaller::parseFloat(const std::string& str) {
     std::stringstream stream(str);
+    stream.unsetf(std::ios_base::skipws);
     GLfloat value;
     stream >> value;
-    if (stream.fail()) {
+    if (stream.fail() || !stream.eof()) {
         throw std::invalid_argument("[Unmarshaller] String is not a valid float!");
     } else {
         return value;
@@ -84,9 +85,10 @@ GLfloat Unmarshaller::parseFloat(const std::string& str) {
  */
 GLint Unmarshaller::parseInt(const std::string& str) {
     std::stringstream stream(str);
+    stream.unsetf(std::ios_base::skipws);
     GLint value;
     stream >> value;
-    if (stream.fail()) {
+    if (stream.fail() || !stream.eof()) {
         throw std::invalid_argument("[Unmarshaller] String is not a valid integer!");
     } else {
         return value;
