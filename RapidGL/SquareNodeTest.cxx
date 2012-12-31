@@ -112,8 +112,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize GLFW
     if (!glfwInit()) {
-        std::cerr << "Could not initialize GLFW!" << std::endl;
-        return 1;
+        throw std::runtime_error("Could not initialize GLFW!");
     }
 
     // Open window
@@ -121,17 +120,16 @@ int main(int argc, char* argv[]) {
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     if (!glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
-        std::cerr << "Could not open GLFW window!" << std::endl;
-        return 1;
+        throw std::runtime_error("Could not open GLFW window!");
     }
 
     // Run test
     try {
         SquareNodeTest test;
         test.testVisit();
-    } catch (std::exception&e ) {
+    } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
-        return 1;
+        throw;
     }
 
     // Exit
