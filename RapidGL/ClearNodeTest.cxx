@@ -85,8 +85,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize GLFW
     if (!glfwInit()) {
-        cerr << "Could not initialize GLFW!" << endl;
-        return 1;
+        throw runtime_error("Could not initialize GLFW!");
     }
 
     // Open a window
@@ -95,13 +94,17 @@ int main(int argc, char* argv[]) {
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     int open = glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW);
     if (!open) {
-        cerr << "Could not open window!" << endl;
-        return 1;
+        throw runtime_error("Could not open window!");
     }
 
     // Run test
-    ClearNodeTest clearNodeTest;
-    clearNodeTest.testVisit();
+    try {
+        ClearNodeTest test;
+        test.testVisit();
+    } catch (exception& e) {
+        cerr << e.what() << endl;
+        throw;
+    }
 
     // Exit
     glfwTerminate();
