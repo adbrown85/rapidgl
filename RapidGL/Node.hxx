@@ -64,19 +64,19 @@ private:
  * @throws invalid_argument if node is `NULL`
  */
 template<typename T>
-T* findAncestor(Node* node) {
+T* findAncestor(const Node* node) {
 
     if (node == NULL) {
         throw std::invalid_argument("Node is null!");
     }
 
-    node = node->getParent();
-    while (node != NULL) {
-        T* t = dynamic_cast<T*>(node);
+    Node* ptr = node->getParent();
+    while (ptr != NULL) {
+        T* t = dynamic_cast<T*>(ptr);
         if (t != NULL) {
             return t;
         }
-        node = node->getParent();
+        ptr = ptr->getParent();
     }
 
     return NULL;
