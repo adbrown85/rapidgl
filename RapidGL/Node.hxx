@@ -34,8 +34,7 @@ public:
     typedef std::vector<Node*>::const_iterator node_iterator_t; ///< Node iterator
     typedef Range<node_iterator_t> node_range_t; ///< Pair of node iterators
 // Methods
-    Node();
-    Node(const std::string& id);
+    Node(const std::string& id = "");
     virtual ~Node();
     void addChild(Node* node);
     node_range_t getChildren() const;

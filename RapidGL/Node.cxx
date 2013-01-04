@@ -22,16 +22,9 @@
 namespace RapidGL {
 
 /**
- * Constructs a node with no identifier.
- */
-Node::Node() : parent(NULL) {
-    // empty
-}
-
-/**
- * Constructs a node with an identifer.
+ * Constructs a node.
  *
- * @param id Identifier, which may be empty
+ * @param id Unique identifier of node, which may be empty
  */
 Node::Node(const std::string& id) : id(id), parent(NULL) {
     // empty
