@@ -33,7 +33,7 @@ Node::Node() : parent(NULL) {
  *
  * @param id Identifier, which may be empty
  */
-Node::Node(const std::string& id) : id(id) {
+Node::Node(const std::string& id) : id(id), parent(NULL) {
     // empty
 }
 
