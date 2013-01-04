@@ -82,6 +82,37 @@ T* findAncestor(const Node* node) {
     return NULL;
 }
 
+/**
+ * Finds an ancestor of a particular type and identifier.
+ *
+ * @param node Node to find ancestor of
+ * @param id Identifier of ancestor node to find
+ * @return Ancestor of node, or `NULL` if one of appropriate type and identifier is not found
+ * @throws invalid_argument if node is `NULL` or identifier is empty
+ */
+template<typename T>
+T* findAncestor(const Node* node, const std::string& id) {
+
+    if (node == NULL) {
+        throw std::invalid_argument("Node is null!");
+    } else if (id.empty()) {
+        throw std::invalid_argument("Identifier is empty!");
+    }
+
+    Node* ptr = node->getParent();
+    while (ptr != NULL) {
+        if (ptr->getId() == id) {
+            T* t = dynamic_cast<T*>(ptr);
+            if (t != NULL) {
+                return t;
+            }
+        }
+        ptr = ptr->getParent();
+    }
+
+    return NULL;
+}
+
 } /* namespace RapidGL */
 
 std::ostream& operator<<(std::ostream& stream, const RapidGL::Node& node);

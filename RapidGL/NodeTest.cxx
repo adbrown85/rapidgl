@@ -32,14 +32,20 @@ public:
      * Fake node for testing.
      */
     class FooNode : public RapidGL::Node {
-        // empty
+    public:
+        FooNode(const std::string& id = "") : RapidGL::Node(id) {
+            // empty
+        }
     };
 
     /**
      * Fake node for testing.
      */
     class BarNode : public RapidGL::Node {
-        // empty
+    public:
+        BarNode(const std::string& id = "") : RapidGL::Node(id) {
+            // empty
+        }
     };
 
     /**
@@ -59,6 +65,92 @@ public:
         RapidGL::Node::node_range_t children = parent.getChildren();
         CPPUNIT_ASSERT_EQUAL((*(children.begin)), &child);
         CPPUNIT_ASSERT_EQUAL(&parent, child.getParent());
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*. const std::string&) finds the correct ancestor.
+     */
+    void testFindAncestorNodeStringWithAncestorOfTypeAndWithId() {
+
+        // Make nodes
+        FooNode n1("foo");
+        BarNode n2("foo");
+        BarNode n3;
+        FooNode n4;
+
+        // Connect nodes
+        n1.addChild(&n2);
+        n2.addChild(&n3);
+        n3.addChild(&n4);
+
+        // Find 'FooNode' ancestor
+        FooNode* node = RapidGL::findAncestor<FooNode>(&n4, "foo");
+        CPPUNIT_ASSERT_EQUAL(&n1, node);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*, const std::string&) throws if passed an empty identifier.
+     */
+    void testFindAncestorNodeStringWithEmptyId() {
+        const FooNode node;
+        CPPUNIT_ASSERT_THROW(RapidGL::findAncestor<FooNode>(&node, ""), std::invalid_argument);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*, const std::string&) returns `NULL` when cannot find ancestor of type.
+     */
+    void testFindAncestorNodeStringWithNoAncestorOfType() {
+
+        // Make nodes
+        BarNode n1("foo");
+        BarNode n2;
+        BarNode n3;
+        FooNode n4;
+
+        // Connect Nodes
+        n1.addChild(&n2);
+        n2.addChild(&n3);
+        n3.addChild(&n4);
+
+        // Find 'FooNode' ancestor
+        FooNode* node = RapidGL::findAncestor<FooNode>(&n4, "foo");
+        CPPUNIT_ASSERT_EQUAL((FooNode*) NULL, node);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*, const std::string&) returns `NULL` when cannot find ancestor with identifier.
+     */
+    void testFindAncestorNodeStringWithNoAncestorWithId() {
+
+        // Make nodes
+        FooNode n1("bar");
+        BarNode n2;
+        BarNode n3;
+        FooNode n4;
+
+        // Connect Nodes
+        n1.addChild(&n2);
+        n2.addChild(&n3);
+        n3.addChild(&n4);
+
+        // Find 'FooNode' ancestor
+        FooNode* node = RapidGL::findAncestor<FooNode>(&n4, "foo");
+        CPPUNIT_ASSERT_EQUAL((FooNode*) NULL, node);
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*, const std::string&) returns `NULL` when node has no parent.
+     */
+    void testFindAncestorNodeStringWithNoParent() {
+        const FooNode node;
+        CPPUNIT_ASSERT_EQUAL((FooNode*) NULL, RapidGL::findAncestor<FooNode>(&node, "foo"));
+    }
+
+    /**
+     * Ensures findAncestor<T>(Node*, const std::string&) throws if passed a `NULL` node.
+     */
+    void testFindAncestorNodeStringWithNullNode() {
+        CPPUNIT_ASSERT_THROW(RapidGL::findAncestor<FooNode>(NULL, "foo"), std::invalid_argument);
     }
 
     /**
@@ -139,6 +231,12 @@ public:
 
     CPPUNIT_TEST_SUITE(NodeTest);
     CPPUNIT_TEST(testAddChild);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithAncestorOfTypeAndWithId);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithEmptyId);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithNoAncestorOfType);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithNoAncestorWithId);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithNoParent);
+    CPPUNIT_TEST(testFindAncestorNodeStringWithNullNode);
     CPPUNIT_TEST(testFindAncestorNodeWithAncestorOfType);
     CPPUNIT_TEST(testFindAncestorNodeWithNoAncestorOfType);
     CPPUNIT_TEST(testFindAncestorNodeWithNoParent);
