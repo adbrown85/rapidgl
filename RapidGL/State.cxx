@@ -79,6 +79,15 @@ M3d::Mat4 State::getViewMatrix() const {
 }
 
 /**
+ * Returns the result of concatenating the view and projection matrices.
+ *
+ * @return Concatenation of the view and projection matrices
+ */
+M3d::Mat4 State::getViewProjectionMatrix() const {
+    return projectionMatrixStack.top() * viewMatrixStack.top();
+}
+
+/**
  * Removes the matrix at the top of the model matrix stack.
  *
  * @throws std::runtime_error if model matrix stack only has one element

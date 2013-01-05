@@ -176,6 +176,36 @@ public:
         CPPUNIT_ASSERT_THROW(state.popViewMatrix(), std::runtime_error);
     }
 
+    /**
+     * Ensures `State::getViewProjectionMatrix` works correctly.
+     */
+    void testViewProjectionMatrix() {
+
+        // Make view matrix
+        M3d::Mat4 viewMatrix;
+        viewMatrix[0] = M3d::Vec4(1, 2, 3, 4);
+        viewMatrix[1] = M3d::Vec4(5, 6, 7, 8);
+        viewMatrix[2] = M3d::Vec4(9, 10, 11, 12);
+        viewMatrix[3] = M3d::Vec4(13, 14, 15, 16);
+
+        // Make projection matrix
+        M3d::Mat4 projectionMatrix;
+        projectionMatrix[0] = M3d::Vec4(10, 20, 30, 40);
+        projectionMatrix[1] = M3d::Vec4(50, 60, 70, 80);
+        projectionMatrix[2] = M3d::Vec4(90, 100, 110, 120);
+        projectionMatrix[3] = M3d::Vec4(130, 140, 150, 160);
+
+        // Set matrices
+        RapidGL::State state;
+        state.setViewMatrix(viewMatrix);
+        state.setProjectionMatrix(projectionMatrix);
+
+        // Check results
+        const M3d::Mat4 expected = projectionMatrix * viewMatrix;
+        const M3d::Mat4 actual = state.getViewProjectionMatrix();
+        assertMatricesEqual(expected, actual);
+    }
+
     CPPUNIT_TEST_SUITE(StateTest);
     CPPUNIT_TEST(testDefaultModelMatrix);
     CPPUNIT_TEST(testDefaultProjectionMatrix);
@@ -185,6 +215,7 @@ public:
     CPPUNIT_TEST(testPopModelMatrixWithBottom);
     CPPUNIT_TEST(testPopProjectionMatrixWithBottom);
     CPPUNIT_TEST(testPopViewMatrixWithBottom);
+    CPPUNIT_TEST(testViewProjectionMatrix);
     CPPUNIT_TEST_SUITE_END();
 };
 

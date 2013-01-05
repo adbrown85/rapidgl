@@ -36,6 +36,7 @@ public:
     M3d::Mat4 getModelViewProjectionMatrix() const;
     M3d::Mat4 getProjectionMatrix() const;
     M3d::Mat4 getViewMatrix() const;
+    M3d::Mat4 getViewProjectionMatrix() const;
     void popModelMatrix();
     void popProjectionMatrix();
     void popViewMatrix();
