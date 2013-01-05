@@ -17,6 +17,8 @@
  */
 #ifndef RAPIDGL_STATE_HXX
 #define RAPIDGL_STATE_HXX
+#include <glycerin/MatrixStack.hxx>
+#include <m3d/Mat4.hxx>
 #include "RapidGL/common.h"
 namespace RapidGL {
 
@@ -29,6 +31,23 @@ public:
 // Methods
     State();
     virtual ~State();
+    M3d::Mat4 getModelMatrix() const;
+    M3d::Mat4 getProjectionMatrix() const;
+    M3d::Mat4 getViewMatrix() const;
+    void popModelMatrix();
+    void popProjectionMatrix();
+    void popViewMatrix();
+    void pushModelMatrix();
+    void pushProjectionMatrix();
+    void pushViewMatrix();
+    void setModelMatrix(const M3d::Mat4& mat);
+    void setProjectionMatrix(const M3d::Mat4& mat);
+    void setViewMatrix(const M3d::Mat4& mat);
+private:
+// Attributes
+    Glycerin::MatrixStack modelMatrixStack;
+    Glycerin::MatrixStack projectionMatrixStack;
+    Glycerin::MatrixStack viewMatrixStack;
 };
 
 } /* namespace RapidGL */

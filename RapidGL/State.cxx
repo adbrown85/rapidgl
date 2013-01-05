@@ -33,5 +33,106 @@ State::~State() {
     // empty
 }
 
+/**
+ * Returns a copy of the matrix at the top of the model matrix stack.
+ *
+ * @return Copy of the matrix at the top of the model matrix stack
+ */
+M3d::Mat4 State::getModelMatrix() const {
+    return modelMatrixStack.top();
+}
+
+/**
+ * Returns a copy of the matrix at the top of the projection matrix stack.
+ *
+ * @return Copy of the matrix at the top of the projection matrix stack
+ */
+M3d::Mat4 State::getProjectionMatrix() const {
+    return projectionMatrixStack.top();
+}
+
+/**
+ * Returns a copy of the matrix at the top of the view matrix stack.
+ *
+ * @return Copy of the matrix at the top of the view matrix stack
+ */
+M3d::Mat4 State::getViewMatrix() const {
+    return viewMatrixStack.top();
+}
+
+/**
+ * Removes the matrix at the top of the model matrix stack.
+ *
+ * @throws std::runtime_error if model matrix stack only has one element
+ */
+void State::popModelMatrix() {
+    modelMatrixStack.pop();
+}
+
+/**
+ * Removes the matrix at the top of the projection matrix stack.
+ *
+ * @throws std::runtime_error if projection matrix stack only has one element
+ */
+void State::popProjectionMatrix() {
+    projectionMatrixStack.pop();
+}
+
+/**
+ * Removes the matrix at the top of the view matrix stack.
+ *
+ * @throws std::runtime_error if view matrix stack only has one element
+ */
+void State::popViewMatrix() {
+    viewMatrixStack.pop();
+}
+
+/**
+ * Copies the top of the model matrix stack and adds it.
+ */
+void State::pushModelMatrix() {
+    modelMatrixStack.push();
+}
+
+/**
+ * Copies the top of the projection matrix stack and adds it.
+ */
+void State::pushProjectionMatrix() {
+    projectionMatrixStack.push();
+}
+
+/**
+ * Copies the top of the view matrix stack and adds it.
+ */
+void State::pushViewMatrix() {
+    viewMatrixStack.push();
+}
+
+/**
+ * Modifies the top of the model matrix stack.
+ *
+ * @param mat Matrix to copy
+ */
+void State::setModelMatrix(const M3d::Mat4& mat) {
+    modelMatrixStack.top() = mat;
+}
+
+/**
+ * Modifies the top of the projection matrix stack.
+ *
+ * @param mat Matrix to copy
+ */
+void State::setProjectionMatrix(const M3d::Mat4& mat) {
+    projectionMatrixStack.top() = mat;
+}
+
+/**
+ * Modifies the top of the view matrix stack.
+ *
+ * @param mat Matrix to copy
+ */
+void State::setViewMatrix(const M3d::Mat4& mat) {
+    viewMatrixStack.top() = mat;
+}
 
 } /* namespace RapidGL */
