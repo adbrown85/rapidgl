@@ -39,28 +39,25 @@ public:
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
 private:
 // Types
-    struct Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const = 0;
+    struct FloatUniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
-    struct FloatUniformNodeCreator : public Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const;
+    struct Mat3UniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
-    struct Mat3UniformNodeCreator : public Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const;
+    struct Mat4UniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
-    struct Mat4UniformNodeCreator : public Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const;
+    struct Vec3UniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
-    struct Vec3UniformNodeCreator : public Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const;
-    };
-    struct Vec4UniformNodeCreator : public Creator {
-        virtual Node* create(const std::string& name, const std::string& value) const;
+    struct Vec4UniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
 // Constants
-    static std::map<std::string,Creator*> creatorsByType;
+    static std::map<std::string,Unmarshaller*> delegatesByType;
 // Methods
-    static std::map<std::string,Creator*> createCreatorsByType();
+    static std::map<std::string,Unmarshaller*> createDelegatesByType();
     static std::string getName(const std::map<std::string,std::string>& attributes);
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static std::string getValue(const std::map<std::string,std::string>& attributes);

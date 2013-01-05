@@ -25,8 +25,8 @@ using std::string;
 using std::vector;
 namespace RapidGL {
 
-// Map of creators
-map<string,UniformNodeUnmarshaller::Creator*> UniformNodeUnmarshaller::creatorsByType = createCreatorsByType();
+// Map of delegates
+map<string,Unmarshaller*> UniformNodeUnmarshaller::delegatesByType = createDelegatesByType();
 
 /**
  * Constructs a uniform node unmarshaller.
@@ -43,28 +43,31 @@ UniformNodeUnmarshaller::~UniformNodeUnmarshaller() {
 }
 
 /**
- * Makes the map of node creator functors indexed by their types.
+ * Makes the map of delegate unmarshallers indexed by their types.
  *
- * @return Map of node creator functors indexed by their types
+ * @return Map of delegate unmarshallers indexed by their types
  */
-map<string,UniformNodeUnmarshaller::Creator*> UniformNodeUnmarshaller::createCreatorsByType() {
-    map<string,Creator*> creatorsByType;
-    creatorsByType["float"] = new FloatUniformNodeCreator();
-    creatorsByType["mat3"] = new Mat3UniformNodeCreator();
-    creatorsByType["mat4"] = new Mat4UniformNodeCreator();
-    creatorsByType["vec3"] = new Vec3UniformNodeCreator();
-    creatorsByType["vec4"] = new Vec4UniformNodeCreator();
-    return creatorsByType;
+map<string,Unmarshaller*> UniformNodeUnmarshaller::createDelegatesByType() {
+    map<string,Unmarshaller*> delegatesByType;
+    delegatesByType["float"] = new FloatUniformNodeUnmarshaller();
+    delegatesByType["mat3"] = new Mat3UniformNodeUnmarshaller();
+    delegatesByType["mat4"] = new Mat4UniformNodeUnmarshaller();
+    delegatesByType["vec3"] = new Vec3UniformNodeUnmarshaller();
+    delegatesByType["vec4"] = new Vec4UniformNodeUnmarshaller();
+    return delegatesByType;
 }
 
 /**
  * Creates a `FloatUniformNode`.
  *
- * @param name Name of the uniform as declared in the shader
- * @param value Initial value of uniform as a string
+ * @param attributes Map of XML attributes
  * @return Pointer to the node
  */
-Node* UniformNodeUnmarshaller::FloatUniformNodeCreator::create(const string& name, const string& value) const {
+Node* UniformNodeUnmarshaller::FloatUniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and value
+    const std::string name = getName(attributes);
+    const std::string value = getValue(attributes);
 
     // Make the node
     FloatUniformNode* node = new FloatUniformNode(name);
@@ -132,18 +135,21 @@ string UniformNodeUnmarshaller::getValue(const map<string,string>& attributes) {
  * @return `true` if string is a valid type
  */
 bool UniformNodeUnmarshaller::isValidType(const string& str) {
-    const map<string,Creator*>::const_iterator it = creatorsByType.find(str);
-    return it != creatorsByType.end();
+    const map<string,Unmarshaller*>::const_iterator it = delegatesByType.find(str);
+    return it != delegatesByType.end();
 }
 
 /**
  * Creates a `Mat3UniformNode`.
  *
- * @param name Name of the uniform as declared in the shader
- * @param value Initial value of uniform as a string
+ * @param attribute Map of XML attributes
  * @return Pointer to the node
  */
-Node* UniformNodeUnmarshaller::Mat3UniformNodeCreator::create(const string& name, const string& value) const {
+Node* UniformNodeUnmarshaller::Mat3UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and value
+    const std::string name = getName(attributes);
+    const std::string value = getValue(attributes);
 
     // Make the node
     Mat3UniformNode* node = new Mat3UniformNode(name);
@@ -175,11 +181,14 @@ Node* UniformNodeUnmarshaller::Mat3UniformNodeCreator::create(const string& name
 /**
  * Creates a `Mat4UniformNode`.
  *
- * @param name Name of the uniform as declared in the shader
- * @param value Initial value of uniform as a string
+ * @param attributes Map of XML attributes
  * @return Pointer to the node
  */
-Node* UniformNodeUnmarshaller::Mat4UniformNodeCreator::create(const string& name, const string& value) const {
+Node* UniformNodeUnmarshaller::Mat4UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and value
+    const std::string name = getName(attributes);
+    const std::string value = getValue(attributes);
 
     // Make the node
     Mat4UniformNode* node = new Mat4UniformNode(name);
@@ -210,20 +219,21 @@ Node* UniformNodeUnmarshaller::Mat4UniformNodeCreator::create(const string& name
 
 Node* UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
     const string type = getType(attributes);
-    const string name = getName(attributes);
-    const string value = getValue(attributes);
-    const Creator* creator = creatorsByType[type];
-    return creator->create(name, value);
+    Unmarshaller* delegate = delegatesByType[type];
+    return delegate->unmarshal(attributes);
 }
 
 /**
  * Creates a `Vec3UniformNode`.
  *
- * @param name Name of the uniform as declared in the shader
- * @param value Initial value of uniform as a string
+ * @param attributes Map of XML attributes
  * @return Pointer to the node
  */
-Node* UniformNodeUnmarshaller::Vec3UniformNodeCreator::create(const string& name, const string& value) const {
+Node* UniformNodeUnmarshaller::Vec3UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and value
+    const std::string name = getName(attributes);
+    const std::string value = getValue(attributes);
 
     // Make the node
     Vec3UniformNode* node = new Vec3UniformNode(name);
@@ -255,11 +265,14 @@ Node* UniformNodeUnmarshaller::Vec3UniformNodeCreator::create(const string& name
 /**
  * Creates a `Vec4UniformNode`.
  *
- * @param name Name of the uniform as declared in the shader
- * @param value Initial value of uniform as a string
+ * @param attributes Map of XML attributes
  * @return Pointer to the node
  */
-Node* UniformNodeUnmarshaller::Vec4UniformNodeCreator::create(const string& name, const string& value) const {
+Node* UniformNodeUnmarshaller::Vec4UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+
+    // Get name and value
+    const std::string name = getName(attributes);
+    const std::string value = getValue(attributes);
 
     // Make the node
     Vec4UniformNode* node = new Vec4UniformNode(name);
