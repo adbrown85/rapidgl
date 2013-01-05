@@ -31,7 +31,7 @@ using std::string;
 /**
  * Unit test for UniformNodeUnmarshaller.
  */
-class UniformNodeUnmarshaller : public CppUnit::TestFixture {
+class UniformNodeUnmarshallerTest : public CppUnit::TestFixture {
 public:
 
     // Threshold for floating-point comparisons
@@ -209,7 +209,7 @@ public:
         CPPUNIT_ASSERT_DOUBLES_EQUAL(4.0f, value.w, TOLERANCE);
     }
 
-    CPPUNIT_TEST_SUITE(UniformNodeUnmarshaller);
+    CPPUNIT_TEST_SUITE(UniformNodeUnmarshallerTest);
     CPPUNIT_TEST(testUnmarshalWithEmptyName);
     CPPUNIT_TEST(testUnmarshalWithEmptyType);
     CPPUNIT_TEST(testUnmarshalWithFloatType);
@@ -225,7 +225,7 @@ public:
 
 int main(int argc, char* argv[]) {
     CppUnit::TextUi::TestRunner runner;
-    runner.addTest(UniformNodeUnmarshaller::suite());
+    runner.addTest(UniformNodeUnmarshallerTest::suite());
     runner.run();
     return 0;
 }
