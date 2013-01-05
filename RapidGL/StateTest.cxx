@@ -21,6 +21,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <m3d/Mat4.hxx>
+#include <m3d/Vec4.hxx>
 #include "RapidGL/State.hxx"
 
 
@@ -84,6 +85,74 @@ public:
     }
 
     /**
+     * Ensures `State::getModelViewMatrix` works correctly.
+     */
+    void testGetModelViewMatrix() {
+
+        // Make model matrix
+        M3d::Mat4 modelMatrix;
+        modelMatrix[0] = M3d::Vec4(1, 2, 3, 4);
+        modelMatrix[1] = M3d::Vec4(5, 6, 7, 8);
+        modelMatrix[2] = M3d::Vec4(9, 10, 11, 12);
+        modelMatrix[3] = M3d::Vec4(13, 14, 15, 16);
+
+        // Make view matrix
+        M3d::Mat4 viewMatrix;
+        viewMatrix[0] = M3d::Vec4(10, 20, 30, 40);
+        viewMatrix[1] = M3d::Vec4(50, 60, 70, 80);
+        viewMatrix[2] = M3d::Vec4(90, 100, 110, 120);
+        viewMatrix[3] = M3d::Vec4(130, 140, 150, 160);
+
+        // Set matrices
+        RapidGL::State state;
+        state.setModelMatrix(modelMatrix);
+        state.setViewMatrix(viewMatrix);
+
+        // Check results
+        const M3d::Mat4 expected = viewMatrix * modelMatrix;
+        const M3d::Mat4 actual = state.getModelViewMatrix();
+        assertMatricesEqual(expected, actual);
+    }
+
+    /**
+     * Ensures `State::getModelViewProjectionMatrix` works correctly.
+     */
+    void testGetModelViewProjectionMatrix() {
+
+        // Make model matrix
+        M3d::Mat4 modelMatrix;
+        modelMatrix[0] = M3d::Vec4(1, 2, 3, 4);
+        modelMatrix[1] = M3d::Vec4(5, 6, 7, 8);
+        modelMatrix[2] = M3d::Vec4(9, 10, 11, 12);
+        modelMatrix[3] = M3d::Vec4(13, 14, 15, 16);
+
+        // Make view matrix
+        M3d::Mat4 viewMatrix;
+        viewMatrix[0] = M3d::Vec4(10, 20, 30, 40);
+        viewMatrix[1] = M3d::Vec4(50, 60, 70, 80);
+        viewMatrix[2] = M3d::Vec4(90, 100, 110, 120);
+        viewMatrix[3] = M3d::Vec4(130, 140, 150, 160);
+
+        // Make projection matrix
+        M3d::Mat4 projectionMatrix;
+        projectionMatrix[0] = M3d::Vec4(100, 200, 300, 400);
+        projectionMatrix[1] = M3d::Vec4(500, 600, 700, 800);
+        projectionMatrix[2] = M3d::Vec4(900, 1000, 1100, 1200);
+        projectionMatrix[3] = M3d::Vec4(1300, 1400, 1500, 1600);
+
+        // Set matrices
+        RapidGL::State state;
+        state.setModelMatrix(modelMatrix);
+        state.setViewMatrix(viewMatrix);
+        state.setProjectionMatrix(projectionMatrix);
+
+        // Check results
+        const M3d::Mat4 expected = projectionMatrix * viewMatrix * modelMatrix;
+        const M3d::Mat4 actual = state.getModelViewProjectionMatrix();
+        assertMatricesEqual(expected, actual);
+    }
+
+    /**
      * Ensures `State::popModelMatrix` throws an exception if trying to pop off bottom.
      */
     void testPopModelMatrixWithBottom() {
@@ -111,6 +180,8 @@ public:
     CPPUNIT_TEST(testDefaultModelMatrix);
     CPPUNIT_TEST(testDefaultProjectionMatrix);
     CPPUNIT_TEST(testDefaultViewMatrix);
+    CPPUNIT_TEST(testGetModelViewMatrix);
+    CPPUNIT_TEST(testGetModelViewProjectionMatrix);
     CPPUNIT_TEST(testPopModelMatrixWithBottom);
     CPPUNIT_TEST(testPopProjectionMatrixWithBottom);
     CPPUNIT_TEST(testPopViewMatrixWithBottom);

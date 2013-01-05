@@ -43,6 +43,24 @@ M3d::Mat4 State::getModelMatrix() const {
 }
 
 /**
+ * Returns the result of concatenating the model and view matrices.
+ *
+ * @return Concatenation of the model and view matrices
+ */
+M3d::Mat4 State::getModelViewMatrix() const {
+    return viewMatrixStack.top() * modelMatrixStack.top();
+}
+
+/**
+ * Returns the result of concatenating the model, view, and projection matrices.
+ *
+ * @return Concatenation of the model, view, and projection matrices
+ */
+M3d::Mat4 State::getModelViewProjectionMatrix() const {
+    return projectionMatrixStack.top() * viewMatrixStack.top() * modelMatrixStack.top();
+}
+
+/**
  * Returns a copy of the matrix at the top of the projection matrix stack.
  *
  * @return Copy of the matrix at the top of the projection matrix stack

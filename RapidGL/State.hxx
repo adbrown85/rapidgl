@@ -32,6 +32,8 @@ public:
     State();
     virtual ~State();
     M3d::Mat4 getModelMatrix() const;
+    M3d::Mat4 getModelViewMatrix() const;
+    M3d::Mat4 getModelViewProjectionMatrix() const;
     M3d::Mat4 getProjectionMatrix() const;
     M3d::Mat4 getViewMatrix() const;
     void popModelMatrix();
