@@ -68,40 +68,46 @@ AC_MSG_CHECKING([for CppUnit])
 PKG_CHECK_EXISTS([cppunit], [AC_MSG_RESULT([yes])], [error_no_cppunit])
 
 # Check for Gloop
+define([GLOOP_ID], [gloop-0])
+define([GLOOP_VERSION], [0.3.1])
 error_no_gloop() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
-    echo " Gloop v0.3.1 is needed to build MY_NAME."
+    echo " Gloop GLOOP_VERSION is needed."
     echo " Please visit 'http://github.com/adbrown85/gloop'"
     echo "------------------------------------------------------------"
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Gloop])
-PKG_CHECK_EXISTS([gloop-0 >= 0.3.1], [AC_MSG_RESULT([yes])], [error_no_gloop])
+PKG_CHECK_EXISTS([GLOOP_ID >= GLOOP_VERSION], [AC_MSG_RESULT([yes])], [error_no_gloop])
 
 # Check for M3d
+define([M3D_ID], [m3d-0])
+define([M3D_VERSION], [0.1.1])
 error_no_m3d() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
-    echo " M3d version 0.1.1 or greater is needed to build MY_NAME."
+    echo " M3d M3D_VERSION is needed."
     echo " Please visit 'http://github.com/adbrown85/m3d'"
     echo "------------------------------------------------------------"
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for M3d])
-PKG_CHECK_EXISTS([m3d-0 >= 0.1.1], [AC_MSG_RESULT([yes])], [error_no_m3d])
+PKG_CHECK_EXISTS([M3D_ID >= M3D_VERSION], [AC_MSG_RESULT([yes])], [error_no_m3d])
 
 # Check for Glycerin
+define([GLYCERIN_ID], [glycerin-0])
+define([GLYCERIN_VERSION], [0.3.0])
 error_no_glycerin() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
-    echo " Glycerin version 0.3.0 or greater is needed."
+    echo " Glycerin GLYCERIN_VERSION is needed."
     echo " Please visit 'http://github.com/adbrown85/glycerin'"
     echo "------------------------------------------------------------"
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Glycerin])
-PKG_CHECK_EXISTS([glycerin-0 >= 0.3.0] [AC_MSG_RESULT([yes])], [error_no_glycerin])
+PKG_CHECK_EXISTS([GLYCERIN_ID >= GLYCERIN_VERSION] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
 # Check for Poco Foundation
 error_no_poco_foundation() {
@@ -127,7 +133,7 @@ AC_CHECK_LIB([PocoXML], [exit], , [error_no_poco_xml])
 
 # Finish
 AC_CONFIG_FILES(MY_TARNAME-MY_MAJOR_VERSION.pc [Makefile])
-PKG_CHECK_MODULES([DEPS], libglfw cppunit gloop-0 m3d-0 glycerin-0)
+PKG_CHECK_MODULES([DEPS], libglfw cppunit GLOOP_ID M3D_ID GLYCERIN_ID)
 AC_OUTPUT
 
 # Report
