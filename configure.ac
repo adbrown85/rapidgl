@@ -101,7 +101,7 @@ error_no_glycerin() {
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Glycerin])
-PKG_CHECK_EXISTS([glycerin-0 >= 0.2.1] [AC_MSG_RESULT([yes])], [error_no_glycerin])
+PKG_CHECK_EXISTS([glycerin-0 >= 0.3.0] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
 # Check for Poco Foundation
 error_no_poco_foundation() {
