@@ -70,6 +70,8 @@ PKG_CHECK_EXISTS([cppunit], [AC_MSG_RESULT([yes])], [error_no_cppunit])
 # Check for Gloop
 define([GLOOP_ID], [gloop-0])
 define([GLOOP_VERSION], [0.3.1])
+define([GLOOP_REQUIREMENT], [GLOOP_ID >= GLOOP_VERSION])
+PACKAGE_REQUIREMENTS+='GLOOP_REQUIREMENT '
 error_no_gloop() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
@@ -79,11 +81,13 @@ error_no_gloop() {
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Gloop])
-PKG_CHECK_EXISTS([GLOOP_ID >= GLOOP_VERSION], [AC_MSG_RESULT([yes])], [error_no_gloop])
+PKG_CHECK_EXISTS([GLOOP_REQUIREMENT], [AC_MSG_RESULT([yes])], [error_no_gloop])
 
 # Check for M3d
 define([M3D_ID], [m3d-0])
 define([M3D_VERSION], [0.1.1])
+define([M3D_REQUIREMENT], [M3D_ID >= M3D_VERSION])
+PACKAGE_REQUIREMENTS+='M3D_REQUIREMENT '
 error_no_m3d() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
@@ -93,11 +97,13 @@ error_no_m3d() {
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for M3d])
-PKG_CHECK_EXISTS([M3D_ID >= M3D_VERSION], [AC_MSG_RESULT([yes])], [error_no_m3d])
+PKG_CHECK_EXISTS([M3D_REQUIREMENT], [AC_MSG_RESULT([yes])], [error_no_m3d])
 
 # Check for Glycerin
 define([GLYCERIN_ID], [glycerin-0])
 define([GLYCERIN_VERSION], [0.3.0])
+define([GLYCERIN_REQUIREMENT], [GLYCERIN_ID >= GLYCERIN_VERSION])
+PACKAGE_REQUIREMENTS+='GLYCERIN_REQUIREMENT '
 error_no_glycerin() {
     AC_MSG_RESULT([no])
     echo "------------------------------------------------------------"
@@ -107,7 +113,7 @@ error_no_glycerin() {
     (exit 1); exit 1;
 }
 AC_MSG_CHECKING([for Glycerin])
-PKG_CHECK_EXISTS([GLYCERIN_ID >= GLYCERIN_VERSION] [AC_MSG_RESULT([yes])], [error_no_glycerin])
+PKG_CHECK_EXISTS([GLYCERIN_REQUIREMENT] [AC_MSG_RESULT([yes])], [error_no_glycerin])
 
 # Check for Poco Foundation
 error_no_poco_foundation() {
@@ -134,6 +140,7 @@ AC_CHECK_LIB([PocoXML], [exit], , [error_no_poco_xml])
 # Finish
 AC_CONFIG_FILES(MY_TARNAME-MY_MAJOR_VERSION.pc [Makefile])
 PKG_CHECK_MODULES([DEPS], libglfw cppunit GLOOP_ID M3D_ID GLYCERIN_ID)
+AC_SUBST([PACKAGE_REQUIREMENTS])
 AC_OUTPUT
 
 # Report
