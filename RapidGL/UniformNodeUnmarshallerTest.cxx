@@ -16,9 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
-#include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include <GL/glfw.h>
 #include <m3d/Mat3.hxx>
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec3.hxx>
@@ -31,7 +30,7 @@ using std::string;
 /**
  * Unit test for UniformNodeUnmarshaller.
  */
-class UniformNodeUnmarshallerTest : public CppUnit::TestFixture {
+class UniformNodeUnmarshallerTest {
 public:
 
     // Threshold for floating-point comparisons
@@ -208,24 +207,42 @@ public:
         CPPUNIT_ASSERT_DOUBLES_EQUAL(3.0f, value.z, TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(4.0f, value.w, TOLERANCE);
     }
-
-    CPPUNIT_TEST_SUITE(UniformNodeUnmarshallerTest);
-    CPPUNIT_TEST(testUnmarshalWithEmptyName);
-    CPPUNIT_TEST(testUnmarshalWithEmptyType);
-    CPPUNIT_TEST(testUnmarshalWithFloatType);
-    CPPUNIT_TEST(testUnmarshalWithMat3Type);
-    CPPUNIT_TEST(testUnmarshalWithMat4Type);
-    CPPUNIT_TEST(testUnmarshalWithInvalidType);
-    CPPUNIT_TEST(testUnmarshalWithMissingName);
-    CPPUNIT_TEST(testUnmarshalWithMissingType);
-    CPPUNIT_TEST(testUnmarshalWithVec3Type);
-    CPPUNIT_TEST(testUnmarshalWithVec4Type);
-    CPPUNIT_TEST_SUITE_END();
 };
 
 int main(int argc, char* argv[]) {
-    CppUnit::TextUi::TestRunner runner;
-    runner.addTest(UniformNodeUnmarshallerTest::suite());
-    runner.run();
+
+    // Initialize GLFW
+    if (!glfwInit()) {
+        throw std::runtime_error("Could not initialize GLFW!");
+    }
+
+    // Open window
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    if (!glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
+        throw std::runtime_error("Could not open GLFW window!");
+    }
+
+    // Run test
+    try {
+        UniformNodeUnmarshallerTest test;
+        test.testUnmarshalWithEmptyName();
+        test.testUnmarshalWithEmptyType();
+        test.testUnmarshalWithFloatType();
+        test.testUnmarshalWithMat3Type();
+        test.testUnmarshalWithMat4Type();
+        test.testUnmarshalWithInvalidType();
+        test.testUnmarshalWithMissingName();
+        test.testUnmarshalWithMissingType();
+        test.testUnmarshalWithVec3Type();
+        test.testUnmarshalWithVec4Type();
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
+
+    // Exit
+    glfwTerminate();
     return 0;
 }
