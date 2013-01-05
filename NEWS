@@ -1,0 +1,8 @@
+v0.1
+ - Added Node, State, and Visitor
+ - Added Reader and Unmarshaller
+ - Added Clear node
+ - Added Program, Shader, and Attribute nodes
+ - Added Square node
+ - Added Texture node
+ - Added Uniform nodes for float, vec3, vec4, mat3, mat4, and sampler2D
