@@ -37,7 +37,7 @@ public:
         MODEL_VIEW_PROJECTION,
         PROJECTION,
         VIEW,
-        VIEW_PROJECTION,
+        VIEW_PROJECTION
     };
 // Methods
     Mat4UniformNode(const std::string& name, Usage usage);
