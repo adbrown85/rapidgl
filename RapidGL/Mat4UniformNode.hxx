@@ -30,14 +30,15 @@ namespace RapidGL {
 class Mat4UniformNode : public UniformNode {
 public:
 // Types
+    /// Type of matrix a `Mat4UniformNode` should load when it's visited.
     enum Usage {
-        IDENTITY,
-        MODEL,
-        MODEL_VIEW,
-        MODEL_VIEW_PROJECTION,
-        PROJECTION,
-        VIEW,
-        VIEW_PROJECTION
+        IDENTITY, ///< Identity matrix
+        MODEL, ///< Model matrix
+        MODEL_VIEW, ///< Concatenation of model and view matrices
+        MODEL_VIEW_PROJECTION, ///< Concatenation of model, view, and projection matrices
+        PROJECTION, ///< Projection matrix
+        VIEW, ///< View matrix
+        VIEW_PROJECTION ///< Concatenation of view and projection matrices
     };
 // Methods
     Mat4UniformNode(const std::string& name, Usage usage);
