@@ -64,6 +64,19 @@ public:
                 "}\n";
     }
 
+    /**
+     * Returns a random 4x4 matrix.
+     */
+    static M3d::Mat4 getRandomMatrix() {
+        M3d::Mat4 mat;
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                mat[j][i] = rand() % 100;
+            }
+        }
+        return mat;
+    }
+
     // Shader program
     RapidGL::ProgramNode programNode;
 
@@ -82,7 +95,7 @@ public:
     Mat4UniformNodeTest() :
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            uniformNode("MVPMatrix") {
+            uniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION) {
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&uniformNode);
@@ -96,21 +109,102 @@ public:
     }
 
     /**
+     * Ensures `Mat4UniformNode::parseUsage` throws an exception if passed 'foo'.
+     */
+    void testParseUsageWithFoo() {
+        CPPUNIT_ASSERT_THROW(RapidGL::Mat4UniformNode::parseUsage("foo"), std::invalid_argument);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'identity'.
+     */
+    void testParseUsageWithIdentity() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::IDENTITY;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("identity");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'model'.
+     */
+    void testParseUsageWithModel() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::MODEL;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("model");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'modelview'.
+     */
+    void testParseUsageWithModelView() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::MODEL_VIEW;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("modelview");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'modelviewprojection'.
+     */
+    void testParseUsageWithModelViewProjection() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("modelviewprojection");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'projection'.
+     */
+    void testParseUsageWithProjection() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::PROJECTION;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("projection");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'view'.
+     */
+    void testParseUsageWithView() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::VIEW;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("view");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::parseUsage` works with 'viewprojection'.
+     */
+    void testParseUsageWithViewProjection() {
+        RapidGL::Mat4UniformNode::Usage expected = RapidGL::Mat4UniformNode::VIEW_PROJECTION;
+        RapidGL::Mat4UniformNode::Usage actual = RapidGL::Mat4UniformNode::parseUsage("viewprojection");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
      * Ensures `Mat4UniformNode::visit` works correctly.
      */
     void testVisit() {
 
-        // Set value
-        M3d::Mat4 value;
+        // Make matrices
+        const M3d::Mat4 modelMatrix = getRandomMatrix();
+        const M3d::Mat4 viewMatrix = getRandomMatrix();
+        const M3d::Mat4 projectionMatrix = getRandomMatrix();
 
-        // Visit the nodes
+        // Set up state
         RapidGL::State state;
+        state.setModelMatrix(modelMatrix);
+        state.setViewMatrix(viewMatrix);
+        state.setProjectionMatrix(projectionMatrix);
+
+        // Visit nodes
         RapidGL::Visitor visitor(&state);
         visitor.visit(&programNode);
 
+        // Make expected value
+        GLfloat expected[16];
+        const M3d::Mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
+        modelViewProjectionMatrix.toArrayInColumnMajor(expected);
+
         // Check value
         Gloop::Program program = programNode.getProgram();
-        GLfloat expected[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
         GLfloat actual[16];
         glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
         for (int i = 0; i < 16; ++i) {
@@ -138,6 +232,13 @@ int main(int argc, char* argv[]) {
     try {
         Mat4UniformNodeTest test;
         test.testGetType();
+        test.testParseUsageWithFoo();
+        test.testParseUsageWithIdentity();
+        test.testParseUsageWithModel();
+        test.testParseUsageWithModelView();
+        test.testParseUsageWithModelViewProjection();
+        test.testParseUsageWithView();
+        test.testParseUsageWithViewProjection();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

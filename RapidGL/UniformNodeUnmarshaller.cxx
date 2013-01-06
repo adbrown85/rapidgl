@@ -135,6 +135,22 @@ string UniformNodeUnmarshaller::getType(const map<string,string>& attributes) {
 }
 
 /**
+ * Finds the value of the _usage_ attribute in a map.
+ *
+ * @param attributes Map of attribute keys and values
+ * @return Value of the _usage_ attribute
+ * @throws std::runtime_error if value is unspecified
+ */
+std::string UniformNodeUnmarshaller::getUsage(const map<string,string>& attributes) {
+    const std::string value = findValue(attributes, "usage");
+    if (value.empty()) {
+        throw std::runtime_error("[UniformNodeUnmarshaller] Usage is unspecified!");
+    } else {
+        return value;
+    }
+}
+
+/**
  * Finds the value of the _value_ attribute in a map.
  *
  * @param attributes Map of attribute keys and values
@@ -201,12 +217,13 @@ Node* UniformNodeUnmarshaller::Mat3UniformNodeUnmarshaller::unmarshal(const map<
  * @return Pointer to the node
  */
 Node* UniformNodeUnmarshaller::Mat4UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
-
-    // Get name
-    const std::string name = getName(attributes);
-
-    // Make and return the node
-    return new Mat4UniformNode(name);
+    try {
+        const std::string name = getName(attributes);
+        const Mat4UniformNode::Usage usage = Mat4UniformNode::parseUsage(getUsage(attributes));
+        return new Mat4UniformNode(name, usage);
+    } catch (std::invalid_argument& e) {
+        throw std::runtime_error("[UniformNodeUnmarshaller] Unrecognized usage!");
+    }
 }
 
 /**

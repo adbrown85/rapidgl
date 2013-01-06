@@ -124,12 +124,16 @@ public:
         map<string,string> attributes;
         attributes["type"] = "mat4";
         attributes["name"] = "MVPMatrix";
+        attributes["usage"] = "modelviewprojection";
         RapidGL::Node* node = unmarshaller.unmarshal(attributes);
         RapidGL::Mat4UniformNode* mat4UniformNode = dynamic_cast<RapidGL::Mat4UniformNode*>(node);
         CPPUNIT_ASSERT(mat4UniformNode != NULL);
 
         // Check name
         CPPUNIT_ASSERT_EQUAL(string("MVPMatrix"), mat4UniformNode->getName());
+
+        // Check usage
+        CPPUNIT_ASSERT_EQUAL(RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION, mat4UniformNode->getUsage());
 
         // Check value
         const M3d::Mat4 expected = M3d::Mat4(1);

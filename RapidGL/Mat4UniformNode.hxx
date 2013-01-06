@@ -29,13 +29,31 @@ namespace RapidGL {
  */
 class Mat4UniformNode : public UniformNode {
 public:
+// Types
+    enum Usage {
+        IDENTITY,
+        MODEL,
+        MODEL_VIEW,
+        MODEL_VIEW_PROJECTION,
+        PROJECTION,
+        VIEW,
+        VIEW_PROJECTION,
+    };
 // Methods
-    Mat4UniformNode(const std::string& name);
+    Mat4UniformNode(const std::string& name, Usage usage);
+    Usage getUsage() const;
     M3d::Mat4 getValue() const;
+    static Usage parseUsage(const std::string& str);
     virtual void visit(State& state);
 private:
+// Constants
+    static std::map<std::string,Usage> usagesByName;
 // Attributes
+    const Usage usage;
     M3d::Mat4 value;
+// Methods
+    static std::map<std::string,Usage> createUsagesByName();
+    static M3d::Mat4 getMatrixFromState(const State& state, Usage usage);
 };
 
 } /* namespace RapidGL */

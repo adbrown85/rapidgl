@@ -63,6 +63,7 @@ private:
 // Methods
     static std::map<std::string,Unmarshaller*> createDelegatesByType();
     static std::string getLink(const std::map<std::string,std::string>& attributes);
+    static std::string getUsage(const std::map<std::string,std::string>& attributes);
     static std::string getName(const std::map<std::string,std::string>& attributes);
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static std::string getValue(const std::map<std::string,std::string>& attributes);
