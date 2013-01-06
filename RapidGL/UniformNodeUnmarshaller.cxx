@@ -202,35 +202,11 @@ Node* UniformNodeUnmarshaller::Mat3UniformNodeUnmarshaller::unmarshal(const map<
  */
 Node* UniformNodeUnmarshaller::Mat4UniformNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
 
-    // Get name and value
+    // Get name
     const std::string name = getName(attributes);
-    const std::string value = getValue(attributes);
 
-    // Make the node
-    Mat4UniformNode* node = new Mat4UniformNode(name);
-    if (value.empty()) {
-        return node;
-    }
-
-    // Tokenize value
-    const vector<string> tokens = tokenize(value);
-    if (tokens.size() != 16) {
-        throw std::runtime_error("[UniformNodeUnmarshaller] Value should have 16 tokens!");
-    }
-
-    // Parse tokens and set value
-    try {
-        GLfloat arr[16];
-        for (int i = 0; i < 16; ++i) {
-            arr[i] = parseFloat(tokens[i]);
-        }
-        node->setValue(M3d::Mat4::fromArrayInColumnMajor(arr));
-    } catch (std::invalid_argument& e) {
-        throw std::runtime_error("[UniformNodeUnmarshaller] Value is invalid!");
-    }
-
-    // Return the node
-    return node;
+    // Make and return the node
+    return new Mat4UniformNode(name);
 }
 
 /**

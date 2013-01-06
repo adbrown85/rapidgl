@@ -40,15 +40,6 @@ M3d::Mat4 Mat4UniformNode::getValue() const {
     return value;
 }
 
-/**
- * Changes the value of the uniform.
- *
- * @param value New value of the uniform
- */
-void Mat4UniformNode::setValue(const M3d::Mat4& value) {
-    this->value = value;
-}
-
 void Mat4UniformNode::visit(State& state) {
     GLfloat arr[16];
     value.toArrayInColumnMajor(arr);

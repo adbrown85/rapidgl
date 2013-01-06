@@ -124,7 +124,6 @@ public:
         map<string,string> attributes;
         attributes["type"] = "mat4";
         attributes["name"] = "MVPMatrix";
-        attributes["value"] = "1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16";
         RapidGL::Node* node = unmarshaller.unmarshal(attributes);
         RapidGL::Mat4UniformNode* mat4UniformNode = dynamic_cast<RapidGL::Mat4UniformNode*>(node);
         CPPUNIT_ASSERT(mat4UniformNode != NULL);
@@ -133,12 +132,9 @@ public:
         CPPUNIT_ASSERT_EQUAL(string("MVPMatrix"), mat4UniformNode->getName());
 
         // Check value
-        const M3d::Mat4 mat = mat4UniformNode->getValue();
-        GLfloat actual[16];
-        mat.toArrayInColumnMajor(actual);
-        for (int i = 0; i < 16; ++i) {
-            CPPUNIT_ASSERT_DOUBLES_EQUAL((GLfloat) i + 1, actual[i], TOLERANCE);
-        }
+        const M3d::Mat4 expected = M3d::Mat4(1);
+        const M3d::Mat4 actual = mat4UniformNode->getValue();
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
     }
 
     /**

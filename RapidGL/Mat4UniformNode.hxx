@@ -32,7 +32,6 @@ public:
 // Methods
     Mat4UniformNode(const std::string& name);
     M3d::Mat4 getValue() const;
-    void setValue(const M3d::Mat4& value);
     virtual void visit(State& state);
 private:
 // Attributes

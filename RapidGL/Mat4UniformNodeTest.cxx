@@ -102,11 +102,6 @@ public:
 
         // Set value
         M3d::Mat4 value;
-        value[0] = M3d::Vec4(1, 2, 3, 4);
-        value[1] = M3d::Vec4(5, 6, 7, 8);
-        value[2] = M3d::Vec4(9, 10, 11, 12);
-        value[3] = M3d::Vec4(13, 14, 15, 16);
-        uniformNode.setValue(value);
 
         // Visit the nodes
         RapidGL::State state;
@@ -115,7 +110,7 @@ public:
 
         // Check value
         Gloop::Program program = programNode.getProgram();
-        GLfloat expected[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+        GLfloat expected[] = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
         GLfloat actual[16];
         glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
         for (int i = 0; i < 16; ++i) {
