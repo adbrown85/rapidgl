@@ -175,6 +175,112 @@ public:
     }
 
     /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `IDENTITY`.
+     */
+    void testVisitWithIdentityUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::IDENTITY);
+        programNode.addChild(&uniformNode);
+
+        // Visit the nodes
+        RapidGL::State state;
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        M3d::Mat4 mat(1);
+        GLfloat expected[16];
+        mat.toArrayInColumnMajor(expected);
+
+        // Check value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `MODEL`.
+     */
+    void testVisitWithModelUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL);
+        programNode.addChild(&uniformNode);
+
+        // Make matrix
+        const M3d::Mat4 modelMatrix = getRandomMatrix();
+
+        // Set up state
+        RapidGL::State state;
+        state.setModelMatrix(modelMatrix);
+
+        // Visit the nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        GLfloat expected[16];
+        modelMatrix.toArrayInColumnMajor(expected);
+
+        // Check value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `MODEL_VIEW`.
+     */
+    void testVisitWithModelViewUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL_VIEW);
+        programNode.addChild(&uniformNode);
+
+        // Make matrices
+        const M3d::Mat4 modelMatrix = getRandomMatrix();
+        const M3d::Mat4 viewMatrix = getRandomMatrix();
+
+        // Set up state
+        RapidGL::State state;
+        state.setModelMatrix(modelMatrix);
+        state.setViewMatrix(viewMatrix);
+
+        // Visit the nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        GLfloat expected[16];
+        M3d::Mat4 modelViewMatrix = viewMatrix * modelMatrix;
+        modelViewMatrix.toArrayInColumnMajor(expected);
+
+        // Check actual value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
      * Ensures `Mat4UniformNode::visit` works when usage is `MODEL_VIEW_PROJECTION`.
      */
     void testVisitWithModelViewProjectionUsage() {
@@ -202,6 +308,117 @@ public:
         GLfloat expected[16];
         const M3d::Mat4 modelViewProjectionMatrix = projectionMatrix * viewMatrix * modelMatrix;
         modelViewProjectionMatrix.toArrayInColumnMajor(expected);
+
+        // Check value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `PROJECTION`.
+     */
+    void testVisitWithProjectionUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::PROJECTION);
+        programNode.addChild(&uniformNode);
+
+        // Make projection matrix
+        const M3d::Mat4 projectionMatrix = getRandomMatrix();
+
+        // Set up state
+        RapidGL::State state;
+        state.setProjectionMatrix(projectionMatrix);
+
+        // Visit nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        GLfloat expected[16];
+        projectionMatrix.toArrayInColumnMajor(expected);
+
+        // Check value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `VIEW`.
+     */
+    void testVisitWithViewUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::VIEW);
+        programNode.addChild(&uniformNode);
+
+        // Make view matrix
+        const M3d::Mat4 viewMatrix = getRandomMatrix();
+
+        // Set up state
+        RapidGL::State state;
+        state.setViewMatrix(viewMatrix);
+
+        // Visit nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        GLfloat expected[16];
+        viewMatrix.toArrayInColumnMajor(expected);
+
+        // Check value
+        GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
+        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        for (int i = 0; i < 16; ++i) {
+            CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
+        }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
+    }
+
+    /**
+     * Ensures `Mat4UniformNode::visit` works when usage is `VIEW_PROJECTION`.
+     */
+    void testVisitWithViewProjectionUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::VIEW_PROJECTION);
+        programNode.addChild(&uniformNode);
+
+        // Make matrices
+        const M3d::Mat4 viewMatrix = getRandomMatrix();
+        const M3d::Mat4 projectionMatrix = getRandomMatrix();
+
+        // Set up state
+        RapidGL::State state;
+        state.setViewMatrix(viewMatrix);
+        state.setProjectionMatrix(projectionMatrix);
+
+        // Visit nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&programNode);
+
+        // Define expected value
+        GLfloat expected[16];
+        const M3d::Mat4 viewProjectionMatrix = projectionMatrix * viewMatrix;
+        viewProjectionMatrix.toArrayInColumnMajor(expected);
 
         // Check value
         GLfloat actual[16];
@@ -242,7 +459,13 @@ int main(int argc, char* argv[]) {
         test.testParseUsageWithModelViewProjection();
         test.testParseUsageWithView();
         test.testParseUsageWithViewProjection();
+        test.testVisitWithIdentityUsage();
+        test.testVisitWithModelUsage();
+        test.testVisitWithModelViewUsage();
         test.testVisitWithModelViewProjectionUsage();
+        test.testVisitWithViewUsage();
+        test.testVisitWithProjectionUsage();
+        test.testVisitWithViewProjectionUsage();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;
