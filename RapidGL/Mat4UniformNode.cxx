@@ -100,6 +100,7 @@ M3d::Mat4 Mat4UniformNode::getValue() const {
  * Parses a usage from a string.
  *
  * @param str String to parse
+ * @return Corresponding usage for string
  * @throws std::invalid_argument if string could not be parsed as a valid usage
  */
 Mat4UniformNode::Usage Mat4UniformNode::parseUsage(const std::string& str) {
