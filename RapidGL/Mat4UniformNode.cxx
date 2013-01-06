@@ -25,7 +25,9 @@ namespace RapidGL {
  * @param name Name of uniform as declared in the shader
  * @throws invalid_argument if name is empty
  */
-Mat4UniformNode::Mat4UniformNode(const std::string& name) : UniformNode(name, GL_FLOAT_MAT4) {
+Mat4UniformNode::Mat4UniformNode(const std::string& name) :
+        UniformNode(name, GL_FLOAT_MAT4),
+        value(M3d::Mat4(1)) {
     // empty
 }
 
