@@ -38,7 +38,7 @@ public:
     M3d::Mat4 getProjectionMatrix() const;
     size_t getProjectionMatrixStackSize() const;
     M3d::Mat4 getViewMatrix() const;
-    size_t getViewMatrixStackSiz() const;
+    size_t getViewMatrixStackSize() const;
     M3d::Mat4 getViewProjectionMatrix() const;
     void popModelMatrix();
     void popProjectionMatrix();
