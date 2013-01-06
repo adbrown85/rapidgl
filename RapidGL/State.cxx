@@ -43,6 +43,15 @@ M3d::Mat4 State::getModelMatrix() const {
 }
 
 /**
+ * Returns the number of matrices on the model matrix stack.
+ *
+ * @return Number of matrices on the model matrix stack
+ */
+size_t State::getModelMatrixStackSize() const {
+    return modelMatrixStack.size();
+}
+
+/**
  * Returns the result of concatenating the model and view matrices.
  *
  * @return Concatenation of the model and view matrices
@@ -70,12 +79,30 @@ M3d::Mat4 State::getProjectionMatrix() const {
 }
 
 /**
+ * Returns the number of matrices on the projection matrix stack.
+ *
+ * @return Number of matrices on the projection matrix stack
+ */
+size_t State::getProjectionMatrixStackSize() const {
+    return projectionMatrixStack.size();
+}
+
+/**
  * Returns a copy of the matrix at the top of the view matrix stack.
  *
  * @return Copy of the matrix at the top of the view matrix stack
  */
 M3d::Mat4 State::getViewMatrix() const {
     return viewMatrixStack.top();
+}
+
+/**
+ * Returns the number of matrices on the view matrix stack.
+ *
+ * @return Number of matrices on the view matrix stack
+ */
+size_t State::getViewMatrixStackSize() const {
+    return viewMatrixStack.size();
 }
 
 /**
