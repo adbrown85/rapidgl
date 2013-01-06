@@ -45,10 +45,10 @@ public:
     static std::string getVertexShaderSource() {
         return
                 "#version 140\n"
-                "uniform mat4 MVPMatrix;\n"
+                "uniform mat4 Matrix;\n"
                 "in vec4 MCVertex;\n"
                 "void main() {\n"
-                "  gl_Position = MVPMatrix * MCVertex;\n"
+                "  gl_Position = Matrix * MCVertex;\n"
                 "}\n";
     }
 
@@ -86,25 +86,21 @@ public:
     // Fragment shader
     RapidGL::ShaderNode fragmentShaderNode;
 
-    // Uniform
-    RapidGL::Mat4UniformNode uniformNode;
-
     /**
      * Constructs the test.
      */
     Mat4UniformNodeTest() :
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            uniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION) {
+            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&uniformNode);
     }
 
     /**
      * Ensures `Mat4UniformNode::getType` returns `GL_FLOAT_MAT4`.
      */
     void testGetType() {
+        RapidGL::Mat4UniformNode uniformNode("foo", RapidGL::Mat4UniformNode::IDENTITY);
         CPPUNIT_ASSERT_EQUAL((GLenum) GL_FLOAT_MAT4, uniformNode.getType());
     }
 
@@ -179,9 +175,13 @@ public:
     }
 
     /**
-     * Ensures `Mat4UniformNode::visit` works correctly.
+     * Ensures `Mat4UniformNode::visit` works when usage is `MODEL_VIEW_PROJECTION`.
      */
-    void testVisit() {
+    void testVisitWithModelViewProjectionUsage() {
+
+        // Add uniform node
+        RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION);
+        programNode.addChild(&uniformNode);
 
         // Make matrices
         const M3d::Mat4 modelMatrix = getRandomMatrix();
@@ -204,12 +204,15 @@ public:
         modelViewProjectionMatrix.toArrayInColumnMajor(expected);
 
         // Check value
-        Gloop::Program program = programNode.getProgram();
         GLfloat actual[16];
+        const Gloop::Program program = programNode.getProgram();
         glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
+
+        // Remove uniform node
+        programNode.removeChild(&uniformNode);
     }
 };
 
@@ -239,7 +242,7 @@ int main(int argc, char* argv[]) {
         test.testParseUsageWithModelViewProjection();
         test.testParseUsageWithView();
         test.testParseUsageWithViewProjection();
-        test.testVisit();
+        test.testVisitWithModelViewProjectionUsage();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;
