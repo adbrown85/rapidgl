@@ -21,21 +21,20 @@
 #include "RapidGL/common.h"
 #include "RapidGL/Node.hxx"
 #include "RapidGL/State.hxx"
+#include "RapidGL/TransformNode.hxx"
 namespace RapidGL {
 
 
 /**
  * Node that translates the model matrix.
  */
-class TranslateNode : public Node {
+class TranslateNode : public TransformNode {
 public:
 // Methods
     TranslateNode();
     TranslateNode(const M3d::Vec3& translation);
     virtual ~TranslateNode();
     M3d::Vec3 getTranslation() const;
-    virtual void postVisit(State& state);
-    virtual void preVisit(State& state);
     virtual void visit(State& state);
     void setTranslation(const M3d::Vec3& translation);
 private:

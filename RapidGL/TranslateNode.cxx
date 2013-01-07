@@ -53,14 +53,6 @@ M3d::Vec3 TranslateNode::getTranslation() const {
     return translation;
 }
 
-void TranslateNode::postVisit(State& state) {
-    state.popModelMatrix();
-}
-
-void TranslateNode::preVisit(State& state) {
-    state.pushModelMatrix();
-}
-
 /**
  * Changes the translation that this node applies.
  *

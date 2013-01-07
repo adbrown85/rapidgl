@@ -38,47 +38,6 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
-     * Ensures `TranslateNode::postVisit` pops the model matrix.
-     */
-    void testPostVisit() {
-
-        // Make translate node
-        RapidGL::TranslateNode translateNode;
-        translateNode.setTranslation(M3d::Vec3(1, 2, 3));
-
-        // Set up state
-        RapidGL::State state;
-        state.pushModelMatrix();
-        CPPUNIT_ASSERT_EQUAL((size_t) 2, state.getModelMatrixStackSize());
-
-        // Call `postVisit`
-        translateNode.postVisit(state);
-
-        // Check size of stack
-        CPPUNIT_ASSERT_EQUAL((size_t) 1, state.getModelMatrixStackSize());
-    }
-
-    /**
-     * Ensures `TranslateNode::preVisit` pushes the model matrix.
-     */
-    void testPreVisit() {
-
-        // Make translate node
-        RapidGL::TranslateNode translateNode;
-        translateNode.setTranslation(M3d::Vec3(1, 2, 3));
-
-        // Set up state
-        RapidGL::State state;
-        CPPUNIT_ASSERT_EQUAL((size_t) 1, state.getModelMatrixStackSize());
-
-        // Call `preVisit`
-        translateNode.preVisit(state);
-
-        // Check size of stack
-        CPPUNIT_ASSERT_EQUAL((size_t) 2, state.getModelMatrixStackSize());
-    }
-
-    /**
      * Ensures `TranslateNode::visit` post-multiplies in the translation matrix.
      */
     void testVisit() {
@@ -110,8 +69,6 @@ public:
     }
 
     CPPUNIT_TEST_SUITE(TranslateNodeTest);
-    CPPUNIT_TEST(testPostVisit);
-    CPPUNIT_TEST(testPreVisit);
     CPPUNIT_TEST(testVisit);
     CPPUNIT_TEST_SUITE_END();
 };
