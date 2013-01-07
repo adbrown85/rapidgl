@@ -50,9 +50,7 @@ private:
     Gloop::VertexArrayObject vao;
     Gloop::BufferObject vbo;
 // Methods
-    static bool containsKey(const std::map<std::string,std::string>&, const std::string&);
     static Glycerin::BufferLayout createBufferLayout();
-    static std::string getValue(const std::map<std::string,std::string>&, const std::string&);
     static std::string toString(AttributeNode::Usage usage);
 };
 

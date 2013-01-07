@@ -74,18 +74,6 @@ SquareNode::~SquareNode() {
 }
 
 /**
- * Checks if a key is in a map.
- *
- * @param mapping Map to look in
- * @param key Key to look for
- * @return `true` if key is in map
- */
-bool SquareNode::containsKey(const map<string,string>& mapping, const string& key) {
-    const map<string,string>::const_iterator it = mapping.find(key);
-    return it != mapping.end();
-}
-
-/**
  * Creates the buffer layout.
  */
 Glycerin::BufferLayout SquareNode::createBufferLayout() {
@@ -95,22 +83,6 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
         .region("POINT")
         .region("COORDINATE")
         .build();
-}
-
-/**
- * Returns the value of a key in a map.
- *
- * @param mapping Map to look in
- * @param key Key to get value of
- * @return Value of key, or the empty string if not found
- */
-string SquareNode::getValue(const map<string,string>& mapping, const string& key) {
-    const map<string,string>::const_iterator it = mapping.find(key);
-    if (it == mapping.end()) {
-        return "";
-    } else {
-        return it->second;
-    }
 }
 
 void SquareNode::preVisit(State& state) {
@@ -144,7 +116,7 @@ void SquareNode::preVisit(State& state) {
     for (Glycerin::BufferLayout::const_iterator it = bufferLayout.begin(); it != bufferLayout.end(); ++it) {
         const string usage = it->name();
         if (containsKey(namesByUsage, usage)) {
-            const string name = getValue(namesByUsage, usage);
+            const string name = getValueOfKey(namesByUsage, usage);
             const GLint location = program.attribLocation(name);
             if (location != -1) {
                 vao.enableVertexAttribArray(location);
