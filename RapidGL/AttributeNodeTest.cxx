@@ -39,6 +39,40 @@ public:
     }
 
     /**
+     * Ensures `AttributeNode::parseUsage` works for 'COORDINATE'.
+     */
+    void testParseUsageWithCoordinate() {
+        const AttributeNode::Usage expected = AttributeNode::COORDINATE;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("COORDINATE");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `AttributeNode::parseUsage` throws an exception when passed an invalid string.
+     */
+    void testParseUsageWithInvalidString() {
+        CPPUNIT_ASSERT_THROW(AttributeNode::parseUsage("foo"), std::invalid_argument);
+    }
+
+    /**
+     * Ensures `AttributeNode::parseUsage` works for 'NORMAL'.
+     */
+    void testParseUsageWithNormal() {
+        const AttributeNode::Usage expected = AttributeNode::NORMAL;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("NORMAL");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `AttributeNode::parseUsage` works for 'POINT'.
+     */
+    void testParseUsageWithVertex() {
+        const AttributeNode::Usage expected = AttributeNode::POINT;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("POINT");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
      * Ensures _preVisit_ throws an exception if called for first time when node has an invalid parent.
      */
     void testPreVisitWithInvalidParent() {
@@ -126,6 +160,10 @@ int main(int argc, char* argv[]) {
     try {
         AttributeNodeTest test;
         test.testConstructorWithEmptyName();
+        test.testParseUsageWithCoordinate();
+        test.testParseUsageWithInvalidString();
+        test.testParseUsageWithNormal();
+        test.testParseUsageWithVertex();
         test.testPreVisitWithInvalidParent();
         test.testPreVisitWithNoParent();
         test.testPreVisitWithValidParent();

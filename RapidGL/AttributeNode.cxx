@@ -23,6 +23,9 @@
 #include "RapidGL/AttributeNode.hxx"
 namespace RapidGL {
 
+// Usages indexed by name
+std::map<std::string,AttributeNode::Usage> AttributeNode::usagesByName = createUsagesByName();
+
 /**
  * Constructs an attribute node from a name and usage.
  *
@@ -44,6 +47,17 @@ AttributeNode::~AttributeNode() {
 }
 
 /**
+ * Makes the map of usages indexed by name.
+ */
+std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
+    std::map<std::string,AttributeNode::Usage> usagesByName;
+    usagesByName["POINT"] = POINT;
+    usagesByName["NORMAL"] = NORMAL;
+    usagesByName["COORDINATE"] = COORDINATE;
+    return usagesByName;
+}
+
+/**
  * Returns the name of the attribute as declared in the shader.
  *
  * @return Name of the attribute as declared in the shader
@@ -59,6 +73,23 @@ std::string AttributeNode::getName() const {
  */
 AttributeNode::Usage AttributeNode::getUsage() const {
     return usage;
+}
+
+/**
+ * Parses a usage from a string.
+ *
+ * @param str String to parse
+ * @return Corresponding usage for string
+ * @throws std::invalid_argument if string could not be parsed as a valid usage
+ */
+AttributeNode::Usage AttributeNode::parseUsage(const std::string& str) {
+    const std::string strAsUpper = Poco::toUpper(str);
+    const std::map<std::string,Usage>::const_iterator it = usagesByName.find(strAsUpper);
+    if (it == usagesByName.end()) {
+        throw std::invalid_argument("[AttributeNode] Could not parse string as a valid usage!");
+    } else {
+        return it->second;
+    }
 }
 
 void AttributeNode::preVisit(State& state) {

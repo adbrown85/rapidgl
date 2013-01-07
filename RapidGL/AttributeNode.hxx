@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_ATTRIBUTENODE_HXX
 #define RAPIDGL_ATTRIBUTENODE_HXX
+#include <map>
 #include <set>
 #include <string>
 #include "RapidGL/common.h"
@@ -43,12 +44,17 @@ public:
     virtual ~AttributeNode();
     std::string getName() const;
     Usage getUsage() const;
+    static Usage parseUsage(const std::string& str);
     virtual void preVisit(State& state);
 private:
+// Constants
+    static std::map<std::string,Usage> usagesByName;
 // Attributes
     bool prepared;
     Usage usage;
     std::string name;
+// Methods
+    static std::map<std::string,Usage> createUsagesByName();
 };
 
 } /* namespace RapidGL */
