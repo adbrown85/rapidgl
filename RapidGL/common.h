@@ -18,6 +18,8 @@
 #ifndef RAPIDGL_COMMON_H
 #define RAPIDGL_COMMON_H
 #include <cstdlib>
+#include <map>
+#include <stdexcept>
 #ifdef __APPLE__
 #define GL3_PROTOTYPES
 #include <OpenGL/gl3.h>
@@ -61,6 +63,39 @@ struct Range {
         // empty
     }
 };
+
+
+/**
+ * Checks if a map contains a key.
+ *
+ * @param map Map to look in
+ * @param key Key to look for
+ * @return `true` if map contains key
+ */
+template<typename K, typename V>
+bool containsKey(std::map<K,V> map, K key) {
+    typename std::map<K,V>::const_iterator it = map.find(key);
+    return it != map.end();
+}
+
+
+/**
+ * Gets the value of a key in a map.
+ *
+ * @param map Map to look in
+ * @param key Key to get value of
+ * @return Value of key
+ * @throws std::runtime_error if key is not in map
+ */
+template<typename K, typename V>
+V getValueOfKey(std::map<K,V> map, K key) {
+    typename std::map<K,V>::const_iterator it = map.find(key);
+    if (it == map.end()) {
+        throw std::runtime_error("Key is not in map!");
+    } else {
+        return it->second;
+    }
+}
 
 } /* namespace RapidGL */
 
