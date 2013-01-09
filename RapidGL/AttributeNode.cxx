@@ -58,6 +58,25 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
 }
 
 /**
+ * Converts a usage to a string.
+ *
+ * @param usage Usage to convert
+ * @return String corresponding to usage
+ */
+std::string AttributeNode::formatUsage(const Usage usage) {
+    switch (usage) {
+    case POINT:
+        return "POINT";
+    case NORMAL:
+        return "NORMAL";
+    case COORDINATE:
+        return "COORDINATE";
+    default:
+        throw std::runtime_error("[AttributeNode] Unexpected enumeration!");
+    }
+}
+
+/**
  * Returns the name of the attribute as declared in the shader.
  *
  * @return Name of the attribute as declared in the shader

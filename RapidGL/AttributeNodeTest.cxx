@@ -39,6 +39,27 @@ public:
     }
 
     /**
+     * Ensures `AttributeNode::formatUsage` works for `COORDINATE`.
+     */
+    void testFormatUsageWithCoordinate() {
+        CPPUNIT_ASSERT_EQUAL(std::string("COORDINATE"), AttributeNode::formatUsage(AttributeNode::COORDINATE));
+    }
+
+    /**
+     * Ensures `AttributeNode::formatUsage` works for `NORMAL`.
+     */
+    void testFormatUsageWithNormal() {
+        CPPUNIT_ASSERT_EQUAL(std::string("NORMAL"), AttributeNode::formatUsage(AttributeNode::NORMAL));
+    }
+
+    /**
+     * Ensures `AttributeNode::formatUsage` works for `POINT`.
+     */
+    void testFormatUsageWithPoint() {
+        CPPUNIT_ASSERT_EQUAL(std::string("POINT"), AttributeNode::formatUsage(AttributeNode::POINT));
+    }
+
+    /**
      * Ensures `AttributeNode::parseUsage` works for 'COORDINATE'.
      */
     void testParseUsageWithCoordinate() {
@@ -160,6 +181,9 @@ int main(int argc, char* argv[]) {
     try {
         AttributeNodeTest test;
         test.testConstructorWithEmptyName();
+        test.testFormatUsageWithCoordinate();
+        test.testFormatUsageWithNormal();
+        test.testFormatUsageWithPoint();
         test.testParseUsageWithCoordinate();
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();

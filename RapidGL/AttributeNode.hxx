@@ -42,6 +42,7 @@ public:
 // Methods
     AttributeNode(const std::string& name, Usage usage);
     virtual ~AttributeNode();
+    static std::string formatUsage(Usage usage);
     std::string getName() const;
     Usage getUsage() const;
     static Usage parseUsage(const std::string& str);
