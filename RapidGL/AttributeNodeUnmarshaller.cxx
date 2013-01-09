@@ -66,8 +66,8 @@ AttributeNode::Usage AttributeNodeUnmarshaller::getUsage(const std::map<std::str
     }
 
     // Convert to enumeration
-    if (Poco::icompare(usage, "vertex") == 0) {
-        return AttributeNode::VERTEX;
+    if (Poco::icompare(usage, "point") == 0) {
+        return AttributeNode::POINT;
     } else if (Poco::icompare(usage, "normal") == 0) {
         return AttributeNode::NORMAL;
     } else if (Poco::icompare(usage, "coordinate") == 0) {

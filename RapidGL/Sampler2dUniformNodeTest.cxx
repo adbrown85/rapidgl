@@ -136,7 +136,7 @@ public:
             stoneTextureNode("stone", Gloop::TextureTarget::texture2d(), getStoneTextureObject()),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::VERTEX),
+            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
             crateUniformNode("Texture1", "crate"),
             stoneUniformNode("Texture2", "stone") {

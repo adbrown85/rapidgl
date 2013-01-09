@@ -86,7 +86,7 @@ public:
     RapidGL::ShaderNode fragmentShaderNode;
 
     // Node describing vertex attribute
-    RapidGL::AttributeNode vertexAttributeNode;
+    RapidGL::AttributeNode pointAttributeNode;
 
     // Node describing coordinate attribute
     RapidGL::AttributeNode coordinateAttributeNode;
@@ -100,11 +100,11 @@ public:
     TextureNodeUnmarshallerTest() :
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::VERTEX),
+            pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&vertexAttributeNode);
+        programNode.addChild(&pointAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
         programNode.addChild(&squareNode);
     }

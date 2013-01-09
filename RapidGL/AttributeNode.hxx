@@ -34,7 +34,7 @@ public:
 // Types
     /// How an attribute should be used.
     enum Usage {
-        VERTEX, ///< As a vertex
+        POINT, ///< As a point
         NORMAL, ///< As a normal
         COORDINATE ///< As a texture coordinate
     };

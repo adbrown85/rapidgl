@@ -27,7 +27,7 @@ namespace RapidGL {
  * Constructs an attribute node from a name and usage.
  *
  * @param name Name of the attribute as declared in the shader
- * @param usage How the attribute is used, i.e. as a vertex, normal, or texture coordinate
+ * @param usage How the attribute is used, i.e. as a point, normal, or texture coordinate
  * @throws invalid_argument if name is empty
  */
 AttributeNode::AttributeNode(const std::string& name, const Usage usage) : name(name), usage(usage), prepared(false) {

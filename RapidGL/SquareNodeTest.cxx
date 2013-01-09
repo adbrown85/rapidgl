@@ -87,7 +87,7 @@ public:
     SquareNodeTest() :
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::VERTEX),
+            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);

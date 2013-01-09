@@ -43,7 +43,7 @@ public:
     void testUnmarshalWithEmptyName() {
         map<string,string> attributes;
         attributes["name"] = "";
-        attributes["usage"] = "vertex";
+        attributes["usage"] = "point";
         CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
     }
 
@@ -72,7 +72,7 @@ public:
      */
     void testUnmarshalWithUnspecifiedName() {
         map<string,string> attributes;
-        attributes["usage"] = "vertex";
+        attributes["usage"] = "point";
         CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
     }
 

@@ -110,7 +110,7 @@ public:
             textureNode("crate", Gloop::TextureTarget::texture2d(), getTextureObject()),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::VERTEX),
+            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
         textureNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);

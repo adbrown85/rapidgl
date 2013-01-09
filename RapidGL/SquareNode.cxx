@@ -42,7 +42,7 @@ SquareNode::SquareNode() :
     arrayBuffer.data(bufferLayout.sizeInBytes(), NULL, GL_STATIC_DRAW);
 
     // Add vertices
-    const Glycerin::BufferRegion vertexRegion = *(bufferLayout.find("VERTEX"));
+    const Glycerin::BufferRegion vertexRegion = *(bufferLayout.find("POINT"));
     GLfloat points[COUNT][2] = { { +0.5f, +0.5f },
                                  { -0.5f, +0.5f },
                                  { -0.5f, -0.5f },
@@ -92,7 +92,7 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
     return Glycerin::BufferLayoutBuilder()
         .count(COUNT)
         .components(2)
-        .region("VERTEX")
+        .region("POINT")
         .region("COORDINATE")
         .build();
 }
@@ -172,8 +172,8 @@ void SquareNode::preVisit(State& state) {
  */
 std::string SquareNode::toString(const AttributeNode::Usage usage) {
     switch (usage) {
-    case AttributeNode::VERTEX:
-        return "VERTEX";
+    case AttributeNode::POINT:
+        return "POINT";
     case AttributeNode::NORMAL:
         return "NORMAL";
     case AttributeNode::COORDINATE:
