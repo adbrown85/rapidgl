@@ -1,3 +1,15 @@
+v0.2
+ - Added CubeNode
+ - Added model, view, and projection matrices to State
+ - Added usage to Mat4UniformNode for automatically using matrices from State
+ - Added TranslateNode, RotateNode, and ScaleNode
+ - Renamed AttributeNode::Usage VERTEX to POINT
+ - Removed Mat4UniformNode::setValue
+ - Added 'containsKey' and 'getValueOfKey' utility functions
+ - Added AttributeNode 'parseUsage' and 'formatUsage' utility methods
+ - Depend on Glycerin v0.4.1 and M3d v0.2.1 for bug fixes
+ - Test dependency files only depend on headers for faster builds
+
 v0.1
  - Added Node, State, and Visitor
  - Added Reader and Unmarshaller
