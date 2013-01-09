@@ -22,6 +22,7 @@
 #include "RapidGL/AttributeNode.hxx"
 #include "RapidGL/State.hxx"
 #include "RapidGL/Visitor.hxx"
+using RapidGL::AttributeNode;
 
 
 /**
@@ -34,7 +35,7 @@ public:
      * Ensures AttributeNode constructor throws an exception if passed an empty string.
      */
     void testConstructorWithEmptyName() {
-        CPPUNIT_ASSERT_THROW(new RapidGL::AttributeNode("", RapidGL::AttributeNode::POINT), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POINT), std::invalid_argument);
     }
 
     /**
@@ -44,7 +45,7 @@ public:
 
         // Make nodes
         RapidGL::Node parentNode;
-        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
         parentNode.addChild(&attributeNode);
 
         // Check for throw
@@ -58,7 +59,7 @@ public:
     void testPreVisitWithNoParent() {
 
         // Make node
-        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
 
         // Check for throw
         RapidGL::State state;
@@ -89,7 +90,7 @@ public:
                 "}\n");
 
         // Make attribute node
-        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
 
         // Make program node and add children
         RapidGL::ProgramNode programNode;
