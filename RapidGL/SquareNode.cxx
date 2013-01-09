@@ -103,7 +103,7 @@ void SquareNode::preVisit(State& state) {
         const AttributeNode* attributeNode = dynamic_cast<const AttributeNode*>(*it);
         if (attributeNode != NULL) {
             const string name = attributeNode->getName();
-            const string usage = toString(attributeNode->getUsage());
+            const string usage = AttributeNode::formatUsage(attributeNode->getUsage());
             namesByUsage[usage] = name;
         }
     }
@@ -133,26 +133,6 @@ void SquareNode::preVisit(State& state) {
 
     // Successfully prepared
     prepared = true;
-}
-
-/**
- * Converts an attribute usage to a string.
- *
- * @param usage Attribute usage to convert
- * @return Corresponding string, e.g. _VERTEX_, _NORMAL_, or _COORDINATE_
- * @throws runtime_error if usage has unexpected value
- */
-std::string SquareNode::toString(const AttributeNode::Usage usage) {
-    switch (usage) {
-    case AttributeNode::POINT:
-        return "POINT";
-    case AttributeNode::NORMAL:
-        return "NORMAL";
-    case AttributeNode::COORDINATE:
-        return "COORDINATE";
-    default:
-        throw std::runtime_error("[SquareNode] Unexpected enumeration value!");
-    }
 }
 
 void SquareNode::visit(State& state) {

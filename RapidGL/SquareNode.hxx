@@ -51,7 +51,6 @@ private:
     Gloop::BufferObject vbo;
 // Methods
     static Glycerin::BufferLayout createBufferLayout();
-    static std::string toString(AttributeNode::Usage usage);
 };
 
 } /* namespace RapidGL */
