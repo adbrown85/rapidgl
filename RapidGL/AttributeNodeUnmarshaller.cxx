@@ -66,13 +66,9 @@ AttributeNode::Usage AttributeNodeUnmarshaller::getUsage(const std::map<std::str
     }
 
     // Convert to enumeration
-    if (Poco::icompare(usage, "point") == 0) {
-        return AttributeNode::POINT;
-    } else if (Poco::icompare(usage, "normal") == 0) {
-        return AttributeNode::NORMAL;
-    } else if (Poco::icompare(usage, "coordinate") == 0) {
-        return AttributeNode::COORDINATE;
-    } else {
+    try {
+        return AttributeNode::parseUsage(usage);
+    } catch (std::invalid_argument& e) {
         throw std::runtime_error("[AttributeNodeUnmarshaller] Usage is invalid!");
     }
 }
