@@ -101,7 +101,7 @@ PKG_CHECK_EXISTS([M3D_REQUIREMENT], [AC_MSG_RESULT([yes])], [error_no_m3d])
 
 # Check for Glycerin
 define([GLYCERIN_ID], [glycerin-0])
-define([GLYCERIN_VERSION], [0.4.1])
+define([GLYCERIN_VERSION], [0.5.0])
 define([GLYCERIN_REQUIREMENT], [GLYCERIN_ID >= GLYCERIN_VERSION])
 PACKAGE_REQUIREMENTS+='GLYCERIN_REQUIREMENT '
 error_no_glycerin() {
