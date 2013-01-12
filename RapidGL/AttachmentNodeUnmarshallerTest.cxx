@@ -25,6 +25,7 @@
 #include <GL/glfw.h>
 #include "RapidGL/AttachmentNodeUnmarshaller.hxx"
 #include "RapidGL/Node.hxx"
+#include "RapidGL/TextureAttachmentNode.hxx"
 
 
 /**
@@ -53,6 +54,130 @@ public:
         attributes["type"] = "foo";
         CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
     }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` works when _type_ is _texture_ and _usage_ is _color_.
+     */
+    void testUnmarshalWhenTypeIsTextureAndUsageIsColor() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "foo";
+        attributes["usage"] = "color";
+
+        // Unmarshal
+        RapidGL::Node* node = unmarshaller.unmarshal(attributes);
+        CPPUNIT_ASSERT(node != NULL);
+        RapidGL::TextureAttachmentNode* attachmentNode = dynamic_cast<RapidGL::TextureAttachmentNode*>(node);
+        CPPUNIT_ASSERT(attachmentNode != NULL);
+
+        // Check fields
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), attachmentNode->getLink());
+        CPPUNIT_ASSERT_EQUAL(RapidGL::AttachmentNode::COLOR, attachmentNode->getUsage());
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` works when _type_ is _texture_ and _usage_ is _depth_.
+     */
+    void testUnmarshalWhenTypeIsTextureAndUsageIsDepth() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "foo";
+        attributes["usage"] = "depth";
+
+        // Unmarshal
+        RapidGL::Node* node = unmarshaller.unmarshal(attributes);
+        CPPUNIT_ASSERT(node != NULL);
+        RapidGL::TextureAttachmentNode* attachmentNode = dynamic_cast<RapidGL::TextureAttachmentNode*>(node);
+        CPPUNIT_ASSERT(attachmentNode != NULL);
+
+        // Check fields
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), attachmentNode->getLink());
+        CPPUNIT_ASSERT_EQUAL(RapidGL::AttachmentNode::DEPTH, attachmentNode->getUsage());
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` works when _type_ is _texture_ and _usage_ is _stencil_.
+     */
+    void testUnmarshalWhenTypeIsTextureAndUsageIsStencil() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "foo";
+        attributes["usage"] = "stencil";
+
+        // Unmarshal
+        RapidGL::Node* node = unmarshaller.unmarshal(attributes);
+        CPPUNIT_ASSERT(node != NULL);
+        RapidGL::TextureAttachmentNode* attachmentNode = dynamic_cast<RapidGL::TextureAttachmentNode*>(node);
+        CPPUNIT_ASSERT(attachmentNode != NULL);
+
+        // Check fields
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), attachmentNode->getLink());
+        CPPUNIT_ASSERT_EQUAL(RapidGL::AttachmentNode::STENCIL, attachmentNode->getUsage());
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` throws when _type_ is _texture_ but _link_ is absent.
+     */
+    void testUnmarshalWhenTypeIsTextureButLinkIsAbsent() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["usage"] = "color";
+
+        // Unmarshal
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` throws when _type_ is _texture_ but _link_ is empty.
+     */
+    void testUnmarshalWhenTypeIsTextureButLinkIsEmpty() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "";
+        attributes["usage"] = "color";
+
+        // Unmarshal
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` throws when _type_ is _texture_ but _usage_ is absent.
+     */
+    void testUnmarshalWhenTypeIsTextureButUsageIsAbsent() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "foo";
+
+        // Unmarshal
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` throws when _type_ is _texture_ but _usage_ is empty.
+     */
+    void testUnmarshalWhenTypeIsTextureButUsageIsEmpty() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "texture";
+        attributes["link"] = "foo";
+        attributes["usage"] = "";
+
+        // Unmarshal
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
+    }
 };
 
 int main(int argc, char* argv[]) {
@@ -75,6 +200,13 @@ int main(int argc, char* argv[]) {
         AttachmentNodeUnmarshallerTest test;
         test.testUnmarshalWhenTypeIsEmpty();
         test.testUnmarshalWhenTypeIsFoo();
+        test.testUnmarshalWhenTypeIsTextureAndUsageIsColor();
+        test.testUnmarshalWhenTypeIsTextureAndUsageIsDepth();
+        test.testUnmarshalWhenTypeIsTextureAndUsageIsStencil();
+        test.testUnmarshalWhenTypeIsTextureButLinkIsAbsent();
+        test.testUnmarshalWhenTypeIsTextureButLinkIsEmpty();
+        test.testUnmarshalWhenTypeIsTextureButUsageIsAbsent();
+        test.testUnmarshalWhenTypeIsTextureButUsageIsEmpty();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;

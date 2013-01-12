@@ -46,6 +46,7 @@ AttachmentNodeUnmarshaller::~AttachmentNodeUnmarshaller() {
  */
 map<string,Unmarshaller*> AttachmentNodeUnmarshaller::createDelegates() {
     map<string,Unmarshaller*> delegates;
+    delegates["texture"] = new TextureAttachmentNodeUnmarshaller();
     return delegates;
 }
 
@@ -61,6 +62,22 @@ Unmarshaller* AttachmentNodeUnmarshaller::findDelegate(const string& type) {
         return NULL;
     } else {
         return it->second;
+    }
+}
+
+/**
+ * Returns the value of the _link_ attribute in a map.
+ *
+ * @param attributes Map to get value from
+ * @return Value of the attribute
+ * @throws std::runtime_error if value is unspecified
+ */
+string AttachmentNodeUnmarshaller::getLink(const map<string,string>& attributes) {
+    const string value = findValue(attributes, "link");
+    if (value.empty()) {
+        throw std::runtime_error("[AttachmentNodeUnmarshaller] Link is unspecified!");
+    } else {
+        return value;
     }
 }
 
@@ -101,6 +118,12 @@ AttachmentNode::Usage AttachmentNodeUnmarshaller::getUsage(const map<string,stri
     } catch (std::invalid_argument& e) {
         throw std::runtime_error("[AttachmentNodeUnmarshaller] Usage is invalid!");
     }
+}
+
+Node* AttachmentNodeUnmarshaller::TextureAttachmentNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {
+    const AttachmentNode::Usage usage = getUsage(attributes);
+    const std::string link = getLink(attributes);
+    return new TextureAttachmentNode(usage, link);
 }
 
 Node* AttachmentNodeUnmarshaller::unmarshal(const map<std::string,std::string>& attributes) {

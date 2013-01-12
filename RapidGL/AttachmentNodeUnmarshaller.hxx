@@ -22,6 +22,7 @@
 #include "RapidGL/common.h"
 #include "RapidGL/AttachmentNode.hxx"
 #include "RapidGL/Node.hxx"
+#include "RapidGL/TextureAttachmentNode.hxx"
 #include "RapidGL/Unmarshaller.hxx"
 namespace RapidGL {
 
@@ -37,11 +38,16 @@ public:
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
 private:
 // Types
+    class TextureAttachmentNodeUnmarshaller : public Unmarshaller {
+    public:
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
+    };
 // Constants
     static const std::map<std::string,Unmarshaller*> DELEGATES;
 // Methods
     static std::map<std::string,Unmarshaller*> createDelegates();
     static Unmarshaller* findDelegate(const std::string& type);
+    static std::string getLink(const std::map<std::string,std::string>& attributes);
     static std::string getType(const std::map<std::string,std::string>& attributes);
     static AttachmentNode::Usage getUsage(const std::map<std::string,std::string>& attributes);
 };
