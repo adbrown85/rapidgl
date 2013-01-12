@@ -21,7 +21,7 @@
 namespace RapidGL {
 
 /**
- * Constructs a clear node.
+ * Constructs a clear node with the default values.
  */
 ClearNode::ClearNode() {
     this->red = DEFAULT_RED;
