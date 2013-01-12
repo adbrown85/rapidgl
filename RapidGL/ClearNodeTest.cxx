@@ -69,6 +69,17 @@ public:
     }
 
     /**
+     * Ensures `ClearNode::ClearNode()` initializes values properly.
+     */
+    void testClearNode() {
+        RapidGL::ClearNode node;
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getAlpha(), TOLERANCE);
+    }
+
+    /**
      * Ensures `ClearNode::visit` works correctly.
      */
     void testVisit() {
@@ -100,6 +111,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         ClearNodeTest test;
+        test.testClearNode();
         test.testVisit();
     } catch (exception& e) {
         cerr << e.what() << endl;
