@@ -110,19 +110,9 @@ public:
     }
 
     /**
-     * Ensures `TextureNodeUnmarshaller::unmarshal` throws if passed an empty identifier.
+     * Ensures `TextureNodeUnmarshaller::unmarshal` works correctly with a bitmap file.
      */
-    void testUnmarshalWithEmptyId() {
-        std::map<std::string,std::string> attributes;
-        attributes["id"] = "";
-        attributes["file"] = "RapidGL/crate.bmp";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
-    }
-
-    /**
-     * Ensures `TextureNodeUnmarshaller::unmarshal` works correctly with a file.
-     */
-    void testUnmarshalWithFile() {
+    void testUnmarshalWithBitmapFile() {
 
         // Unmarshal node
         std::map<std::string,std::string> attributes;
@@ -143,6 +133,16 @@ public:
         textureNode->removeChild(&programNode);
         glfwSwapBuffers();
         sleep(SLEEP_TIME_IN_SECONDS);
+    }
+
+    /**
+     * Ensures `TextureNodeUnmarshaller::unmarshal` throws if passed an empty identifier.
+     */
+    void testUnmarshalWithEmptyId() {
+        std::map<std::string,std::string> attributes;
+        attributes["id"] = "";
+        attributes["file"] = "RapidGL/crate.bmp";
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
     }
 
     /**
@@ -265,8 +265,8 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         TextureNodeUnmarshallerTest test;
+        test.testUnmarshalWithBitmapFile();
         test.testUnmarshalWithEmptyId();
-        test.testUnmarshalWithFile();
         test.testUnmarshalWithFileAndSize();
         test.testUnmarshalWithMissingFileAndSize();
         test.testUnmarshalWithMissingId();
