@@ -253,8 +253,6 @@ int main(int argc, char* argv[]) {
         throw;
     }
 
-    sleep(1);
-
     // Exit
     glfwTerminate();
     return 0;
