@@ -20,6 +20,7 @@
 #include <map>
 #include <string>
 #include <glycerin/Bitmap.hxx>
+#include <glycerin/Volume.hxx>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.hxx"
 #include "RapidGL/TextureNode.hxx"
@@ -41,6 +42,7 @@ private:
     Node* createNodeFromBitmap(const std::string& name, const Glycerin::Bitmap& bitmap);
     Node* createNodeFromFile(const std::string& name, const std::string& file);
     Node* createNodeFromSize(const std::string& name, GLint size);
+    Node* createNodeFromVolume(const std::string& name, const Glycerin::Volume& volume);
     std::string getFile(const std::map<std::string,std::string>& attributes);
     std::string getId(const std::map<std::string,std::string>& attributes);
     GLint getSize(const std::map<std::string,std::string>& attributes);

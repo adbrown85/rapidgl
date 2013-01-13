@@ -21,6 +21,8 @@
 #include <gloop/TextureUnit.hxx>
 #include <glycerin/Bitmap.hxx>
 #include <glycerin/BitmapReader.hxx>
+#include <glycerin/Volume.hxx>
+#include <glycerin/VolumeReader.hxx>
 #include <Poco/Path.h>
 #include <Poco/String.h>
 #include "RapidGL/TextureNodeUnmarshaller.hxx"
@@ -58,6 +60,8 @@ Node* TextureNodeUnmarshaller::createNodeFromFile(const std::string& id, const s
     const std::string extension = path.getExtension();
     if (Poco::icompare(extension, "bmp") == 0) {
         return createNodeFromBitmap(id, Glycerin::BitmapReader().read(file));
+    } else if (Poco::icompare(extension, "vlb") == 0) {
+        return createNodeFromVolume(id, Glycerin::VolumeReader().read(file));
     } else {
         throw std::runtime_error("[TextureNodeUnmarshaller] File type unrecognized!");
     }
@@ -88,6 +92,19 @@ Node* TextureNodeUnmarshaller::createNodeFromSize(const std::string& id, const G
 
     // Create the node
     return new TextureNode(id, target, texture);
+}
+
+Node* TextureNodeUnmarshaller::createNodeFromVolume(const std::string& id, const Glycerin::Volume& volume) {
+
+    // Activate texture unit
+    const Gloop::TextureUnit unit = Gloop::TextureUnit::fromEnum(GL_TEXTURE0);
+    unit.activate();
+
+    // Create texture
+    const Gloop::TextureObject texture = volume.createTexture();
+
+    // Create the node
+    return new TextureNode(id, Gloop::TextureTarget::texture3d(), texture);
 }
 
 std::string TextureNodeUnmarshaller::getFile(const std::map<std::string,std::string>& attributes) {
