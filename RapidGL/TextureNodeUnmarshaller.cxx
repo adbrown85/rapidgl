@@ -57,9 +57,7 @@ Node* TextureNodeUnmarshaller::createNodeFromFile(const std::string& id, const s
     const Poco::Path path(file);
     const std::string extension = path.getExtension();
     if (Poco::icompare(extension, "bmp") == 0) {
-        Glycerin::BitmapReader reader;
-        const Glycerin::Bitmap bitmap = reader.read(file);
-        return createNodeFromBitmap(id, bitmap);
+        return createNodeFromBitmap(id, Glycerin::BitmapReader().read(file));
     } else {
         throw std::runtime_error("[TextureNodeUnmarshaller] File type unrecognized!");
     }
