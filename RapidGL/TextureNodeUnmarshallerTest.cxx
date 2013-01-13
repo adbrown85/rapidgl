@@ -44,25 +44,16 @@ public:
     // Number of seconds to sleep after rendering
     static const int SLEEP_TIME_IN_SECONDS = 1;
 
-    /**
-     * Returns the source code for the fragment shader.
-     */
-    static std::string getFragmentShaderSource() {
-        return
-                "#version 140\n"
-                "uniform sampler2D Texture;\n"
-                "in vec4 Coord0;\n"
-                "out vec4 FragColor;\n"
-                "void main() {\n"
-                "  FragColor = texture(Texture, Coord0.st);\n"
-                "}\n";
-    }
+    // Instance to test with
+    RapidGL::TextureNodeUnmarshaller unmarshaller;
 
     /**
-     * Returns the source code for the vertex shader.
+     * Ensures `TextureNodeUnmarshaller::unmarshal` works correctly with a bitmap file.
      */
-    static std::string getVertexShaderSource() {
-        return
+    void testUnmarshalWithBitmapFile() {
+
+        // Define vertex shader source code
+        const std::string vertexShaderSource =
                 "#version 140\n"
                 "in vec4 MCVertex;\n"
                 "in vec4 TexCoord0;\n"
@@ -71,48 +62,31 @@ public:
                 "  gl_Position = MCVertex;\n"
                 "  Coord0 = TexCoord0;\n"
                 "}\n";
-    }
 
-    // Instance to test with
-    RapidGL::TextureNodeUnmarshaller unmarshaller;
+        // Define fragment shader source code
+        const std::string fragmentShaderSource =
+                "#version 140\n"
+                "uniform sampler2D Texture;\n"
+                "in vec4 Coord0;\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  FragColor = texture(Texture, Coord0.st);\n"
+                "}\n";
 
-    // Shader program
-    RapidGL::ProgramNode programNode;
+        // Create nodes
+        RapidGL::ProgramNode programNode;
+        RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
+        RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
+        RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
+        RapidGL::AttributeNode coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+        RapidGL::SquareNode squareNode;
 
-    // Vertex shader
-    RapidGL::ShaderNode vertexShaderNode;
-
-    // Fragment shader
-    RapidGL::ShaderNode fragmentShaderNode;
-
-    // Node describing vertex attribute
-    RapidGL::AttributeNode pointAttributeNode;
-
-    // Node describing coordinate attribute
-    RapidGL::AttributeNode coordinateAttributeNode;
-
-    // Square
-    RapidGL::SquareNode squareNode;
-
-    /**
-     * Constructs the test.
-     */
-    TextureNodeUnmarshallerTest() :
-            vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
+        // Connect nodes
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&pointAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
         programNode.addChild(&squareNode);
-    }
-
-    /**
-     * Ensures `TextureNodeUnmarshaller::unmarshal` works correctly with a bitmap file.
-     */
-    void testUnmarshalWithBitmapFile() {
 
         // Unmarshal node
         std::map<std::string,std::string> attributes;
