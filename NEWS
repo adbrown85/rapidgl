@@ -1,3 +1,10 @@
+v0.3
+ - Added FBO support via FramebufferNode and AttachmentNode
+ - Added support for loading 3D textures from VLB files
+ - Added support for culling front and/or back faces
+ - Added parameterized ClearNode ctors
+ - Depend on Gloop v0.4.1 and Glycerin v0.5
+
 v0.2
  - Added CubeNode
  - Added model, view, and projection matrices to State
