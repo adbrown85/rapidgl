@@ -190,6 +190,8 @@ public:
         CPPUNIT_ASSERT(target.greenSize() > 0);
         CPPUNIT_ASSERT(target.blueSize() > 0);
         CPPUNIT_ASSERT(target.alphaSize() > 0);
+        CPPUNIT_ASSERT_EQUAL((GLenum) GL_LINEAR, target.minFilter());
+        CPPUNIT_ASSERT_EQUAL((GLenum) GL_LINEAR, target.magFilter());
     }
 
     /**
