@@ -90,6 +90,10 @@ Node* TextureNodeUnmarshaller::createNodeFromSize(const std::string& id, const G
             GL_UNSIGNED_BYTE, // type
             NULL);            // data
 
+    // Set filters
+    target.minFilter(GL_LINEAR);
+    target.magFilter(GL_LINEAR);
+
     // Create the node
     return new TextureNode(id, target, texture);
 }
