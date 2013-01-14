@@ -181,6 +181,27 @@ public:
     }
 
     /**
+     * Ensures `UniformNodeUnmarshaller::unmarshal` works with 'sampler3d' type.
+     */
+    void testUnmarshalWithSampler3dType() {
+
+        // Make map of attributes
+        map<string,string> attributes;
+        attributes["type"] = "sampler3d";
+        attributes["name"] = "foo";
+        attributes["link"] = "bar";
+
+        // Unmarshal node
+        RapidGL::Node* node = unmarshaller.unmarshal(attributes);
+        RapidGL::Sampler3dUniformNode* sampler3dUniformNode = dynamic_cast<RapidGL::Sampler3dUniformNode*>(node);
+        CPPUNIT_ASSERT(sampler3dUniformNode != NULL);
+
+        // Check name and link
+        CPPUNIT_ASSERT_EQUAL(string("foo"), sampler3dUniformNode->getName());
+        CPPUNIT_ASSERT_EQUAL(string("bar"), sampler3dUniformNode->getLink());
+    }
+
+    /**
      * Ensures `UniformNodeUnmarshaller::unmarshal` works with 'vec3' type.
      */
     void testUnmarshalWithVec3Type() {
@@ -257,6 +278,7 @@ int main(int argc, char* argv[]) {
         test.testUnmarshalWithMissingName();
         test.testUnmarshalWithMissingType();
         test.testUnmarshalWithSampler2dType();
+        test.testUnmarshalWithSampler3dType();
         test.testUnmarshalWithVec3Type();
         test.testUnmarshalWithVec4Type();
     } catch (std::exception &e) {

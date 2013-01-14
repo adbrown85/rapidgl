@@ -25,6 +25,7 @@
 #include "RapidGL/Mat4UniformNode.hxx"
 #include "RapidGL/Unmarshaller.hxx"
 #include "RapidGL/Sampler2dUniformNode.hxx"
+#include "RapidGL/Sampler3dUniformNode.hxx"
 #include "RapidGL/Vec3UniformNode.hxx"
 #include "RapidGL/Vec4UniformNode.hxx"
 namespace RapidGL {
@@ -50,6 +51,9 @@ private:
         virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
     struct Sampler2dUniformNodeUnmarshaller : public Unmarshaller {
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
+    };
+    struct Sampler3dUniformNodeUnmarshaller : public Unmarshaller {
         virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };
     struct Vec3UniformNodeUnmarshaller : public Unmarshaller {
