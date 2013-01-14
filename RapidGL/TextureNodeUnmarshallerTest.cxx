@@ -24,6 +24,8 @@
 #include <stdexcept>
 #include <string>
 #include "RapidGL/AttributeNode.hxx"
+#include "RapidGL/ClearNode.hxx"
+#include "RapidGL/FloatUniformNode.hxx"
 #include "RapidGL/Node.hxx"
 #include "RapidGL/ProgramNode.hxx"
 #include "RapidGL/ShaderNode.hxx"
@@ -201,6 +203,80 @@ public:
     }
 
     /**
+     * Ensures `TextureNodeUnmarshaller::unmarshal` works with a volume file.
+     */
+    void testUnmarshalWithVolumeFile() {
+
+        // Define the source code for the vertex shader
+        const std::string vertexShaderSource =
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "in vec4 TexCoord0;\n"
+                "out vec4 Coord0;\n"
+                "void main() {\n"
+                "  gl_Position = MCVertex;\n"
+                "  Coord0 = TexCoord0;\n"
+                "}\n";
+
+        // Define the source code for the fragment shader
+        const std::string fragmentShaderSource =
+                "#version 140\n"
+                "uniform float Depth;\n"
+                "uniform sampler3D Volume;\n"
+                "in vec4 Coord0;\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  float value = texture(Volume, vec3(Coord0.st, Depth)).r;\n"
+                "  FragColor = vec4(vec3(value), 1);\n"
+                "}\n";
+
+        // Create clear
+        RapidGL::ClearNode clearNode;
+
+        // Create texture
+        std::map<std::string,std::string> attributes;
+        attributes["id"] = "volume";
+        attributes["file"] = "RapidGL/bunny.vlb";
+        RapidGL::Node* textureNode = unmarshaller.unmarshal(attributes);
+
+        // Create program
+        RapidGL::ProgramNode programNode;
+        RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
+        RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
+        RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
+        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+
+        // Create square
+        RapidGL::SquareNode squareNode;
+
+        // Create uniform to set depth
+        RapidGL::FloatUniformNode uniformNode("Depth");
+        uniformNode.setValue(0.0f);
+
+        // Connect nodes
+        clearNode.addChild(textureNode);
+        textureNode->addChild(&programNode);
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&pointAttributeNode);
+        programNode.addChild(&coordAttributeNode);
+        programNode.addChild(&uniformNode);
+        programNode.addChild(&squareNode);
+
+        // Visit
+        RapidGL::State state;
+        RapidGL::Visitor visitor(&state);
+        for (int i = 0; i < 100; ++i) {
+            uniformNode.setValue(((GLfloat) i) / 100);
+            visitor.visit(&clearNode);
+            glfwSwapBuffers();
+        }
+
+        // Flush
+        sleep(SLEEP_TIME_IN_SECONDS);
+    }
+
+    /**
      * Ensures `TextureNodeUnmarshaller::unmarshal` throws if given a zero size.
      */
     void testUnmarshalWithZeroSize() {
@@ -247,6 +323,7 @@ int main(int argc, char* argv[]) {
         test.testUnmarshalWithNegativeSize();
         test.testUnmarshalWithSize();
         test.testUnmarshalWithUnsupportedFileType();
+        test.testUnmarshalWithVolumeFile();
         test.testUnmarshalWithZeroSize();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
