@@ -69,8 +69,48 @@ public:
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, node->getAlpha(), TOLERANCE);
     }
 
+    /**
+     * Ensures `ClearNodeUnmarshaller::unmarshal` throws if given an invalid _alpha_ value.
+     */
+    void testUnmarshalWithInvalidAlpha() {
+        map<string,string> attributes;
+        attributes["alpha"] = "foo";
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `ClearNodeUnmarshaller::unmarshal` throws if given an invalid _blue_ value.
+     */
+    void testUnmarshalWithInvalidBlue() {
+        map<string,string> attributes;
+        attributes["blue"] = "foo";
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `ClearNodeUnmarshaller::unmarshal` throws if given an invalid _green_ value.
+     */
+    void testUnmarshalWithInvalidGreen() {
+        map<string,string> attributes;
+        attributes["green"] = "foo";
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `ClearNodeUnmarshaller::unmarshal` throws if given an invalid _red_ value.
+     */
+    void testUnmarshalWithInvalidRed() {
+        map<string,string> attributes;
+        attributes["red"] = "foo";
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
     CPPUNIT_TEST_SUITE(ClearNodeUnmarshallerTest);
     CPPUNIT_TEST(testUnmarshal);
+    CPPUNIT_TEST(testUnmarshalWithInvalidAlpha);
+    CPPUNIT_TEST(testUnmarshalWithInvalidBlue);
+    CPPUNIT_TEST(testUnmarshalWithInvalidGreen);
+    CPPUNIT_TEST(testUnmarshalWithInvalidRed);
     CPPUNIT_TEST_SUITE_END();
 };
 

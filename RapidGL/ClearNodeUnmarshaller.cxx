@@ -48,29 +48,45 @@ Node* ClearNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& 
     // Parse for red
     const map<string,string>::const_iterator red = attributes.find("red");
     if (red != attributes.end()) {
-        const GLfloat value = atof(red->second.c_str());
-        clearNode->setRed(value);
+        try {
+            const GLfloat value = parseFloat(red->second.c_str());
+            clearNode->setRed(value);
+        } catch (std::invalid_argument& e) {
+            throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse red value!");
+        }
     }
 
     // Parse for green
     const map<string,string>::const_iterator green = attributes.find("green");
     if (green != attributes.end()) {
-        const GLfloat value = atof(green->second.c_str());
-        clearNode->setGreen(value);
+        try {
+            const GLfloat value = parseFloat(green->second.c_str());
+            clearNode->setGreen(value);
+        } catch (std::invalid_argument& e) {
+            throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse green value!");
+        }
     }
 
     // Parse for blue
     const map<string,string>::const_iterator blue = attributes.find("blue");
     if (blue != attributes.end()) {
-        const GLfloat value = atof(blue->second.c_str());
-        clearNode->setBlue(value);
+        try {
+            const GLfloat value = parseFloat(blue->second.c_str());
+            clearNode->setBlue(value);
+        } catch (std::invalid_argument& e) {
+            throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse blue value!");
+        }
     }
 
     // Parse for alpha
     const map<string,string>::const_iterator alpha = attributes.find("alpha");
     if (alpha != attributes.end()) {
-        const GLfloat value = atof(alpha->second.c_str());
-        clearNode->setAlpha(value);
+        try {
+            const GLfloat value = parseFloat(alpha->second.c_str());
+            clearNode->setAlpha(value);
+        } catch (std::invalid_argument& e) {
+            throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse alpha value!");
+        }
     }
 
     // Return the node
