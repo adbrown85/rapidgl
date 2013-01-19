@@ -31,7 +31,7 @@ namespace RapidGL {
 class ProgramNode : public Node {
 public:
 // Methods
-    ProgramNode();
+    ProgramNode(const std::string& id);
     virtual ~ProgramNode();
     Gloop::Program getProgram() const;
     virtual void preVisit(State& state);

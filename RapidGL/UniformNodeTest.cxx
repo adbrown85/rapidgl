@@ -97,6 +97,7 @@ public:
      * Constructs the test.
      */
     UniformNodeTest() :
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
         programNode.addChild(&vertexShaderNode);

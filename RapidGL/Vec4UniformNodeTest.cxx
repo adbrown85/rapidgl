@@ -77,6 +77,7 @@ public:
      * Constructs the test fixture.
      */
     Vec4UniformNodeTest() :
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             uniformNode("Color") {

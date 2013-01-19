@@ -26,8 +26,17 @@ ProgramNodeUnmarshaller::ProgramNodeUnmarshaller() {
     // empty
 }
 
+std::string ProgramNodeUnmarshaller::getId(const std::map<std::string,std::string>& attributes) {
+    const std::string id = findValue(attributes, "id");
+    if (id.empty()) {
+        throw std::runtime_error("[ProgramNodeUnmarshaller] ID is unspecified!");
+    }
+    return id;
+}
+
 Node* ProgramNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
-    return new ProgramNode();
+    const std::string id = getId(attributes);
+    return new ProgramNode(id);
 }
 
 } /* namespace RapidGL */

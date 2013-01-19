@@ -159,7 +159,7 @@ public:
         AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
 
         // Make program node and add children
-        RapidGL::ProgramNode programNode;
+        RapidGL::ProgramNode programNode("foo");
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&attributeNode);

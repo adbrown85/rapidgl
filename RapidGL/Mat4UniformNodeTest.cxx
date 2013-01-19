@@ -90,6 +90,7 @@ public:
      * Constructs the test.
      */
     Mat4UniformNodeTest() :
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
         programNode.addChild(&vertexShaderNode);

@@ -81,7 +81,7 @@ public:
     void testVisit() {
 
         // Create nodes
-        RapidGL::ProgramNode programNode;
+        RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
         RapidGL::AttributeNode vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);

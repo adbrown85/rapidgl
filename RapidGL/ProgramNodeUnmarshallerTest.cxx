@@ -33,13 +33,31 @@ public:
     RapidGL::ProgramNodeUnmarshaller unmarshaller;
 
     /**
-     * Ensures ProgramNodeUnmarshaller::unmarshal(const map<string,string>&) works correctly.
+     * Ensures `ProgramNodeUnmarshaller::unmarshal` throws when given the empty string for _id_.
      */
-    void testUnmarshal() {
+    void testUnmarshalWithEmptyId() {
         std::map<std::string,std::string> attributes;
+        attributes["id"] = "";
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `ProgramNodeUnmarshaller::unmarshal` works when given a valid value for _id_.
+     */
+    void testUnmarshalWithId() {
+        std::map<std::string,std::string> attributes;
+        attributes["id"] = "foo";
         RapidGL::Node* node = unmarshaller.unmarshal(attributes);
         RapidGL::ProgramNode* programNode = dynamic_cast<RapidGL::ProgramNode*>(node);
         CPPUNIT_ASSERT(programNode != NULL);
+    }
+
+    /**
+     * Ensures `ProgramNodeUnmarshaller::unmarshal` throws when _id_ attribute is missing.
+     */
+    void testUnmarshalWithoutId() {
+        std::map<std::string,std::string> attributes;
+        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), std::runtime_error);
     }
 };
 
@@ -60,7 +78,9 @@ int main(int argc, char* argv[]) {
     // Run test
     ProgramUnmarshallerTest test;
     try {
-        test.testUnmarshal();
+        test.testUnmarshalWithEmptyId();
+        test.testUnmarshalWithId();
+        test.testUnmarshalWithoutId();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;

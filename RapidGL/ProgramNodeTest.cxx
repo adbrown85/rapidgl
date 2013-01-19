@@ -51,7 +51,7 @@ public:
                 "}\n");
 
         // Create program node and attach shader nodes
-        RapidGL::ProgramNode programNode;
+        RapidGL::ProgramNode programNode("foo");
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
 

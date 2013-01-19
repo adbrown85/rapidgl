@@ -76,6 +76,7 @@ public:
      * Constructs the test.
      */
     FloatUniformNodeTest() :
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             uniformNode("Opacity") {

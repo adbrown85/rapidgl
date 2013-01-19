@@ -134,6 +134,7 @@ public:
     Sampler2dUniformNodeTest() :
             crateTextureNode("crate", Gloop::TextureTarget::texture2d(), getCrateTextureObject()),
             stoneTextureNode("stone", Gloop::TextureTarget::texture2d(), getStoneTextureObject()),
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),

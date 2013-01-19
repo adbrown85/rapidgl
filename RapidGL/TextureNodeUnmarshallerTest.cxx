@@ -76,7 +76,7 @@ public:
                 "}\n";
 
         // Create nodes
-        RapidGL::ProgramNode programNode;
+        RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
@@ -242,7 +242,7 @@ public:
         RapidGL::Node* textureNode = unmarshaller.unmarshal(attributes);
 
         // Create program
-        RapidGL::ProgramNode programNode;
+        RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);

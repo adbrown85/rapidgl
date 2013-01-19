@@ -22,9 +22,15 @@ namespace RapidGL {
 
 /**
  * Constructs a program node.
+ *
+ * @param id Identifier of node, which may be empty
+ * @throws std::invalid_argument if identifier is empty
  */
-ProgramNode::ProgramNode() : program(Gloop::Program::create()) {
+ProgramNode::ProgramNode(const std::string& id) : Node(id), program(Gloop::Program::create()) {
     prepared = false;
+    if (id.empty()) {
+        throw std::invalid_argument("[ProgramNode] Identifier is empty!");
+    }
 }
 
 /**

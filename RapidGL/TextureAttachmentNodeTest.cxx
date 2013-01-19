@@ -147,6 +147,8 @@ public:
             attachmentNode(RapidGL::AttachmentNode::COLOR, "foo"),
             firstClearNode(0.0f, 0.0f, 1.0f),
             secondClearNode(1.0f, 0.0f, 0.0f),
+            firstProgramNode("first"),
+            secondProgramNode("second"),
             firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource()),
             firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource()),
             firstPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),

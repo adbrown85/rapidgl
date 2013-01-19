@@ -142,6 +142,7 @@ public:
     Sampler3dUniformNodeTest() :
             bunnyTextureNode("bunny", Gloop::TextureTarget::texture3d(), getBunnyTextureObject()),
             headTextureNode("head", Gloop::TextureTarget::texture3d(), getHeadTextureObject()),
+            programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),

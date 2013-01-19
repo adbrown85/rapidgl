@@ -30,6 +30,9 @@ class ProgramNodeUnmarshaller : public Unmarshaller {
 public:
     ProgramNodeUnmarshaller();
     Node* unmarshal(const std::map<std::string,std::string>& attributes);
+private:
+// Methods
+    static std::string getId(const std::map<std::string,std::string>& attributes);
 };
 
 } /* namespace RapidGL */
