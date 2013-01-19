@@ -113,6 +113,8 @@ T* findAncestor(const Node* node, const std::string& id) {
     return NULL;
 }
 
+Node* findDescendant(Node* root, const std::string& id);
+
 Node* findRoot(Node* node);
 
 } /* namespace RapidGL */

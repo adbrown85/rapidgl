@@ -220,6 +220,60 @@ public:
     }
 
     /**
+     * Ensures `findDescendant(Node*, string)` works if passed an ID in the scene.
+     */
+    void testFindDescendantWhenIdIsInScene() {
+
+        // Create root
+        FooNode root;
+
+        // Add left side
+        FooNode n1("1");
+        FooNode n2("2");
+        FooNode n3("3");
+        root.addChild(&n1);
+        n1.addChild(&n2);
+        n1.addChild(&n3);
+
+        // Add right side
+        FooNode n4("4");
+        FooNode n5("5");
+        FooNode n6("6");
+        root.addChild(&n4);
+        n4.addChild(&n5);
+        n4.addChild(&n6);
+
+        // Find
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &n5, RapidGL::findDescendant(&root, "5"));
+    }
+
+    /**
+     * Ensures `findDescendant(Node*, string)` returns `NULL` if cannot find node with specified ID.
+     */
+    void testFindDescendantWhenIdIsNotInScene() {
+        FooNode rootNode;
+        FooNode n1("foo");
+        FooNode n2("bar");
+        rootNode.addChild(&n1);
+        rootNode.addChild(&n2);
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, RapidGL::findDescendant(&rootNode, "baz"));
+    }
+
+    /**
+     * Ensures `findDescendant(Node*, string)` throws if passed the empty string.
+     */
+    void testFindDescendantWithEmptyString() {
+        CPPUNIT_ASSERT_THROW(RapidGL::findDescendant(NULL, ""), std::invalid_argument);
+    }
+
+    /**
+     * Ensures `findDescendant(Node*, string)` throws if passed a `NULL`.
+     */
+    void testFindDescendantWithNull() {
+        CPPUNIT_ASSERT_THROW(RapidGL::findDescendant(NULL, "foo"), std::invalid_argument);
+    }
+
+    /**
      * Ensures `findRoot(Node*)` works if passed the child of the root.
      */
     void testFindRootWithChild() {
@@ -287,6 +341,10 @@ public:
     CPPUNIT_TEST(testFindAncestorNodeWithNoAncestorOfType);
     CPPUNIT_TEST(testFindAncestorNodeWithNoParent);
     CPPUNIT_TEST(testFindAncestorNodeWithNull);
+    CPPUNIT_TEST(testFindDescendantWhenIdIsInScene);
+    CPPUNIT_TEST(testFindDescendantWhenIdIsNotInScene);
+    CPPUNIT_TEST(testFindDescendantWithEmptyString);
+    CPPUNIT_TEST(testFindDescendantWithNull);
     CPPUNIT_TEST(testFindRootWithChild);
     CPPUNIT_TEST(testFindRootWithGrandchild);
     CPPUNIT_TEST(testFindRootWithNull);

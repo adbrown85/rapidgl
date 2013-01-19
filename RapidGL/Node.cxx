@@ -17,9 +17,42 @@
  */
 #include "config.h"
 #include <algorithm>
+#include <deque>
 #include <stdexcept>
 #include "RapidGL/Node.h"
 namespace RapidGL {
+
+/**
+ * Searches for a descendant node with a particular identifier.
+ *
+ * @param root Root node of tree to start looking from
+ * @param id Identifier of node to look for
+ * @return Pointer to the node, or `NULL` if it could not be found
+ * @throws invalid_argument if root node is `NULL` or identifer is empty
+ */
+Node* findDescendant(Node* root, const std::string& id) {
+
+    if (root == NULL) {
+        throw std::invalid_argument("Root node is NULL!");
+    } else if (id.empty()) {
+        throw std::invalid_argument("Identifier is empty!");
+    }
+
+    std::deque<Node*> q;
+    q.push_back(root);
+    while (!q.empty()) {
+        Node* node = q.front();
+        q.pop_front();
+        if (node->getId() == id) {
+            return node;
+        }
+        Node::node_range_t children = node->getChildren();
+        for (Node::node_iterator_t it = children.begin; it != children.end; ++it) {
+            q.push_back((*it));
+        }
+    }
+    return NULL;
+}
 
 /**
  * Finds the root of the tree a node is in.
