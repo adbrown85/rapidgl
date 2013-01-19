@@ -94,6 +94,9 @@ void SquareNode::preVisit(State& state) {
 
     // Find the program
     const ProgramNode* programNode = findAncestor<ProgramNode>(this);
+    if (programNode == NULL) {
+        throw std::runtime_error("[SquareNode] Could not find program!");
+    }
     Gloop::Program program = programNode->getProgram();
 
     // Look for attributes

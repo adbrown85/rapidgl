@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
+#include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <iostream>
 #include "RapidGL/AttributeNode.hxx"
@@ -67,6 +68,14 @@ public:
     RapidGL::State state;
 
     /**
+     * Ensures `SquareNode::preVisit` throws if could not find program node.
+     */
+    void testPreVisitWithNoProgramNode() {
+        RapidGL::SquareNode squareNode;
+        CPPUNIT_ASSERT_THROW(squareNode.preVisit(state), std::runtime_error);
+    }
+
+    /**
      * Ensures `SquareNode::visit` works correctly.
      */
     void testVisit() {
@@ -112,6 +121,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         SquareNodeTest test;
+        test.testPreVisitWithNoProgramNode();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
