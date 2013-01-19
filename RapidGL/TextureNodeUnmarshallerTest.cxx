@@ -44,7 +44,7 @@ class TextureNodeUnmarshallerTest {
 public:
 
     // Number of seconds to sleep after rendering
-    static const int SLEEP_TIME_IN_SECONDS = 1;
+    static const double SLEEP_TIME_IN_SECONDS = 1.0;
 
     // Instance to test with
     RapidGL::TextureNodeUnmarshaller unmarshaller;
@@ -108,7 +108,7 @@ public:
         visitor.visit(textureNode);
         textureNode->removeChild(&programNode);
         glfwSwapBuffers();
-        sleep(SLEEP_TIME_IN_SECONDS);
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 
     /**
@@ -275,7 +275,7 @@ public:
         }
 
         // Flush
-        sleep(SLEEP_TIME_IN_SECONDS);
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 
     /**

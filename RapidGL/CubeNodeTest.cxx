@@ -42,7 +42,7 @@ class CubeNodeTest {
 public:
 
     // Number of seconds to sleep after rendering
-    static const int SLEEP_TIME_IN_SECONDS = 2;
+    static const double SLEEP_TIME_IN_SECONDS = 2.0;
 
     /**
      * Returns the source code for the vertex shader.
@@ -165,7 +165,7 @@ public:
 
         // Flush
         glfwSwapBuffers();
-        sleep(SLEEP_TIME_IN_SECONDS);
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 };
 

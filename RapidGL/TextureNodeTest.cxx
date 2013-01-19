@@ -42,7 +42,7 @@ class TextureNodeTest {
 public:
 
     // Number of seconds to pause after rendering
-    static const int SLEEP_TIME_IN_SECONDS = 1;
+    static const double SLEEP_TIME_IN_SECONDS = 1.0;
 
     /**
      * Returns the source for the fragment shader.
@@ -166,7 +166,7 @@ public:
         RapidGL::Visitor visitor(&state);
         visitor.visit(&textureNode);
         glfwSwapBuffers();
-        sleep(SLEEP_TIME_IN_SECONDS);
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 };
 

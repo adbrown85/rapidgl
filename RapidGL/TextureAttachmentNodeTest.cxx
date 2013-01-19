@@ -182,7 +182,7 @@ public:
         RapidGL::Visitor visitor(&state);
         visitor.visit(&textureNode);
         glfwSwapBuffers();
-        sleep(2);
+        glfwSleep(2);
     }
 };
 

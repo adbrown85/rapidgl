@@ -44,7 +44,7 @@ class Sampler2dUniformNodeTest {
 public:
 
     // Number of seconds to sleep after rendering
-    static const int SLEEP_TIME_IN_SECONDS = 1;
+    static const double SLEEP_TIME_IN_SECONDS = 1.0;
 
     /**
      * Returns the source code for the vertex shader.
@@ -196,7 +196,7 @@ public:
 
         // Flush and pause
         glfwSwapBuffers();
-        sleep(SLEEP_TIME_IN_SECONDS);
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 };
 
