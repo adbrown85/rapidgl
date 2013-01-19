@@ -113,6 +113,8 @@ T* findAncestor(const Node* node, const std::string& id) {
     return NULL;
 }
 
+Node* findRoot(Node* node);
+
 } /* namespace RapidGL */
 
 std::ostream& operator<<(std::ostream& stream, const RapidGL::Node& node);

@@ -220,6 +220,43 @@ public:
     }
 
     /**
+     * Ensures `findRoot(Node*)` works if passed the child of the root.
+     */
+    void testFindRootWithChild() {
+        FooNode rootNode;
+        FooNode childNode;
+        rootNode.addChild(&childNode);
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &rootNode, RapidGL::findRoot(&childNode));
+    }
+
+    /**
+     * Ensures `findRoot(Node*)` works if passed a grandchild of the root.
+     */
+    void testFindRootWithGrandchild() {
+        FooNode rootNode;
+        FooNode childNode;
+        FooNode grandchildNode;
+        rootNode.addChild(&childNode);
+        childNode.addChild(&grandchildNode);
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &rootNode, RapidGL::findRoot(&grandchildNode));
+    }
+
+    /**
+     * Ensures `findRoot(Node*)` throws if passed `NULL`.
+     */
+    void testFindRootWithNull() {
+        CPPUNIT_ASSERT_THROW(RapidGL::findRoot(NULL), std::invalid_argument);
+    }
+
+    /**
+     * Ensures `findRoot(Node*)` works if passed the root of a scene.
+     */
+    void testFindRootWithRoot() {
+        FooNode rootNode;
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &rootNode, RapidGL::findRoot(&rootNode));
+    }
+
+    /**
      * Checks that Node::removeChild(Node*) works correctly.
      */
     void testRemoveChild() {
@@ -250,6 +287,10 @@ public:
     CPPUNIT_TEST(testFindAncestorNodeWithNoAncestorOfType);
     CPPUNIT_TEST(testFindAncestorNodeWithNoParent);
     CPPUNIT_TEST(testFindAncestorNodeWithNull);
+    CPPUNIT_TEST(testFindRootWithChild);
+    CPPUNIT_TEST(testFindRootWithGrandchild);
+    CPPUNIT_TEST(testFindRootWithNull);
+    CPPUNIT_TEST(testFindRootWithRoot);
     CPPUNIT_TEST(testRemoveChild);
     CPPUNIT_TEST_SUITE_END();
 };

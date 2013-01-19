@@ -22,6 +22,28 @@
 namespace RapidGL {
 
 /**
+ * Finds the root of the tree a node is in.
+ *
+ * @param node Node of the tree to find root of
+ * @return Pointer to the root of the tree the node is in, which may be itself
+ * @throws invalid_argument if node is `NULL`
+ */
+Node* findRoot(Node* node) {
+
+    if (node == NULL) {
+        throw std::invalid_argument("Node is NULL!");
+    }
+
+    Node* prev = node;
+    Node* curr = node->getParent();
+    while (curr != NULL) {
+        prev = curr;
+        curr = curr->getParent();
+    }
+    return prev;
+}
+
+/**
  * Constructs a node.
  *
  * @param id Unique identifier of node, which may be empty
