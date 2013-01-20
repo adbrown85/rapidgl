@@ -28,6 +28,7 @@
 #include <Poco/Path.h>
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/TextureNode.h"
@@ -82,6 +83,9 @@ public:
                 "}\n";
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Node with texture
     RapidGL::TextureNode textureNode;
 
@@ -113,6 +117,7 @@ public:
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
+        sceneNode.addChild(&textureNode);
         textureNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
@@ -165,7 +170,7 @@ public:
     void testVisit() {
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&textureNode);
+        visitor.visit(&sceneNode);
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }

@@ -25,6 +25,7 @@
 #include <string>
 #include "RapidGL/Mat4UniformNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
@@ -77,6 +78,9 @@ public:
         return mat;
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Shader program
     RapidGL::ProgramNode programNode;
 
@@ -93,6 +97,7 @@ public:
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
     }
@@ -187,7 +192,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         M3d::Mat4 mat(1);
@@ -224,7 +229,7 @@ public:
 
         // Visit the nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         GLfloat expected[16];
@@ -262,7 +267,7 @@ public:
 
         // Visit the nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         GLfloat expected[16];
@@ -303,7 +308,7 @@ public:
 
         // Visit nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Make expected value
         GLfloat expected[16];
@@ -340,7 +345,7 @@ public:
 
         // Visit nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         GLfloat expected[16];
@@ -376,7 +381,7 @@ public:
 
         // Visit nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         GLfloat expected[16];
@@ -414,7 +419,7 @@ public:
 
         // Visit nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Define expected value
         GLfloat expected[16];

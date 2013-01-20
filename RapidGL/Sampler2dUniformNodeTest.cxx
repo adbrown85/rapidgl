@@ -30,6 +30,7 @@
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/Sampler2dUniformNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
@@ -98,6 +99,9 @@ public:
         return bitmap.createTexture();
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Crate texture
     RapidGL::TextureNode crateTextureNode;
 
@@ -141,6 +145,7 @@ public:
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
             crateUniformNode("Texture1", "crate"),
             stoneUniformNode("Texture2", "stone") {
+        sceneNode.addChild(&crateTextureNode);
         crateTextureNode.addChild(&stoneTextureNode);
         stoneTextureNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
@@ -189,7 +194,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&crateTextureNode);
+        visitor.visit(&sceneNode);
 
         // Check units
         CPPUNIT_ASSERT_EQUAL(0, crateUniformNode.getTextureUnit().toOrdinal());

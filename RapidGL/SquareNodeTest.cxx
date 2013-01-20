@@ -21,6 +21,7 @@
 #include <iostream>
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
@@ -81,6 +82,7 @@ public:
     void testVisit() {
 
         // Create nodes
+        RapidGL::SceneNode sceneNode;
         RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
@@ -89,6 +91,7 @@ public:
         RapidGL::SquareNode squareNode;
 
         // Connect nodes
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
@@ -97,7 +100,7 @@ public:
 
         // Visit
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }

@@ -28,6 +28,7 @@
 #include "RapidGL/FloatUniformNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/TextureNode.h"
@@ -76,6 +77,7 @@ public:
                 "}\n";
 
         // Create nodes
+        RapidGL::SceneNode sceneNode;
         RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
@@ -95,6 +97,7 @@ public:
         CPPUNIT_ASSERT_EQUAL(std::string("crate"), textureNode->getId());
 
         // Connect nodes
+        sceneNode.addChild(textureNode);
         textureNode->addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
@@ -105,7 +108,7 @@ public:
         // Render
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(textureNode);
+        visitor.visit(&sceneNode);
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
@@ -231,6 +234,9 @@ public:
                 "  FragColor = vec4(vec3(value), 1);\n"
                 "}\n";
 
+        // Create root
+        RapidGL::SceneNode sceneNode;
+
         // Create clear
         RapidGL::ClearNode clearNode;
 
@@ -255,6 +261,7 @@ public:
         uniformNode.setValue(0.0f);
 
         // Connect nodes
+        sceneNode.addChild(&clearNode);
         clearNode.addChild(textureNode);
         textureNode->addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
@@ -269,7 +276,7 @@ public:
         RapidGL::Visitor visitor(&state);
         for (int i = 0; i < 100; ++i) {
             uniformNode.setValue(((GLfloat) i) / 100);
-            visitor.visit(&clearNode);
+            visitor.visit(&sceneNode);
             glfwSwapBuffers();
         }
 

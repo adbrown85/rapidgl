@@ -21,6 +21,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/UniformNode.h"
@@ -84,6 +85,9 @@ public:
             "}\n";
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Program uniform is in
     RapidGL::ProgramNode programNode;
 
@@ -100,6 +104,7 @@ public:
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
     }
@@ -116,7 +121,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        CPPUNIT_ASSERT_THROW(visitor.visit(&programNode), std::runtime_error);
+        CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
 
         // Disconnect uniform node
         programNode.removeChild(&uniformNode);
@@ -134,7 +139,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        CPPUNIT_ASSERT_THROW(visitor.visit(&programNode), std::runtime_error);
+        CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
 
         // Disconnect uniform node
         programNode.removeChild(&uniformNode);
@@ -172,7 +177,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Check location
         CPPUNIT_ASSERT(uniformNode.getLocation() != -1);

@@ -25,6 +25,7 @@
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/FramebufferNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
@@ -103,6 +104,9 @@ public:
                 "}\n";
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Texture to attach
     RapidGL::TextureNode textureNode;
 
@@ -157,6 +161,8 @@ public:
             secondPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             secondCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
 
+        sceneNode.addChild(&textureNode);
+
         textureNode.addChild(&framebufferNode);
         textureNode.addChild(&secondProgramNode);
 
@@ -182,7 +188,7 @@ public:
     void run() {
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&textureNode);
+        visitor.visit(&sceneNode);
         glfwSwapBuffers();
         glfwSleep(2);
     }

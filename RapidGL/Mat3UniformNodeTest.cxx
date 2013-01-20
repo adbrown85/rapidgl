@@ -25,6 +25,7 @@
 #include <string>
 #include "RapidGL/Mat3UniformNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
@@ -64,6 +65,9 @@ public:
                 "}\n";
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Shader program
     RapidGL::ProgramNode programNode;
 
@@ -84,6 +88,7 @@ public:
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             uniformNode("MVPMatrix") {
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&uniformNode);
@@ -111,7 +116,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Check value
         Gloop::Program program = programNode.getProgram();

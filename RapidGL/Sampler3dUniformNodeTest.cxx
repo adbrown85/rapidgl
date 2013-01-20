@@ -31,6 +31,7 @@
 #include "RapidGL/FloatUniformNode.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/Sampler3dUniformNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
@@ -103,6 +104,9 @@ public:
         return volume.createTexture();
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Bunny texture
     RapidGL::TextureNode bunnyTextureNode;
 
@@ -150,6 +154,7 @@ public:
             bunnyUniformNode("Texture1", "bunny"),
             headUniformNode("Texture2", "head"),
             depthUniformNode("Depth") {
+        sceneNode.addChild(&bunnyTextureNode);
         bunnyTextureNode.addChild(&headTextureNode);
         headTextureNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
@@ -199,7 +204,7 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&bunnyTextureNode);
+        visitor.visit(&sceneNode);
 
         // Check units
         CPPUNIT_ASSERT_EQUAL(0, bunnyUniformNode.getTextureUnit().toOrdinal());
@@ -208,7 +213,7 @@ public:
         // Flush and pause
         for (int i = 0; i < 100; ++i) {
             depthUniformNode.setValue(((GLfloat) i) / 100);
-            visitor.visit(&bunnyTextureNode);
+            visitor.visit(&sceneNode);
             glfwSwapBuffers();
         }
         glfwSleep(SLEEP_TIME_IN_SECONDS);

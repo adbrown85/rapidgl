@@ -30,6 +30,7 @@
 #include "RapidGL/CubeNode.h"
 #include "RapidGL/Mat4UniformNode.h"
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
@@ -107,6 +108,9 @@ public:
         return translationMatrix * rotationMatrix;
     }
 
+    // Root of scene
+    RapidGL::SceneNode sceneNode;
+
     // Shader program
     RapidGL::ProgramNode programNode;
 
@@ -138,6 +142,7 @@ public:
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
             uniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION) {
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
@@ -162,7 +167,7 @@ public:
 
         // Visit nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
+        visitor.visit(&sceneNode);
 
         // Flush
         glfwSwapBuffers();
