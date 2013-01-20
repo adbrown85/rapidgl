@@ -24,6 +24,7 @@
 #include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Vec4UniformNode.h"
 #include "RapidGL/Visitor.h"
 
@@ -74,6 +75,9 @@ public:
     // Fragment shader in program
     RapidGL::ShaderNode fragmentShaderNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     // Uniform
     RapidGL::Vec4UniformNode uniformNode;
 
@@ -84,11 +88,13 @@ public:
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
+            useNode("foo"),
             uniformNode("Color") {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&uniformNode);
+        sceneNode.addChild(&useNode);
+        useNode.addChild(&uniformNode);
     }
 
     /**

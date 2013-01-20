@@ -25,6 +25,7 @@
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/UniformNode.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -97,16 +98,21 @@ public:
     // Fragment shader for program
     RapidGL::ShaderNode fragmentShaderNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     /**
      * Constructs the test.
      */
     UniformNodeTest() :
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
+            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
+            useNode("foo") {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
+        sceneNode.addChild(&useNode);
     }
 
     /**
@@ -114,9 +120,9 @@ public:
      */
     void testPreVisitWithInvalidName() {
 
-        // Make a uniform node and connect it to the program
+        // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Foo", GL_FLOAT);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Visit the nodes
         RapidGL::State state;
@@ -124,7 +130,7 @@ public:
         CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
 
         // Disconnect uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -132,9 +138,9 @@ public:
      */
     void testPreVisitWithInvalidType() {
 
-        // Make a uniform node and connect it to the program
+        // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Color", GL_FLOAT);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Visit the nodes
         RapidGL::State state;
@@ -142,7 +148,7 @@ public:
         CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
 
         // Disconnect uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -170,9 +176,9 @@ public:
      */
     void testPreVisitWithValidNameAndType() {
 
-        // Make a uniform node and connect it to the program
+        // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Visit the nodes
         RapidGL::State state;
@@ -183,7 +189,7 @@ public:
         CPPUNIT_ASSERT(uniformNode.getLocation() != -1);
 
         // Disconnect uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 };
 

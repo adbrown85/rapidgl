@@ -33,6 +33,7 @@
 #include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -126,6 +127,9 @@ public:
     // Description of attribute for texture coordinates
     RapidGL::AttributeNode coordinateAttributeNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     // Uniform for model-view-projection matrix
     RapidGL::Mat4UniformNode uniformNode;
 
@@ -141,14 +145,16 @@ public:
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
+            useNode("foo"),
             uniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION) {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&uniformNode);
-        programNode.addChild(&cubeNode);
+        sceneNode.addChild(&useNode);
+        useNode.addChild(&uniformNode);
+        useNode.addChild(&cubeNode);
     }
 
     /**

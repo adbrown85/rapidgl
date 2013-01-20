@@ -31,6 +31,7 @@
 #include "RapidGL/State.h"
 #include "RapidGL/TextureAttachmentNode.h"
 #include "RapidGL/TextureNode.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -124,6 +125,10 @@ public:
     RapidGL::ProgramNode firstProgramNode;
     RapidGL::ProgramNode secondProgramNode;
 
+    // Usages of programs
+    RapidGL::UseNode firstUseNode;
+    RapidGL::UseNode secondUseNode;
+
     // Vertex shaders
     RapidGL::ShaderNode firstVertexShaderNode;
     RapidGL::ShaderNode secondVertexShaderNode;
@@ -153,6 +158,8 @@ public:
             secondClearNode(1.0f, 0.0f, 0.0f),
             firstProgramNode("first"),
             secondProgramNode("second"),
+            firstUseNode("first"),
+            secondUseNode("second"),
             firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource()),
             firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource()),
             firstPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
@@ -161,25 +168,28 @@ public:
             secondPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             secondCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
 
-        sceneNode.addChild(&textureNode);
-
-        textureNode.addChild(&framebufferNode);
-        textureNode.addChild(&secondProgramNode);
-
-        framebufferNode.addChild(&attachmentNode);
-        framebufferNode.addChild(&firstProgramNode);
+        sceneNode.addChild(&firstProgramNode);
         firstProgramNode.addChild(&firstVertexShaderNode);
         firstProgramNode.addChild(&firstFragmentShaderNode);
         firstProgramNode.addChild(&firstPointAttributeNode);
-        firstProgramNode.addChild(&firstClearNode);
-        firstProgramNode.addChild(&firstSquareNode);
 
+        sceneNode.addChild(&secondProgramNode);
         secondProgramNode.addChild(&secondVertexShaderNode);
         secondProgramNode.addChild(&secondFragmentShaderNode);
         secondProgramNode.addChild(&secondPointAttributeNode);
         secondProgramNode.addChild(&secondCoordAttributeNode);
-        secondProgramNode.addChild(&secondClearNode);
-        secondProgramNode.addChild(&secondSquareNode);
+
+        sceneNode.addChild(&textureNode);
+
+        textureNode.addChild(&framebufferNode);
+        framebufferNode.addChild(&attachmentNode);
+        framebufferNode.addChild(&firstUseNode);
+        firstUseNode.addChild(&firstClearNode);
+        firstUseNode.addChild(&firstSquareNode);
+
+        textureNode.addChild(&secondUseNode);
+        secondUseNode.addChild(&secondClearNode);
+        secondUseNode.addChild(&secondSquareNode);
     }
 
     /**

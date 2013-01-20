@@ -25,6 +25,7 @@
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -88,6 +89,7 @@ public:
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
         RapidGL::AttributeNode vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
         RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+        RapidGL::UseNode useNode("foo");
         RapidGL::SquareNode squareNode;
 
         // Connect nodes
@@ -96,7 +98,8 @@ public:
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
         programNode.addChild(&coordAttributeNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(&useNode);
+        useNode.addChild(&squareNode);
 
         // Visit
         RapidGL::Visitor visitor(&state);

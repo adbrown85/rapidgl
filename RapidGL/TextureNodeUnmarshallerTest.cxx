@@ -35,6 +35,7 @@
 #include "RapidGL/TextureNodeUnmarshaller.h"
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -83,6 +84,7 @@ public:
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
         RapidGL::AttributeNode coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+        RapidGL::UseNode useNode("foo");
         RapidGL::SquareNode squareNode;
 
         // Unmarshal node
@@ -97,13 +99,14 @@ public:
         CPPUNIT_ASSERT_EQUAL(std::string("crate"), textureNode->getId());
 
         // Connect nodes
-        sceneNode.addChild(textureNode);
-        textureNode->addChild(&programNode);
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&pointAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(textureNode);
+        textureNode->addChild(&useNode);
+        useNode.addChild(&squareNode);
 
         // Render
         RapidGL::State state;
@@ -252,6 +255,7 @@ public:
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
         RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+        RapidGL::UseNode useNode("foo");
 
         // Create square
         RapidGL::SquareNode squareNode;
@@ -261,15 +265,16 @@ public:
         uniformNode.setValue(0.0f);
 
         // Connect nodes
-        sceneNode.addChild(&clearNode);
-        clearNode.addChild(textureNode);
-        textureNode->addChild(&programNode);
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&pointAttributeNode);
         programNode.addChild(&coordAttributeNode);
-        programNode.addChild(&uniformNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(&clearNode);
+        sceneNode.addChild(textureNode);
+        textureNode->addChild(&useNode);
+        useNode.addChild(&uniformNode);
+        useNode.addChild(&squareNode);
 
         // Visit
         RapidGL::State state;

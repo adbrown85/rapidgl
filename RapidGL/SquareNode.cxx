@@ -92,10 +92,16 @@ void SquareNode::preVisit(State& state) {
         return;
     }
 
-    // Find the program
-    const ProgramNode* programNode = findAncestor<ProgramNode>(this);
+    // Find the use node
+    const UseNode* useNode = findAncestor<UseNode>(this);
+    if (useNode == NULL) {
+        throw std::runtime_error("[SquareNode] Could not find use node!");
+    }
+
+    // Get the program
+    const ProgramNode* programNode = useNode->getProgramNode();
     if (programNode == NULL) {
-        throw std::runtime_error("[SquareNode] Could not find program!");
+        throw std::runtime_error("[SquareNode] Use node has not been visited yet!");
     }
     Gloop::Program program = programNode->getProgram();
 

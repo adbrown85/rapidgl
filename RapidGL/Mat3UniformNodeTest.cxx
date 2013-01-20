@@ -29,6 +29,7 @@
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
+#include "RapidGL/UseNode.h"
 
 
 /**
@@ -77,6 +78,9 @@ public:
     // Fragment shader
     RapidGL::ShaderNode fragmentShaderNode;
 
+    // Use of program
+    RapidGL::UseNode useNode;
+
     // Uniform
     RapidGL::Mat3UniformNode uniformNode;
 
@@ -87,11 +91,13 @@ public:
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
+            useNode("foo"),
             uniformNode("MVPMatrix") {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&uniformNode);
+        sceneNode.addChild(&useNode);
+        useNode.addChild(&uniformNode);
     }
 
     /**

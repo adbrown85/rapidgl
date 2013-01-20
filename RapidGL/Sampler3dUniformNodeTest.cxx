@@ -36,6 +36,7 @@
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/TextureNode.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -128,6 +129,9 @@ public:
     // Node indicating which attribute is for texture coordinates
     RapidGL::AttributeNode coordinateAttributeNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     // Square
     RapidGL::SquareNode squareNode;
 
@@ -151,20 +155,22 @@ public:
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
+            useNode("foo"),
             bunnyUniformNode("Texture1", "bunny"),
             headUniformNode("Texture2", "head"),
             depthUniformNode("Depth") {
-        sceneNode.addChild(&bunnyTextureNode);
-        bunnyTextureNode.addChild(&headTextureNode);
-        headTextureNode.addChild(&programNode);
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&bunnyUniformNode);
-        programNode.addChild(&headUniformNode);
-        programNode.addChild(&depthUniformNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(&bunnyTextureNode);
+        bunnyTextureNode.addChild(&headTextureNode);
+        headTextureNode.addChild(&useNode);
+        useNode.addChild(&bunnyUniformNode);
+        useNode.addChild(&headUniformNode);
+        useNode.addChild(&depthUniformNode);
+        useNode.addChild(&squareNode);
     }
 
     /**

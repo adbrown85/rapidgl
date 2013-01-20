@@ -156,10 +156,16 @@ void CubeNode::preVisit(State& state) {
         return;
     }
 
-    // Find program
-    const ProgramNode* programNode = findAncestor<ProgramNode>(this);
+    // Find use node
+    const UseNode* useNode = findAncestor<UseNode>(this);
+    if (useNode == NULL) {
+        throw std::runtime_error("[CubeNode] Could not find use node!");
+    }
+
+    // Get program
+    const ProgramNode* programNode = useNode->getProgramNode();
     if (programNode == NULL) {
-        throw std::runtime_error("[CubeNode] Could not find program node!");
+        throw std::runtime_error("[CubeNode] Use node has not been visited yet!");
     }
     const Gloop::Program program = programNode->getProgram();
 

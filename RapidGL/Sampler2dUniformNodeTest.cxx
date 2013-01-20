@@ -35,6 +35,7 @@
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/TextureNode.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -123,6 +124,9 @@ public:
     // Node indicating which attribute is for texture coordinates
     RapidGL::AttributeNode coordinateAttributeNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     // Square
     RapidGL::SquareNode squareNode;
 
@@ -143,18 +147,20 @@ public:
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
             coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
+            useNode("foo"),
             crateUniformNode("Texture1", "crate"),
             stoneUniformNode("Texture2", "stone") {
-        sceneNode.addChild(&crateTextureNode);
-        crateTextureNode.addChild(&stoneTextureNode);
-        stoneTextureNode.addChild(&programNode);
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&crateUniformNode);
-        programNode.addChild(&stoneUniformNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(&crateTextureNode);
+        crateTextureNode.addChild(&stoneTextureNode);
+        stoneTextureNode.addChild(&useNode);
+        useNode.addChild(&crateUniformNode);
+        useNode.addChild(&stoneUniformNode);
+        useNode.addChild(&squareNode);
     }
 
     /**

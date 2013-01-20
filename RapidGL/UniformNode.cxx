@@ -68,10 +68,16 @@ void UniformNode::preVisit(State& state) {
         return;
     }
 
-    // Find program node
-    const ProgramNode* programNode = findAncestor<ProgramNode>(this);
+    // Find use node
+    const UseNode* useNode = findAncestor<UseNode>(this);
+    if (useNode == NULL) {
+        throw std::runtime_error("[UniformNode] Could not find use node!");
+    }
+
+    // Get program node
+    const ProgramNode* programNode = useNode->getProgramNode();
     if (programNode == NULL) {
-        throw std::runtime_error("[UniformNode] Could not find program node!");
+        throw std::runtime_error("[UniformNode] Use node has not been visited yet!");
     }
 
     // Get program

@@ -33,6 +33,7 @@
 #include "RapidGL/SquareNode.h"
 #include "RapidGL/TextureNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -104,6 +105,9 @@ public:
     // Node describing 'TexCoord0' attribute
     RapidGL::AttributeNode coordinateAttributeNode;
 
+    // Usage of program
+    RapidGL::UseNode useNode;
+
     // Square
     RapidGL::SquareNode squareNode;
 
@@ -116,14 +120,16 @@ public:
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE) {
-        sceneNode.addChild(&textureNode);
-        textureNode.addChild(&programNode);
+            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
+            useNode("foo") {
+        sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         programNode.addChild(&vertexAttributeNode);
         programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&squareNode);
+        sceneNode.addChild(&textureNode);
+        textureNode.addChild(&useNode);
+        useNode.addChild(&squareNode);
     }
 
     /**

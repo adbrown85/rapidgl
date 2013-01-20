@@ -28,6 +28,7 @@
 #include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -90,16 +91,21 @@ public:
     // Fragment shader
     RapidGL::ShaderNode fragmentShaderNode;
 
+    // Use of program
+    RapidGL::UseNode useNode;
+
     /**
      * Constructs the test.
      */
     Mat4UniformNodeTest() :
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()) {
+            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
+            useNode("foo") {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
+        sceneNode.addChild(&useNode);
     }
 
     /**
@@ -187,7 +193,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::IDENTITY);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Visit the nodes
         RapidGL::State state;
@@ -208,7 +214,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -218,7 +224,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make matrix
         const M3d::Mat4 modelMatrix = getRandomMatrix();
@@ -244,7 +250,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -254,7 +260,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL_VIEW);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make matrices
         const M3d::Mat4 modelMatrix = getRandomMatrix();
@@ -283,7 +289,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -293,7 +299,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make matrices
         const M3d::Mat4 modelMatrix = getRandomMatrix();
@@ -324,7 +330,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -334,7 +340,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::PROJECTION);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make projection matrix
         const M3d::Mat4 projectionMatrix = getRandomMatrix();
@@ -360,7 +366,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -370,7 +376,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::VIEW);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make view matrix
         const M3d::Mat4 viewMatrix = getRandomMatrix();
@@ -396,7 +402,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 
     /**
@@ -406,7 +412,7 @@ public:
 
         // Add uniform node
         RapidGL::Mat4UniformNode uniformNode("Matrix", RapidGL::Mat4UniformNode::VIEW_PROJECTION);
-        programNode.addChild(&uniformNode);
+        useNode.addChild(&uniformNode);
 
         // Make matrices
         const M3d::Mat4 viewMatrix = getRandomMatrix();
@@ -435,7 +441,7 @@ public:
         }
 
         // Remove uniform node
-        programNode.removeChild(&uniformNode);
+        useNode.removeChild(&uniformNode);
     }
 };
 

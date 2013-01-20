@@ -28,6 +28,7 @@
 #include "RapidGL/Node.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/State.h"
+#include "RapidGL/UseNode.h"
 namespace RapidGL {
 
 
