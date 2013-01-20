@@ -33,7 +33,6 @@ public:
     virtual ~TransformNode();
     virtual void postVisit(State& state);
     virtual void preVisit(State& state);
-    virtual void visit(State& state) = 0;
 };
 
 } /* namespace RapidGL */

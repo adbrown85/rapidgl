@@ -109,4 +109,8 @@ void TextureAttachmentNode::preVisit(State& state) {
     ready = true;
 }
 
+void TextureAttachmentNode::visit(State& state) {
+    // empty
+}
+
 } /* namespace RapidGL */

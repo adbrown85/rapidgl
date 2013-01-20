@@ -38,6 +38,7 @@ public:
     std::string getLink() const;
     virtual void attach(GLenum attachment);
     virtual void preVisit(State& state);
+    virtual void visit(State& state);
 private:
 // Attributes
     bool ready;

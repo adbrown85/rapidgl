@@ -35,6 +35,7 @@ public:
     ShaderNode(GLenum type, const std::string& source);
     virtual ~ShaderNode();
     Gloop::Shader getShader() const;
+    virtual void visit(State& state);
 private:
 // Attributes
     Gloop::Shader shader;

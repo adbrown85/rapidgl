@@ -43,6 +43,7 @@ public:
     virtual void attach(GLenum attachment) = 0;
     Usage getUsage() const;
     static Usage parseUsage(const std::string& str);
+    virtual void visit(State& state);
 private:
 // Constants
     static const std::map<std::string,Usage> USAGES_BY_NAME;

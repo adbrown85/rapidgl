@@ -141,4 +141,8 @@ void AttributeNode::preVisit(State& state) {
     prepared = true;
 }
 
+void AttributeNode::visit(State& state) {
+    // empty
+}
+
 } /* namespace RapidGL */

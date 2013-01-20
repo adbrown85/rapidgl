@@ -32,6 +32,17 @@ class AttributeNodeTest : public CppUnit::TestFixture {
 public:
 
     /**
+     * Fake node for testing.
+     */
+    class FakeNode : public RapidGL::Node {
+    public:
+
+        virtual void visit(RapidGL::State& state) {
+            // empty
+        }
+    };
+
+    /**
      * Ensures AttributeNode constructor throws an exception if passed an empty string.
      */
     void testConstructorWithEmptyName() {
@@ -99,7 +110,7 @@ public:
     void testPreVisitWithInvalidParent() {
 
         // Make nodes
-        RapidGL::Node parentNode;
+        FakeNode parentNode;
         AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
         parentNode.addChild(&attributeNode);
 

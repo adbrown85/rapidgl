@@ -62,4 +62,8 @@ Gloop::Shader ShaderNode::getShader() const {
     return shader;
 }
 
+void ShaderNode::visit(State& state) {
+    // empty
+}
+
 } /* namespace RapidGL */

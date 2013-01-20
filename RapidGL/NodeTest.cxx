@@ -33,7 +33,12 @@ public:
      */
     class FooNode : public RapidGL::Node {
     public:
+
         FooNode(const std::string& id = "") : RapidGL::Node(id) {
+            // empty
+        }
+
+        virtual void visit(RapidGL::State& state) {
             // empty
         }
     };
@@ -46,6 +51,10 @@ public:
         BarNode(const std::string& id = "") : RapidGL::Node(id) {
             // empty
         }
+
+        virtual void visit(RapidGL::State& state) {
+            // empty
+        }
     };
 
     /**
@@ -54,8 +63,8 @@ public:
     void testAddChild() {
 
         // Make parent and child nodes
-        RapidGL::Node parent("parent");
-        RapidGL::Node child("child");
+        FooNode parent("parent");
+        BarNode child("child");
 
         // Add child
         parent.addChild(&child);
@@ -63,8 +72,8 @@ public:
 
         // Check the pointers
         RapidGL::Node::node_range_t children = parent.getChildren();
-        CPPUNIT_ASSERT_EQUAL((*(children.begin)), &child);
-        CPPUNIT_ASSERT_EQUAL(&parent, child.getParent());
+        CPPUNIT_ASSERT_EQUAL((*(children.begin)), (RapidGL::Node*) &child);
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &parent, child.getParent());
     }
 
     /**
@@ -216,8 +225,8 @@ public:
     void testRemoveChild() {
 
         // Make parent and child nodes
-        RapidGL::Node parent;
-        RapidGL::Node child;
+        FooNode parent;
+        BarNode child;
 
         // Add child
         parent.addChild(&child);

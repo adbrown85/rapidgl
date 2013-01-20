@@ -37,7 +37,26 @@ public:
      * Mock node for testing.
      */
     class FakeNode : public RapidGL::Node {
-        // empty
+    public:
+
+        virtual void visit(RapidGL::State& state) {
+            // empty
+        }
+    };
+
+    /**
+     * Mock uniform node for testing.
+     */
+    class FakeUniformNode : public RapidGL::UniformNode {
+    public:
+
+        FakeUniformNode(const std::string& name, GLenum type) : RapidGL::UniformNode(name, type) {
+            // empty
+        }
+
+        virtual void visit(RapidGL::State& state) {
+            // empty
+        }
     };
 
     /**
@@ -90,7 +109,7 @@ public:
     void testPreVisitWithInvalidName() {
 
         // Make a uniform node and connect it to the program
-        RapidGL::UniformNode uniformNode("Foo", GL_FLOAT);
+        FakeUniformNode uniformNode("Foo", GL_FLOAT);
         programNode.addChild(&uniformNode);
 
         // Visit the nodes
@@ -108,7 +127,7 @@ public:
     void testPreVisitWithInvalidType() {
 
         // Make a uniform node and connect it to the program
-        RapidGL::UniformNode uniformNode("Color", GL_FLOAT);
+        FakeUniformNode uniformNode("Color", GL_FLOAT);
         programNode.addChild(&uniformNode);
 
         // Visit the nodes
@@ -128,7 +147,7 @@ public:
         // Make nodes
         FakeNode fooNode;
         FakeNode barNode;
-        RapidGL::UniformNode uniformNode("Color", GL_FLOAT_VEC4);
+        FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
 
         // Connect nodes
         fooNode.addChild(&barNode);
@@ -146,7 +165,7 @@ public:
     void testPreVisitWithValidNameAndType() {
 
         // Make a uniform node and connect it to the program
-        RapidGL::UniformNode uniformNode("Color", GL_FLOAT_VEC4);
+        FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
         programNode.addChild(&uniformNode);
 
         // Visit the nodes

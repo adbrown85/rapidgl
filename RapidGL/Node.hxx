@@ -45,7 +45,7 @@ public:
     virtual void postVisit(State& state);
     virtual void preVisit(State& state);
     bool removeChild(Node* node);
-    virtual void visit(State& state);
+    virtual void visit(State& state) = 0;
 private:
 // Attributes
     std::vector<Node*> children;

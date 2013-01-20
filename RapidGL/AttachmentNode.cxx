@@ -90,4 +90,8 @@ AttachmentNode::Usage AttachmentNode::parseUsage(const std::string& str) {
     }
 }
 
+void AttachmentNode::visit(State& state) {
+    // empty
+}
+
 } /* namespace RapidGL */

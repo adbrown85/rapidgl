@@ -47,6 +47,7 @@ public:
     Usage getUsage() const;
     static Usage parseUsage(const std::string& str);
     virtual void preVisit(State& state);
+    virtual void visit(State& state);
 private:
 // Constants
     static std::map<std::string,Usage> usagesByName;

@@ -35,7 +35,12 @@ public:
      */
     class FakeNode : public RapidGL::Node {
     public:
+
         FakeNode(const std::string& name) : RapidGL::Node(name) {
+            // empty
+        }
+
+        virtual void visit(RapidGL::State& state) {
             // empty
         }
     };
