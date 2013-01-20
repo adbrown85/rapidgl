@@ -83,13 +83,6 @@ public:
         RapidGL::AttributeNode coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
         RapidGL::SquareNode squareNode;
 
-        // Connect nodes
-        programNode.addChild(&vertexShaderNode);
-        programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&pointAttributeNode);
-        programNode.addChild(&coordinateAttributeNode);
-        programNode.addChild(&squareNode);
-
         // Unmarshal node
         std::map<std::string,std::string> attributes;
         attributes["id"] = "crate";
@@ -101,12 +94,18 @@ public:
         // Check identifier
         CPPUNIT_ASSERT_EQUAL(std::string("crate"), textureNode->getId());
 
-        // Render
+        // Connect nodes
         textureNode->addChild(&programNode);
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&pointAttributeNode);
+        programNode.addChild(&coordinateAttributeNode);
+        programNode.addChild(&squareNode);
+
+        // Render
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
         visitor.visit(textureNode);
-        textureNode->removeChild(&programNode);
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
