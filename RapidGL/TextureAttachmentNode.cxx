@@ -19,7 +19,7 @@
 #include <gloop/FramebufferObject.hxx>
 #include <gloop/FramebufferTarget.hxx>
 #include <gloop/TextureObject.hxx>
-#include "RapidGL/TextureAttachmentNode.hxx"
+#include "RapidGL/TextureAttachmentNode.h"
 namespace RapidGL {
 
 /**

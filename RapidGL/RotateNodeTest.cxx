@@ -23,8 +23,8 @@
 #include <m3d/Quat.hxx>
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/RotateNode.hxx"
-#include "RapidGL/State.hxx"
+#include "RapidGL/RotateNode.h"
+#include "RapidGL/State.h"
 
 
 /**

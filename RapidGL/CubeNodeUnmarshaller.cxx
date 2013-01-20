@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
-#include "RapidGL/CubeNodeUnmarshaller.hxx"
+#include "RapidGL/CubeNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

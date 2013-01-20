@@ -23,9 +23,9 @@
 #include <string>
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include "RapidGL/AttachmentNodeUnmarshaller.hxx"
-#include "RapidGL/Node.hxx"
-#include "RapidGL/TextureAttachmentNode.hxx"
+#include "RapidGL/AttachmentNodeUnmarshaller.h"
+#include "RapidGL/Node.h"
+#include "RapidGL/TextureAttachmentNode.h"
 
 
 /**

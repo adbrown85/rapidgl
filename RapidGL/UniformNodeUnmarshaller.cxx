@@ -18,7 +18,7 @@
 #include "config.h"
 #include <stdexcept>
 #include <vector>
-#include "RapidGL/UniformNodeUnmarshaller.hxx"
+#include "RapidGL/UniformNodeUnmarshaller.h"
 using std::map;
 using std::runtime_error;
 using std::string;

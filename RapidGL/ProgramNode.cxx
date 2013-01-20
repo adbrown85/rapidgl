@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include "RapidGL/ProgramNode.hxx"
+#include "RapidGL/ProgramNode.h"
 namespace RapidGL {
 
 /**

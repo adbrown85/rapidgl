@@ -24,8 +24,8 @@
 #include <m3d/Quat.hxx>
 #include <m3d/Vec3.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/State.hxx"
-#include "RapidGL/TranslateNode.hxx"
+#include "RapidGL/State.h"
+#include "RapidGL/TranslateNode.h"
 
 
 /**

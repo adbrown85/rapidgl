@@ -19,12 +19,12 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <iostream>
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/SquareNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/SquareNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

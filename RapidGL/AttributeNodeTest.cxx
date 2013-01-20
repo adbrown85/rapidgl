@@ -19,9 +19,9 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <stdexcept>
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 using RapidGL::AttributeNode;
 
 

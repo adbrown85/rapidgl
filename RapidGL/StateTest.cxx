@@ -22,7 +22,7 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/State.hxx"
+#include "RapidGL/State.h"
 
 
 /**

@@ -23,18 +23,18 @@
 #include <Poco/Path.h>
 #include <stdexcept>
 #include <string>
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/ClearNode.hxx"
-#include "RapidGL/FloatUniformNode.hxx"
-#include "RapidGL/Node.hxx"
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/TextureNode.hxx"
-#include "RapidGL/TextureNodeUnmarshaller.hxx"
-#include "RapidGL/SquareNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/ClearNode.h"
+#include "RapidGL/FloatUniformNode.h"
+#include "RapidGL/Node.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/TextureNode.h"
+#include "RapidGL/TextureNodeUnmarshaller.h"
+#include "RapidGL/SquareNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

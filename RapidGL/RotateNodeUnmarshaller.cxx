@@ -20,7 +20,7 @@
 #include <vector>
 #include <m3d/Math.hxx>
 #include <m3d/Quat.hxx>
-#include "RapidGL/RotateNodeUnmarshaller.hxx"
+#include "RapidGL/RotateNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

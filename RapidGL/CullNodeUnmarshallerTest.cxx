@@ -19,9 +19,9 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "RapidGL/CullNode.hxx"
-#include "RapidGL/CullNodeUnmarshaller.hxx"
-#include "RapidGL/Node.hxx"
+#include "RapidGL/CullNode.h"
+#include "RapidGL/CullNodeUnmarshaller.h"
+#include "RapidGL/Node.h"
 
 
 /**

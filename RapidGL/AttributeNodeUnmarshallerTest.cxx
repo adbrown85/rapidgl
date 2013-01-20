@@ -20,9 +20,9 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <stdexcept>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/AttributeNodeUnmarshaller.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/AttributeNodeUnmarshaller.h"
 using std::runtime_error;
 using std::map;
 using std::string;

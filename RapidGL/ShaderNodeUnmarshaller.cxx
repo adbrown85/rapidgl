@@ -19,7 +19,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include "RapidGL/ShaderNodeUnmarshaller.hxx"
+#include "RapidGL/ShaderNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

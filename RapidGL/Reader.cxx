@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include "RapidGL/Reader.hxx"
+#include "RapidGL/Reader.h"
 namespace RapidGL {
 
 /**

@@ -26,13 +26,13 @@
 #include <m3d/Vec3.hxx>
 #include <m3d/Vec4.hxx>
 #include <GL/glfw.h>
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/CubeNode.hxx"
-#include "RapidGL/Mat4UniformNode.hxx"
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/CubeNode.h"
+#include "RapidGL/Mat4UniformNode.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

@@ -20,11 +20,11 @@
 #include <GL/glfw.h>
 #include <gloop/Program.hxx>
 #include <iostream>
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Vec4UniformNode.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Vec4UniformNode.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

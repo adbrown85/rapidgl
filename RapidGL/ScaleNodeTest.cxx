@@ -22,8 +22,8 @@
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec3.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/ScaleNode.hxx"
-#include "RapidGL/State.hxx"
+#include "RapidGL/ScaleNode.h"
+#include "RapidGL/State.h"
 
 
 /**

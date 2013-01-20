@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include "Poco/String.h"
-#include "RapidGL/Mat4UniformNode.hxx"
+#include "RapidGL/Mat4UniformNode.h"
 namespace RapidGL {
 
 // Map of usages by their name

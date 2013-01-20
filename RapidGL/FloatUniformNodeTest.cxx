@@ -19,11 +19,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <stdexcept>
-#include "RapidGL/FloatUniformNode.hxx"
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/FloatUniformNode.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

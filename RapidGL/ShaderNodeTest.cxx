@@ -19,7 +19,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <stdexcept>
-#include "RapidGL/ShaderNode.hxx"
+#include "RapidGL/ShaderNode.h"
 
 
 /**

@@ -18,7 +18,7 @@
 #include "config.h"
 #include <Poco/String.h>
 #include <stdexcept>
-#include "RapidGL/AttributeNodeUnmarshaller.hxx"
+#include "RapidGL/AttributeNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

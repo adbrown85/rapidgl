@@ -20,8 +20,8 @@
 #include <iostream>
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include "RapidGL/CullNode.hxx"
-#include "RapidGL/State.hxx"
+#include "RapidGL/CullNode.h"
+#include "RapidGL/State.h"
 
 
 /**

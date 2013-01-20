@@ -20,7 +20,7 @@
 #include <iostream>
 #include <Poco/String.h>
 #include <stdexcept>
-#include "RapidGL/AttributeNode.hxx"
+#include "RapidGL/AttributeNode.h"
 namespace RapidGL {
 
 // Usages indexed by name

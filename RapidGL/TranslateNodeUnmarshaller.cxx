@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <m3d/Vec3.hxx>
-#include "RapidGL/TranslateNodeUnmarshaller.hxx"
+#include "RapidGL/TranslateNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

@@ -19,8 +19,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "RapidGL/State.hxx"
-#include "RapidGL/TransformNode.hxx"
+#include "RapidGL/State.h"
+#include "RapidGL/TransformNode.h"
 
 
 /**

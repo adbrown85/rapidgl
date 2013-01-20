@@ -19,10 +19,10 @@
 #include <GL/glfw.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <iostream>
-#include "RapidGL/ClearNode.hxx"
-#include "RapidGL/Node.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/ClearNode.h"
+#include "RapidGL/Node.h"
+#include "RapidGL/State.h"
+#include "RapidGL/Visitor.h"
 using namespace std;
 
 

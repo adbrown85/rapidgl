@@ -19,7 +19,7 @@
 #include <stdexcept>
 #include <glycerin/BufferLayoutBuilder.hxx>
 #include <glycerin/BufferRegion.hxx>
-#include "RapidGL/SquareNode.hxx"
+#include "RapidGL/SquareNode.h"
 using std::map;
 using std::string;
 namespace RapidGL {

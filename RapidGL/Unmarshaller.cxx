@@ -18,7 +18,7 @@
 #include "config.h"
 #include <sstream>
 #include <stdexcept>
-#include "RapidGL/Unmarshaller.hxx"
+#include "RapidGL/Unmarshaller.h"
 namespace RapidGL {
 
 /**

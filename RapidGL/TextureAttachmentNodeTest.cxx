@@ -21,16 +21,16 @@
 #include <GL/glfw.h>
 #include <gloop/TextureObject.hxx>
 #include <gloop/TextureTarget.hxx>
-#include "RapidGL/AttributeNode.hxx"
-#include "RapidGL/ClearNode.hxx"
-#include "RapidGL/FramebufferNode.hxx"
-#include "RapidGL/ProgramNode.hxx"
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/SquareNode.hxx"
-#include "RapidGL/State.hxx"
-#include "RapidGL/TextureAttachmentNode.hxx"
-#include "RapidGL/TextureNode.hxx"
-#include "RapidGL/Visitor.hxx"
+#include "RapidGL/AttributeNode.h"
+#include "RapidGL/ClearNode.h"
+#include "RapidGL/FramebufferNode.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/SquareNode.h"
+#include "RapidGL/State.h"
+#include "RapidGL/TextureAttachmentNode.h"
+#include "RapidGL/TextureNode.h"
+#include "RapidGL/Visitor.h"
 
 
 /**

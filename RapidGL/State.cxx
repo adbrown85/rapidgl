@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
-#include "RapidGL/State.hxx"
+#include "RapidGL/State.h"
 namespace RapidGL {
 
 /**

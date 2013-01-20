@@ -21,9 +21,9 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/SceneNode.hxx"
-#include "RapidGL/SceneNodeUnmarshaller.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/SceneNode.h"
+#include "RapidGL/SceneNodeUnmarshaller.h"
 
 
 /**

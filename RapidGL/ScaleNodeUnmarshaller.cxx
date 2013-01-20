@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <m3d/Vec3.hxx>
-#include "RapidGL/ScaleNodeUnmarshaller.hxx"
+#include "RapidGL/ScaleNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

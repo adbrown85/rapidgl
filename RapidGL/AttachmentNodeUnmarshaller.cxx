@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include "Poco/String.h"
-#include "RapidGL/AttachmentNodeUnmarshaller.hxx"
+#include "RapidGL/AttachmentNodeUnmarshaller.h"
 using std::map;
 using std::string;
 namespace RapidGL {

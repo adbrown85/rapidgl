@@ -49,7 +49,7 @@ LDOPTS       := $(LDFLAGS) $(LIBS) $(DEPS_LIBS)
 all_sources  := $(wildcard $(srcdir)/$(namespace)/*.cxx)
 main_sources := $(filter-out %Test.cxx,$(all_sources))
 test_sources := $(filter %Test.cxx,$(all_sources))
-headers      := $(subst .cxx,.hxx,$(main_sources))
+headers      := $(subst .cxx,.h,$(main_sources))
 objects      := $(notdir $(subst .cxx,.lo,$(main_sources)))
 tests        := $(notdir $(subst .cxx,,$(test_sources)))
 depends      := $(subst .lo,.d,$(objects)) $(addsuffix .d,$(tests))
@@ -89,7 +89,7 @@ maintainer-clean: distclean
 # Objects
 .PHONY: objects
 objects: $(objects)
-%.lo: %.cxx %.hxx
+%.lo: %.cxx %.h
 	@echo "  CXX   $@"
 	@$(LIBTOOL) --mode=compile --quiet \
             $(CXX) \
@@ -150,14 +150,14 @@ uninstall:
 # Dependencies
 .PHONY: depends
 depends: $(depends)
-$(builddir)/%.d: %.hxx
+$(builddir)/%.d: %.h
 	@echo "  GEN   $@"
 	@$(INSTALL) -d $(builddir)
 	@$(CXX) \
             -I$(srcdir) \
             -MM \
             -MP \
-            $(subst .hxx,.cxx,$<) \
+            $(subst .h,.cxx,$<) \
             | sed 's|[[:alnum:]/]*/||g' \
             | sed 's|\([[:alnum:]]*\)\.o|\1.lo build/\1.d|' \
             > $@
@@ -171,7 +171,7 @@ $(builddir)/%Test.d: %Test.cxx
             $< \
             | sed 's|[[:alnum:]/]*/||g' \
             > $@~
-	@sed 's|\([[:alnum:]]*\)\.o|\1|;s|\.hxx|\.lo|g' $@~ > $@
+	@sed 's|\([[:alnum:]]*\)\.o|\1|;s|\([A-Z][[:alnum:]]*\)\.h|\1\.lo|g' $@~ > $@
 	@sed 's|\([[:alnum:]]*\)\.o|build/\1.d|' $@~ >> $@
 	@$(RM) $@~
 ifeq (clean,$(findstring clean,$(MAKECMDGOALS)))

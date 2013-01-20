@@ -18,7 +18,7 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include "RapidGL/ProgramNode.hxx"
+#include "RapidGL/ProgramNode.h"
 
 
 /**

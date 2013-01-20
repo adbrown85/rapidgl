@@ -23,9 +23,9 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <m3d/Vec3.hxx>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/ScaleNode.hxx"
-#include "RapidGL/ScaleNodeUnmarshaller.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/ScaleNode.h"
+#include "RapidGL/ScaleNodeUnmarshaller.h"
 
 
 /**

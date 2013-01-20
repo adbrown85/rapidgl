@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <Poco/String.h>
-#include "RapidGL/AttachmentNode.hxx"
+#include "RapidGL/AttachmentNode.h"
 namespace RapidGL {
 using std::map;
 using std::string;

@@ -21,7 +21,7 @@
 #include <gloop/VertexAttribPointer.hxx>
 #include <glycerin/BufferLayoutBuilder.hxx>
 #include <glycerin/BufferRegion.hxx>
-#include "RapidGL/CubeNode.hxx"
+#include "RapidGL/CubeNode.h"
 namespace RapidGL {
 
 // Array buffer target

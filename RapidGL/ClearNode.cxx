@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include "RapidGL/ClearNode.hxx"
+#include "RapidGL/ClearNode.h"
 namespace RapidGL {
 
 /**

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include "RapidGL/SquareNodeUnmarshaller.hxx"
+#include "RapidGL/SquareNodeUnmarshaller.h"
 
 
 /**

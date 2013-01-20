@@ -22,7 +22,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "RapidGL/AttachmentNode.hxx"
+#include "RapidGL/AttachmentNode.h"
 using RapidGL::AttachmentNode;
 
 

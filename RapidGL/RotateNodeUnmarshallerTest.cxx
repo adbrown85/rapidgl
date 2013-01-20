@@ -23,9 +23,9 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <m3d/Math.hxx>
 #include <m3d/Quat.hxx>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/RotateNode.hxx"
-#include "RapidGL/RotateNodeUnmarshaller.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/RotateNode.h"
+#include "RapidGL/RotateNodeUnmarshaller.h"
 
 
 /**

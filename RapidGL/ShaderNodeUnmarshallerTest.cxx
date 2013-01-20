@@ -19,8 +19,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <Poco/Path.h>
-#include "RapidGL/ShaderNode.hxx"
-#include "RapidGL/ShaderNodeUnmarshaller.hxx"
+#include "RapidGL/ShaderNode.h"
+#include "RapidGL/ShaderNodeUnmarshaller.h"
 
 
 /**

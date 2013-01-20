@@ -21,10 +21,10 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <map>
 #include <string>
-#include "RapidGL/ClearNode.hxx"
-#include "RapidGL/ClearNodeUnmarshaller.hxx"
-#include "RapidGL/Node.hxx"
-#include "RapidGL/Unmarshaller.hxx"
+#include "RapidGL/ClearNode.h"
+#include "RapidGL/ClearNodeUnmarshaller.h"
+#include "RapidGL/Node.h"
+#include "RapidGL/Unmarshaller.h"
 using namespace std;
 
 

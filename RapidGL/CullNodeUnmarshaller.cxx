@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <Poco/String.h>
-#include "RapidGL/CullNodeUnmarshaller.hxx"
+#include "RapidGL/CullNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

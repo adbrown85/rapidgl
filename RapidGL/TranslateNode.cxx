@@ -18,7 +18,7 @@
 #include "config.h"
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/TranslateNode.hxx"
+#include "RapidGL/TranslateNode.h"
 namespace RapidGL {
 
 /**

@@ -20,8 +20,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
 #include <sstream>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/Reader.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/Reader.h"
 
 
 /**

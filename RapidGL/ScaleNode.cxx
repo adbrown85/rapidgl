@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <m3d/Mat4.hxx>
-#include "RapidGL/ScaleNode.hxx"
+#include "RapidGL/ScaleNode.h"
 namespace RapidGL {
 
 /**

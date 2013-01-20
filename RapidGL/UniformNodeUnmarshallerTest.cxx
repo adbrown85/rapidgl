@@ -22,7 +22,7 @@
 #include <m3d/Mat4.hxx>
 #include <m3d/Vec3.hxx>
 #include <m3d/Vec4.hxx>
-#include "RapidGL/UniformNodeUnmarshaller.hxx"
+#include "RapidGL/UniformNodeUnmarshaller.h"
 using std::map;
 using std::string;
 

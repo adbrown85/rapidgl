@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include "RapidGL/Sampler2dUniformNode.hxx"
+#include "RapidGL/Sampler2dUniformNode.h"
 namespace RapidGL {
 
 /**

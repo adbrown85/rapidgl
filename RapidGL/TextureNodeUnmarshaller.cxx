@@ -25,7 +25,7 @@
 #include <glycerin/VolumeReader.hxx>
 #include <Poco/Path.h>
 #include <Poco/String.h>
-#include "RapidGL/TextureNodeUnmarshaller.hxx"
+#include "RapidGL/TextureNodeUnmarshaller.h"
 namespace RapidGL {
 
 /**

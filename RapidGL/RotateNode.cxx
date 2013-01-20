@@ -17,7 +17,7 @@
  */
 #include "config.h"
 #include <m3d/Mat4.hxx>
-#include "RapidGL/RotateNode.hxx"
+#include "RapidGL/RotateNode.h"
 namespace RapidGL {
 
 /**

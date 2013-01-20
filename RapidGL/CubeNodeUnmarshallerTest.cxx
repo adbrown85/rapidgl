@@ -22,9 +22,9 @@
 #include <string>
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
-#include "RapidGL/CubeNode.hxx"
-#include "RapidGL/CubeNodeUnmarshaller.hxx"
-#include "RapidGL/Node.hxx"
+#include "RapidGL/CubeNode.h"
+#include "RapidGL/CubeNodeUnmarshaller.h"
+#include "RapidGL/Node.h"
 
 
 /**

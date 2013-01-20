@@ -5,8 +5,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include "RapidGL/Node.hxx"
-#include "RapidGL/Unmarshaller.hxx"
+#include "RapidGL/Node.h"
+#include "RapidGL/Unmarshaller.h"
 namespace RapidGL {
 
 

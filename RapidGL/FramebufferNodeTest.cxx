@@ -22,11 +22,11 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <gloop/FramebufferTarget.hxx>
-#include "RapidGL/AttachmentNode.hxx"
-#include "RapidGL/ClearNode.hxx"
-#include "RapidGL/FramebufferNode.hxx"
-#include "RapidGL/Node.hxx"
-#include "RapidGL/State.hxx"
+#include "RapidGL/AttachmentNode.h"
+#include "RapidGL/ClearNode.h"
+#include "RapidGL/FramebufferNode.h"
+#include "RapidGL/Node.h"
+#include "RapidGL/State.h"
 
 
 /**
