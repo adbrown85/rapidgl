@@ -97,9 +97,6 @@ public:
      */
     void testVisit() {
 
-        // Make a uniform node and connect it
-        programNode.addChild(&uniformNode);
-
         // Set the value
         uniformNode.setValue(M3d::Vec3(1.0f, 2.0f, 3.0f));
 
