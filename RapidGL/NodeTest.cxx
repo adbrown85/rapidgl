@@ -77,6 +77,14 @@ public:
     }
 
     /**
+     * Ensures `Node::addChild(Node*)` throws if passed a pointer to the same node.
+     */
+    void testAddChildWithSelf() {
+        FooNode node;
+        CPPUNIT_ASSERT_THROW(node.addChild(&node), std::invalid_argument);
+    }
+
+    /**
      * Ensures findAncestor<T>(Node*. const std::string&) finds the correct ancestor.
      */
     void testFindAncestorNodeStringWithAncestorOfTypeAndWithId() {
@@ -331,6 +339,7 @@ public:
 
     CPPUNIT_TEST_SUITE(NodeTest);
     CPPUNIT_TEST(testAddChild);
+    CPPUNIT_TEST(testAddChildWithSelf);
     CPPUNIT_TEST(testFindAncestorNodeStringWithAncestorOfTypeAndWithId);
     CPPUNIT_TEST(testFindAncestorNodeStringWithEmptyId);
     CPPUNIT_TEST(testFindAncestorNodeStringWithNoAncestorOfType);

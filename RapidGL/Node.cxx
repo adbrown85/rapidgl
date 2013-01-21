@@ -96,11 +96,13 @@ Node::~Node() {
  * Adds a node as a child of this node.
  *
  * @param node Pointer to the node to add as a child of this node
- * @throws invalid_argument if node is `NULL`
+ * @throws invalid_argument if node is `NULL` or this node
  */
 void Node::addChild(Node* const node) {
     if (node == NULL) {
         throw std::invalid_argument("[Node] Child node is NULL!");
+    } else if (node == this) {
+        throw std::invalid_argument("[Node] Cannot add self as child!");
     }
     children.push_back(node);
     node->parent = this;
