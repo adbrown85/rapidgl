@@ -1,3 +1,16 @@
+v0.4.0
+ - All headers use 'h' extension
+ - Node::visit is pure virtual
+ - ProgramNode required to have identifier
+ - Added UseNode for reusing programs
+ - Shape and uniform nodes look for UseNode instead of ProgramNode
+ - ProgramNode no longer uses program when visited
+ - Added SceneNode
+ - Added findRoot and findDescendant utility methods
+ - Node::addChild checks for self
+ - Use 'bin' for build directory
+ - Renamed 'check' make target to 'test'
+
 v0.3.2
  - Fixed SquareNode not checking for missing program node
  - ClearNodeUnmarshaller rejects invalid values
