@@ -99,7 +99,7 @@ objects: $(objects)
             $<
 
 # Tests
-.PHONY: check tests
+.PHONY: test tests
 tests: $(tests)
 %Test: %Test.cxx
 	@echo "  CXX   $@"
@@ -109,7 +109,7 @@ tests: $(tests)
             $(CXXOPTS) $(LDOPTS) \
             $< \
             $(addprefix $(builddir)/,$(notdir $(filter %.lo,$^)))
-check: tests
+test: tests
 	@for i in $(tests); do $(builddir)/$$i; done
 
 # Library
