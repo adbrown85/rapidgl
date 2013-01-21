@@ -76,7 +76,7 @@ void ProgramNode::preVisit(State& state) {
 }
 
 void ProgramNode::visit(State& state) {
-    program.use();
+    // empty
 }
 
 } /* namespace RapidGL */
