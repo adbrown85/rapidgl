@@ -1,3 +1,6 @@
+v0.4.1
+ - Depend on M3d v0.3 and Glycerin v0.5.1
+
 v0.4.0
  - All headers use 'h' extension
  - Node::visit is pure virtual
