@@ -19,8 +19,8 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include <iostream>
-#include <m3d/Mat4.hxx>
-#include <m3d/Vec4.hxx>
+#include <m3d/Mat4.h>
+#include <m3d/Vec4.h>
 #include <stdexcept>
 #include <string>
 #include "RapidGL/Mat4UniformNode.h"

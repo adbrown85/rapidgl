@@ -18,7 +18,7 @@
 #ifndef RAPIDGL_MAT3_UNIFORM_NODE_H
 #define RAPIDGL_MAT3_UNIFORM_NODE_H
 #include <string>
-#include <m3d/Mat3.hxx>
+#include <m3d/Mat3.h>
 #include "RapidGL/common.h"
 #include "RapidGL/UniformNode.h"
 namespace RapidGL {

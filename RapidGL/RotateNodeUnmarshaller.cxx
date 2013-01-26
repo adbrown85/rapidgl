@@ -18,8 +18,8 @@
 #include "config.h"
 #include <stdexcept>
 #include <vector>
-#include <m3d/Math.hxx>
-#include <m3d/Quat.hxx>
+#include <m3d/Math.h>
+#include <m3d/Quat.h>
 #include "RapidGL/RotateNodeUnmarshaller.h"
 namespace RapidGL {
 

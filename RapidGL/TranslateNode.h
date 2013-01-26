@@ -17,7 +17,7 @@
  */
 #ifndef RAPIDGL_TRANSLATE_NODE_H
 #define RAPIDGL_TRANSLATE_NODE_H
-#include <m3d/Vec3.hxx>
+#include <m3d/Vec3.h>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"

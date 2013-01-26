@@ -17,7 +17,7 @@
  */
 #ifndef RAPIDGL_VEC4_UNIFORM_NODE_H
 #define RAPIDGL_VEC4_UNIFORM_NODE_H
-#include <m3d/Vec4.hxx>
+#include <m3d/Vec4.h>
 #include <string>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"

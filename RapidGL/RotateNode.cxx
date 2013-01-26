@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
-#include <m3d/Mat4.hxx>
+#include <m3d/Mat4.h>
 #include "RapidGL/RotateNode.h"
 namespace RapidGL {
 

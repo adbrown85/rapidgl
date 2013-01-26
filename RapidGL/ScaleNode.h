@@ -17,7 +17,7 @@
  */
 #ifndef RAPIDGL_SCALE_NODE_H
 #define RAPIDGL_SCALE_NODE_H
-#include <m3d/Vec3.hxx>
+#include <m3d/Vec3.h>
 #include "RapidGL/common.h"
 #include "RapidGL/TransformNode.h"
 #include "RapidGL/State.h"

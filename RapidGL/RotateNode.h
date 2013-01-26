@@ -17,7 +17,7 @@
  */
 #ifndef RAPIDGL_ROTATE_NODE_H
 #define RAPIDGL_ROTATE_NODE_H
-#include <m3d/Quat.hxx>
+#include <m3d/Quat.h>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"

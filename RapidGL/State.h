@@ -18,7 +18,7 @@
 #ifndef RAPIDGL_STATE_H
 #define RAPIDGL_STATE_H
 #include <glycerin/MatrixStack.hxx>
-#include <m3d/Mat4.hxx>
+#include <m3d/Mat4.h>
 #include "RapidGL/common.h"
 namespace RapidGL {
 

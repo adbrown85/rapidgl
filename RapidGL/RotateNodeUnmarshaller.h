@@ -19,7 +19,7 @@
 #define RAPIDGL_ROTATE_NODE_UNMARSHALLER_H
 #include <map>
 #include <string>
-#include <m3d/Vec3.hxx>
+#include <m3d/Vec3.h>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/RotateNode.h"
