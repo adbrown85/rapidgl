@@ -41,6 +41,7 @@ std::vector<M3d::Vec3> CubeNode::COORDS = createCoords();
  */
 CubeNode::CubeNode() :
         ready(false),
+        boundingBox(createBoundingBox()),
         layout(createBufferLayout()),
         vao(Gloop::VertexArrayObject::generate()),
         vbo(Gloop::BufferObject::generate()) {
@@ -75,6 +76,15 @@ CubeNode::CubeNode() :
 CubeNode::~CubeNode() {
     vao.dispose();
     vbo.dispose();
+}
+
+/**
+ * Creates the bounding box the cube delegates to for intersection testing.
+ */
+Glycerin::AxisAlignedBoundingBox CubeNode::createBoundingBox() {
+    const M3d::Vec4 min(-0.5, -0.5, -0.5, 1.0);
+    const M3d::Vec4 max(+0.5, +0.5, +0.5, 1.0);
+    return Glycerin::AxisAlignedBoundingBox(min, max);
 }
 
 /**
@@ -147,6 +157,10 @@ std::vector<M3d::Vec3> CubeNode::createPoints() {
     points.push_back(M3d::Vec3(-0.5, +0.5, -0.5));
     points.push_back(M3d::Vec3(+0.5, +0.5, -0.5));
     return points;
+}
+
+double CubeNode::intersect(const Glycerin::Ray& ray) const {
+    return boundingBox.intersect(ray);
 }
 
 void CubeNode::preVisit(State& state) {

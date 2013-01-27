@@ -21,10 +21,13 @@
 #include <gloop/BufferObject.hxx>
 #include <gloop/BufferTarget.hxx>
 #include <gloop/VertexArrayObject.hxx>
+#include <glycerin/AxisAlignedBoundingBox.hxx>
 #include <glycerin/BufferLayout.hxx>
+#include <glycerin/Ray.hxx>
 #include <m3d/Vec3.h>
 #include "RapidGL/common.h"
 #include "RapidGL/AttributeNode.h"
+#include "RapidGL/Intersectable.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/State.h"
@@ -35,11 +38,12 @@ namespace RapidGL {
 /**
  * Node that draws a cube.
  */
-class CubeNode : public Node {
+class CubeNode : public Node, public Intersectable {
 public:
 // Methods
     CubeNode();
     virtual ~CubeNode();
+    virtual double intersect(const Glycerin::Ray& ray) const;
     virtual void preVisit(State& state);
     virtual void visit(State& state);
 private:
@@ -51,10 +55,12 @@ private:
     static std::vector<M3d::Vec3> COORDS;
 // Attributes
     bool ready;
+    const Glycerin::AxisAlignedBoundingBox boundingBox;
     const Gloop::BufferObject vbo;
     const Glycerin::BufferLayout layout;
     const Gloop::VertexArrayObject vao;
 // Methods
+    static Glycerin::AxisAlignedBoundingBox createBoundingBox();
     static Glycerin::BufferLayout createBufferLayout();
     static std::vector<M3d::Vec3> createCoords();
     static std::vector<int> createIndices();

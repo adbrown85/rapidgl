@@ -20,6 +20,7 @@
 #include <string>
 #include <cppunit/extensions/HelperMacros.h>
 #include <glycerin/Projection.hxx>
+#include <glycerin/Ray.hxx>
 #include <m3d/Mat4.h>
 #include <m3d/Math.h>
 #include <m3d/Quat.h>
@@ -28,6 +29,7 @@
 #include <GL/glfw.h>
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/CubeNode.h"
+#include "RapidGL/Intersectable.h"
 #include "RapidGL/Mat4UniformNode.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/SceneNode.h"
@@ -45,6 +47,9 @@ public:
 
     // Number of seconds to sleep after rendering
     static const double SLEEP_TIME_IN_SECONDS = 2.0;
+
+    // Threshold for floating-point comparisons
+    static const double TOLERANCE = 1e-6;
 
     /**
      * Returns the source code for the vertex shader.
@@ -158,6 +163,24 @@ public:
     }
 
     /**
+     * Ensures `CubeNode::intersect` works correctly.
+     */
+    void testIntersect() {
+
+        // Make ray
+        const M3d::Vec4 origin(0, 0, 10, 1);
+        const M3d::Vec4 direction(0, 0, -1, 0);
+        const Glycerin::Ray ray(origin, direction);
+
+        // Make cube node
+        const RapidGL::CubeNode node;
+        const RapidGL::Intersectable* intersectable = dynamic_cast<const RapidGL::Intersectable*>(&node);
+        CPPUNIT_ASSERT(intersectable != NULL);
+        const double t = intersectable->intersect(ray);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(9.5, t, TOLERANCE);
+    }
+
+    /**
      * Ensures `CubeNode::visit` works correctly.
      */
     void testVisit() {
@@ -199,6 +222,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         CubeNodeTest test;
+        test.testIntersect();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
