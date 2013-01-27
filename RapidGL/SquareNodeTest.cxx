@@ -18,8 +18,11 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
+#include <glycerin/Ray.hxx>
 #include <iostream>
+#include <m3d/Vec4.h>
 #include "RapidGL/AttributeNode.h"
+#include "RapidGL/Intersectable.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/SceneNode.h"
 #include "RapidGL/ShaderNode.h"
@@ -37,6 +40,9 @@ public:
 
     // Number of seconds to sleep after rendering
     static const double SLEEP_TIME_IN_SECONDS = 1.0;
+
+    // Threshold for floating-point comparisons
+    static const double TOLERANCE = 1e-6;
 
     /**
      * Returns the source code for the vertex shader.
@@ -68,6 +74,24 @@ public:
 
     // Reusable state since `SquareNode` doesn't use it
     RapidGL::State state;
+
+    /**
+     * Ensures `SquareNode::intersect` works correctly.
+     */
+    void testIntersect() {
+
+        // Make ray
+        const M3d::Vec4 origin(0, 0, 10, 1);
+        const M3d::Vec4 direction(0, 0, -1, 0);
+        const Glycerin::Ray ray(origin, direction);
+
+        // Make square node
+        const RapidGL::SquareNode node;
+        const RapidGL::Intersectable *intersectable = dynamic_cast<const RapidGL::Intersectable*>(&node);
+        CPPUNIT_ASSERT(intersectable != NULL);
+        const double t = intersectable->intersect(ray);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(10, t, TOLERANCE);
+    }
 
     /**
      * Ensures `SquareNode::preVisit` throws if could not find program node.
@@ -127,6 +151,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         SquareNodeTest test;
+        test.testIntersect();
         test.testPreVisitWithNoProgramNode();
         test.testVisit();
     } catch (std::exception& e) {

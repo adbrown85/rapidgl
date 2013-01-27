@@ -32,6 +32,7 @@ Glycerin::BufferLayout SquareNode::bufferLayout = createBufferLayout();
  */
 SquareNode::SquareNode() :
         prepared(false),
+        boundingBox(createBoundingBox()),
         vao(Gloop::VertexArrayObject::generate()),
         vbo(Gloop::BufferObject::generate()) {
 
@@ -74,6 +75,15 @@ SquareNode::~SquareNode() {
 }
 
 /**
+ * Creates the bounding box that a square node delegates to for intersection tests.
+ */
+Glycerin::AxisAlignedBoundingBox SquareNode::createBoundingBox() {
+    const M3d::Vec4 min(-0.5, -0.5, 0.0, 1.0);
+    const M3d::Vec4 max(+0.5, +0.5, 0.0, 1.0);
+    return Glycerin::AxisAlignedBoundingBox(min, max);
+}
+
+/**
  * Creates the buffer layout.
  */
 Glycerin::BufferLayout SquareNode::createBufferLayout() {
@@ -83,6 +93,10 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
         .region("POINT")
         .region("COORDINATE")
         .build();
+}
+
+double SquareNode::intersect(const Glycerin::Ray& ray) const {
+    return boundingBox.intersect(ray);
 }
 
 void SquareNode::preVisit(State& state) {
