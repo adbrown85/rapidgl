@@ -159,7 +159,7 @@ $(builddir)/%.d: %.h
             -MP \
             $(subst .h,.cxx,$<) \
             | sed 's|[[:alnum:]/]*/||g' \
-            | sed 's|\([[:alnum:]]*\)\.o|\1.lo build/\1.d|' \
+            | sed 's|\([[:alnum:]]*\)\.o|\1.lo $(builddir)/\1.d|' \
             > $@
 $(builddir)/%Test.d: %Test.cxx
 	@echo "  GEN   $@"
@@ -172,7 +172,7 @@ $(builddir)/%Test.d: %Test.cxx
             | sed 's|[[:alnum:]/]*/||g' \
             > $@~
 	@sed 's|\([[:alnum:]]*\)\.o|\1|;s|\([A-Z][[:alnum:]]*\)\.h|\1\.lo|g' $@~ > $@
-	@sed 's|\([[:alnum:]]*\)\.o|build/\1.d|' $@~ >> $@
+	@sed 's|\([[:alnum:]]*\)\.o|$(builddir)/\1.d|' $@~ >> $@
 	@$(RM) $@~
 ifeq (clean,$(findstring clean,$(MAKECMDGOALS)))
   # empty
