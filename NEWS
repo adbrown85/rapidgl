@@ -1,3 +1,7 @@
+v0.5
+ - Added Intersectable
+ - CubeNode and SquareNode implement Intersectable
+
 v0.4.2
  - Fixed dependency files not being generated using 'builddir' variable
 
