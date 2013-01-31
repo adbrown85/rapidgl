@@ -23,6 +23,7 @@
 #include "RapidGL/AttachmentNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/TextureAttachmentNode.h"
+#include "RapidGL/RenderbufferAttachmentNode.h"
 #include "RapidGL/Unmarshaller.h"
 namespace RapidGL {
 
@@ -39,6 +40,10 @@ public:
 private:
 // Types
     class TextureAttachmentNodeUnmarshaller : public Unmarshaller {
+    public:
+        virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
+    };
+    class RenderbufferAttachmentNodeUnmarshaller : public Unmarshaller {
     public:
         virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
     };

@@ -47,6 +47,7 @@ AttachmentNodeUnmarshaller::~AttachmentNodeUnmarshaller() {
 map<string,Unmarshaller*> AttachmentNodeUnmarshaller::createDelegates() {
     map<string,Unmarshaller*> delegates;
     delegates["texture"] = new TextureAttachmentNodeUnmarshaller();
+    delegates["renderbuffer"] = new RenderbufferAttachmentNodeUnmarshaller();
     return delegates;
 }
 
@@ -118,6 +119,12 @@ AttachmentNode::Usage AttachmentNodeUnmarshaller::getUsage(const map<string,stri
     } catch (std::invalid_argument& e) {
         throw std::runtime_error("[AttachmentNodeUnmarshaller] Usage is invalid!");
     }
+}
+
+Node* AttachmentNodeUnmarshaller::RenderbufferAttachmentNodeUnmarshaller::unmarshal(const map<string,string>& a) {
+    const AttachmentNode::Usage usage = getUsage(a);
+    const std::string link = getLink(a);
+    return new RenderbufferAttachmentNode(usage, link);
 }
 
 Node* AttachmentNodeUnmarshaller::TextureAttachmentNodeUnmarshaller::unmarshal(const map<string,string>& attributes) {

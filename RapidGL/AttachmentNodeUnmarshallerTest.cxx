@@ -56,6 +56,28 @@ public:
     }
 
     /**
+     * Ensures `AttachmentNodeUnmarshaller::unmarshal` works when _type_ is _renderbuffer_.
+     */
+    void testUnmarshalWhenTypeIsRenderbuffer() {
+
+        // Make map
+        std::map<std::string,std::string> attributes;
+        attributes["type"] = "renderbuffer";
+        attributes["link"] = "foo";
+        attributes["usage"] = "color";
+
+        // Unmarshal
+        RapidGL::Node* node = unmarshaller.unmarshal(attributes);
+        CPPUNIT_ASSERT(node != NULL);
+        RapidGL::RenderbufferAttachmentNode* attachmentNode = dynamic_cast<RapidGL::RenderbufferAttachmentNode*>(node);
+        CPPUNIT_ASSERT(attachmentNode != NULL);
+
+        // Check fields
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), attachmentNode->getLink());
+        CPPUNIT_ASSERT_EQUAL(RapidGL::AttachmentNode::COLOR, attachmentNode->getUsage());
+    }
+
+    /**
      * Ensures `AttachmentNodeUnmarshaller::unmarshal` works when _type_ is _texture_ and _usage_ is _color_.
      */
     void testUnmarshalWhenTypeIsTextureAndUsageIsColor() {
@@ -200,6 +222,7 @@ int main(int argc, char* argv[]) {
         AttachmentNodeUnmarshallerTest test;
         test.testUnmarshalWhenTypeIsEmpty();
         test.testUnmarshalWhenTypeIsFoo();
+        test.testUnmarshalWhenTypeIsRenderbuffer();
         test.testUnmarshalWhenTypeIsTextureAndUsageIsColor();
         test.testUnmarshalWhenTypeIsTextureAndUsageIsDepth();
         test.testUnmarshalWhenTypeIsTextureAndUsageIsStencil();
