@@ -38,8 +38,11 @@ Node* findDescendant(Node* root, const std::string& id) {
         throw std::invalid_argument("Identifier is empty!");
     }
 
+    // Allocate a queue and add the root
     std::deque<Node*> q;
     q.push_back(root);
+
+    // Search for node with ID
     while (!q.empty()) {
         Node* node = q.front();
         q.pop_front();
@@ -51,6 +54,8 @@ Node* findDescendant(Node* root, const std::string& id) {
             q.push_back((*it));
         }
     }
+
+    // Nothing found
     return NULL;
 }
 
