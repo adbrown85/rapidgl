@@ -30,7 +30,7 @@ namespace RapidGL {
  * @return Pointer to the node, or `NULL` if it could not be found
  * @throws invalid_argument if root node is `NULL` or identifer is empty
  */
-Node* findDescendant(Node* root, const std::string& id) {
+Node* findDescendant(const Node* root, const std::string& id) {
 
     if (root == NULL) {
         throw std::invalid_argument("Root node is NULL!");
