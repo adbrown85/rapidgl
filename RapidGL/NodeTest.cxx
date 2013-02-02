@@ -268,6 +268,14 @@ public:
     }
 
     /**
+     * Ensures `findDescendant(Node*, string)` returns `NULL` if the root has the identifier.
+     */
+    void testFindDescendantWhenIdIsRoot() {
+        FooNode root("foo");
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, RapidGL::findDescendant(&root, "foo"));
+    }
+
+    /**
      * Ensures `findDescendant(Node*, string)` throws if passed the empty string.
      */
     void testFindDescendantWithEmptyString() {
@@ -352,6 +360,7 @@ public:
     CPPUNIT_TEST(testFindAncestorNodeWithNull);
     CPPUNIT_TEST(testFindDescendantWhenIdIsInScene);
     CPPUNIT_TEST(testFindDescendantWhenIdIsNotInScene);
+    CPPUNIT_TEST(testFindDescendantWhenIdIsRoot);
     CPPUNIT_TEST(testFindDescendantWithEmptyString);
     CPPUNIT_TEST(testFindDescendantWithNull);
     CPPUNIT_TEST(testFindRootWithChild);
