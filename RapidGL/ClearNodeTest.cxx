@@ -44,24 +44,7 @@ public:
      * Constructs a ClearNodeTest.
      */
     ClearNodeTest() : clearNode(new RapidGL::ClearNode()) {
-
-        // Check initial values
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getAlpha(), TOLERANCE);
-
-        // Set the values
-        clearNode->setRed(0.1f);
-        clearNode->setGreen(0.2f);
-        clearNode->setBlue(0.3f);
-        clearNode->setAlpha(0.4f);
-
-        // Check new values
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, clearNode->getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, clearNode->getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, clearNode->getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, clearNode->getAlpha(), TOLERANCE);
+        // empty
     }
 
     /**

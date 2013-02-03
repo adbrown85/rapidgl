@@ -43,55 +43,48 @@ ClearNodeUnmarshaller::~ClearNodeUnmarshaller() {
  */
 Node* ClearNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
 
-    // Create the node
-    ClearNode* const clearNode = new ClearNode();
-
     // Parse for red
-    const map<string,string>::const_iterator red = attributes.find("red");
-    if (red != attributes.end()) {
+    GLfloat red = 0.0f;
+    if (attributes.count("red") > 0) {
         try {
-            const GLfloat value = parseFloat(red->second.c_str());
-            clearNode->setRed(value);
+            red = parseFloat(attributes.find("red")->second.c_str());
         } catch (std::invalid_argument& e) {
             throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse red value!");
         }
     }
 
     // Parse for green
-    const map<string,string>::const_iterator green = attributes.find("green");
-    if (green != attributes.end()) {
+    GLfloat green = 0.0f;
+    if (attributes.count("green") > 0) {
         try {
-            const GLfloat value = parseFloat(green->second.c_str());
-            clearNode->setGreen(value);
+            green = parseFloat(attributes.find("green")->second.c_str());
         } catch (std::invalid_argument& e) {
             throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse green value!");
         }
     }
 
     // Parse for blue
-    const map<string,string>::const_iterator blue = attributes.find("blue");
-    if (blue != attributes.end()) {
+    GLfloat blue = 0.0f;
+    if (attributes.count("blue") > 0) {
         try {
-            const GLfloat value = parseFloat(blue->second.c_str());
-            clearNode->setBlue(value);
+            blue = parseFloat(attributes.find("blue")->second.c_str());
         } catch (std::invalid_argument& e) {
             throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse blue value!");
         }
     }
 
     // Parse for alpha
-    const map<string,string>::const_iterator alpha = attributes.find("alpha");
-    if (alpha != attributes.end()) {
+    GLfloat alpha = 1.0f;
+    if (attributes.count("alpha") > 0) {
         try {
-            const GLfloat value = parseFloat(alpha->second.c_str());
-            clearNode->setAlpha(value);
+            alpha = parseFloat(attributes.find("alpha")->second.c_str());
         } catch (std::invalid_argument& e) {
             throw std::runtime_error("[ClearNodeUnmarshaller] Could not parse alpha value!");
         }
     }
 
     // Return the node
-    return clearNode;
+    return new ClearNode(red, green, blue, alpha);
 }
 
 } /* namespace RapidGL */

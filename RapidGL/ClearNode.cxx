@@ -93,42 +93,6 @@ GLfloat ClearNode::getRed() const {
     return red;
 }
 
-/**
- * Changes the alpha component of the clear color.
- *
- * @param alpha Alpha component of the clear color, which will be clamped to [0, 1]
- */
-void ClearNode::setAlpha(const GLfloat alpha) {
-    this->alpha = clamp(alpha);
-}
-
-/**
- * Changes the blue component of the clear color.
- *
- * @param blue Blue component of the clear color, which will be clamped to [0, 1]
- */
-void ClearNode::setBlue(const GLfloat blue) {
-    this->blue = clamp(blue);
-}
-
-/**
- * Changes the green component of the clear color.
- *
- * @param green Green component of the clear color, which will be clamped to [0, 1]
- */
-void ClearNode::setGreen(const GLfloat green) {
-    this->green = clamp(green);
-}
-
-/**
- * Changes the red component of the clear color.
- *
- * @param red Red component of the clear color, which will be clamped to [0, 1]
- */
-void ClearNode::setRed(const GLfloat red) {
-    this->red = clamp(red);
-}
-
 void ClearNode::visit(State& state) {
     glClearColor(red, green, blue, alpha);
     glClear(GL_COLOR_BUFFER_BIT);

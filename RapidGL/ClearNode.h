@@ -41,17 +41,13 @@ public:
     GLfloat getBlue() const;
     GLfloat getGreen() const;
     GLfloat getRed() const;
-    void setAlpha(GLfloat alpha);
-    void setBlue(GLfloat blue);
-    void setGreen(GLfloat green);
-    void setRed(GLfloat red);
     virtual void visit(State& state);
 private:
 // Attributes
-    GLfloat red;
-    GLfloat green;
-    GLfloat blue;
-    GLfloat alpha;
+    const GLfloat red;
+    const GLfloat green;
+    const GLfloat blue;
+    const GLfloat alpha;
 // Methods
     static GLfloat clamp(GLfloat value);
 };
