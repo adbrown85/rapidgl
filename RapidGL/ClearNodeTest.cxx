@@ -72,7 +72,7 @@ public:
      * Ensures `ClearNode::ClearNode()` initializes values properly.
      */
     void testClearNode() {
-        RapidGL::ClearNode node;
+        const RapidGL::ClearNode node;
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
@@ -83,7 +83,7 @@ public:
      * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` initializes values properly.
      */
     void testClearNodeFloatFloatFloatFloat() {
-        RapidGL::ClearNode node(0.1f, 0.2f, 0.3f, 0.4f);
+        const RapidGL::ClearNode node(0.1f, 0.2f, 0.3f, 0.4f);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, node.getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, node.getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, node.getBlue(), TOLERANCE);
