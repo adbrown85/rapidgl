@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
+#include <map>
+#include <string>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <map>
-#include <string>
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/ClearNodeUnmarshaller.h"
 #include "RapidGL/Node.h"
