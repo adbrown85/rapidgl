@@ -23,7 +23,6 @@
 #include <GL/glfw.h>
 #include <gloop/FramebufferTarget.hxx>
 #include "RapidGL/AttachmentNode.h"
-#include "RapidGL/ClearNode.h"
 #include "RapidGL/FramebufferNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
@@ -34,6 +33,15 @@
  */
 class FramebufferNodeTest {
 public:
+
+    /**
+     * Fake node for testing.
+     */
+    class FakeNode : public RapidGL::Node {
+    public:
+        FakeNode(const std::string& id = "") : RapidGL::Node(id) { }
+        virtual void visit(RapidGL::State& state) { }
+    };
 
     /**
      * Node that attaches a renderbuffer to the first color attachment.
@@ -84,9 +92,9 @@ public:
      * Ensures `FramebufferNode::preVisit` throws if it has no attachments.
      */
     void testPreVisitWithNoAttachment() {
-        RapidGL::ClearNode clearNode;
+        FakeNode fakeNode;
         RapidGL::FramebufferNode framebufferNode;
-        framebufferNode.addChild(&clearNode);
+        framebufferNode.addChild(&fakeNode);
         CPPUNIT_ASSERT_THROW(framebufferNode.preVisit(state), std::runtime_error);
         drawFramebuffer.unbind();
     }
