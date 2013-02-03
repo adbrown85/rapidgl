@@ -35,7 +35,6 @@ public:
     static const GLfloat DEFAULT_ALPHA = 1.0f; ///< Initial value for alpha component
 // Methods
     ClearNode();
-    ClearNode(GLfloat red, GLfloat green, GLfloat blue);
     ClearNode(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
     virtual ~ClearNode();
     virtual void visit(State& state);

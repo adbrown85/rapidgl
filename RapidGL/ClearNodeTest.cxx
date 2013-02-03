@@ -80,17 +80,6 @@ public:
     }
 
     /**
-     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat)` initializes values properly.
-     */
-    void testClearNodeFloatFloatFloat() {
-        RapidGL::ClearNode node(0.1f, 0.2f, 0.3f);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, node.getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, node.getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getAlpha(), TOLERANCE);
-    }
-
-    /**
      * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` initializes values properly.
      */
     void testClearNodeFloatFloatFloatFloat() {
@@ -134,7 +123,6 @@ int main(int argc, char* argv[]) {
     try {
         ClearNodeTest test;
         test.testClearNode();
-        test.testClearNodeFloatFloatFloat();
         test.testClearNodeFloatFloatFloatFloat();
         test.testVisit();
     } catch (exception& e) {

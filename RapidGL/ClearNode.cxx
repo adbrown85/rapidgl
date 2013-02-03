@@ -28,18 +28,6 @@ ClearNode::ClearNode() : red(DEFAULT_RED), green(DEFAULT_GREEN), blue(DEFAULT_BL
 }
 
 /**
- * Constructs a clear node from red, green, and blue values using a default alpha value.
- *
- * @param red Value for red component
- * @param green Value for green component
- * @param blue Value for blue component
- */
-ClearNode::ClearNode(const GLfloat red, const GLfloat green, const GLfloat blue) :
-        red(red), green(green), blue(blue), alpha(DEFAULT_ALPHA) {
-    // empty
-}
-
-/**
  * Constructs a clear node from red, green, blue, and alpha values.
  *
  * @param red Value for red component
