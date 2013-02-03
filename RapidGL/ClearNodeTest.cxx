@@ -16,9 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
-#include <GL/glfw.h>
-#include <cppunit/extensions/HelperMacros.h>
 #include <iostream>
+#include <cppunit/extensions/HelperMacros.h>
+#include <GL/glfw.h>
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
