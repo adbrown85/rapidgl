@@ -1,3 +1,15 @@
+v0.6
+ - Added RenderbufferNode and RenderbufferAttachmentNode
+ - Added DepthFunctionNode
+ - Added PolygonModeNode
+ - ClearNode takes Glycerin::Color
+ - ClearNode supports clearing depth buffer
+ - ClearNode clamps values instead of throwing exception
+ - ClearNode is immutable
+ - findDescendant function does not consider root
+ - findDescendant takes a pointer to a const Node
+ - Depend on Gloop v0.6 and Glycerin v0.7
+
 v0.5
  - Added Intersectable
  - CubeNode and SquareNode implement Intersectable
