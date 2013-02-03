@@ -38,17 +38,14 @@ public:
     static const GLfloat TOLERANCE = 1e-6f;
 
     // Clear node
-    RapidGL::ClearNode* clearNode;
+    RapidGL::ClearNode* const clearNode;
 
     /**
      * Constructs a ClearNodeTest.
      */
-    ClearNodeTest() {
+    ClearNodeTest() : clearNode(new RapidGL::ClearNode()) {
 
-        // Create the clear node
-        clearNode = new RapidGL::ClearNode();
-
-        // Check its initial values
+        // Check initial values
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getBlue(), TOLERANCE);
@@ -60,7 +57,7 @@ public:
         clearNode->setBlue(0.3f);
         clearNode->setAlpha(0.4f);
 
-        // Check its new values
+        // Check new values
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, clearNode->getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, clearNode->getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, clearNode->getBlue(), TOLERANCE);
