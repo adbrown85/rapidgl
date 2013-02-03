@@ -23,7 +23,6 @@
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
-using namespace std;
 
 
 /**
@@ -107,7 +106,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize GLFW
     if (!glfwInit()) {
-        throw runtime_error("Could not initialize GLFW!");
+        throw std::runtime_error("Could not initialize GLFW!");
     }
 
     // Open a window
@@ -115,7 +114,7 @@ int main(int argc, char* argv[]) {
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
     glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     if (!glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
-        throw runtime_error("Could not open window!");
+        throw std::runtime_error("Could not open window!");
     }
 
     // Run test
@@ -124,8 +123,8 @@ int main(int argc, char* argv[]) {
         test.testClearNode();
         test.testClearNodeFloatFloatFloatFloat();
         test.testVisit();
-    } catch (exception& e) {
-        cerr << e.what() << endl;
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
         throw;
     }
 
