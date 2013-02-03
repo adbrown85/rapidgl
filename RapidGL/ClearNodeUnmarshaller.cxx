@@ -72,14 +72,80 @@ Glycerin::Color ClearNodeUnmarshaller::getColor(const map<string,string>& attrib
 }
 
 /**
+ * Returns the value of the _depth_ attribute in a map.
+ *
+ * @param attributes Map of attributes to look in
+ * @return Value of the attribute
+ * @throws std::runtime_error if value is unspecifed or invalid
+ */
+GLfloat ClearNodeUnmarshaller::getDepth(const map<string,string>& attributes) {
+
+    // Get value
+    const string value = findValue(attributes, "depth");
+    if (value.empty()) {
+        throw std::runtime_error("[ClearNodeUnmarshaller] Depth is unspecifed!");
+    }
+
+    // Parse the value
+    try {
+        return parseFloat(value);
+    } catch (std::invalid_argument& e) {
+        throw std::runtime_error("[ClearNodeUnmarshaller] Depth component is invalid!");
+    }
+}
+
+/**
+ * Checks if a map of attributes contains a color.
+ *
+ * @param attributes Map of attributes to look in
+ * @return `true` if map contains a color attribute
+ */
+bool ClearNodeUnmarshaller::hasColor(const map<string,string>& attributes) {
+    return attributes.count("color") > 0;
+}
+
+/**
+ * Checks if a map of attributes contains a depth.
+ *
+ * @param attributes Map of attributes to look in
+ * @return `true` if map contains a depth attribute
+ */
+bool ClearNodeUnmarshaller::hasDepth(const map<string,string>& attributes) {
+    return attributes.count("depth") > 0;
+}
+
+/**
  * Creates a node from a map of XML attributes.
  *
  * @param attributes Map of XML attributes
  * @return Resulting ClearNode instance
  */
 Node* ClearNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
-    const Glycerin::Color color = getColor(attributes);
-    return new ClearNode(color);
+
+    // Mask determining what gets cleared
+    GLbitfield mask = 0;
+
+    // Get color
+    Glycerin::Color color(0.0f, 0.0f, 0.0f, 0.0f);
+    if (hasColor(attributes)) {
+        color = getColor(attributes);
+        mask |= GL_COLOR_BUFFER_BIT;
+    }
+
+    // Get depth
+    GLfloat depth = 0.0f;
+    if (hasDepth(attributes)) {
+        depth = getDepth(attributes);
+        mask |= GL_DEPTH_BUFFER_BIT;
+    }
+
+    // Check if nothing was specified
+    if (mask == 0) {
+        throw std::runtime_error("[ClearNodeUnmarshaller] Must specify color or depth!");
+    }
+
+    // Return the node
+    return new ClearNode(mask, color, depth);
 }
 
 } /* namespace RapidGL */

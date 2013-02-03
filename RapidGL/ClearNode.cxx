@@ -20,20 +20,24 @@
 #include "RapidGL/ClearNode.h"
 namespace RapidGL {
 
-/**
- * Constructs a clear node with the default values.
- */
-ClearNode::ClearNode() : color(DEFAULT_RED, DEFAULT_GREEN, DEFAULT_BLUE, DEFAULT_ALPHA) {
-    // empty
-}
+// Set of valid masks
+const std::set<GLbitfield> ClearNode::MASKS = ClearNode::createMasks();
 
 /**
  * Constructs a clear node from a color.
  *
+ * @param mask Mask defining which buffers to clear
  * @param color Color to clear color buffer with
+ * @param depth Depth to clear depth buffer with
+ * @throws std::invalid_argument if mask is invalid
  */
-ClearNode::ClearNode(const Glycerin::Color& color) : color(clamp(color)) {
-    // empty
+ClearNode::ClearNode(const GLbitfield mask,
+                     const Glycerin::Color& color,
+                     const GLfloat depth) :
+        mask(mask), color(clamp(color)), depth(clamp(depth)) {
+    if (!isMask(mask)) {
+        throw std::invalid_argument("[ClearNode] Mask is invalid!");
+    }
 }
 
 /**
@@ -63,6 +67,19 @@ Glycerin::Color ClearNode::clamp(const Glycerin::Color& color) {
     return Glycerin::Color(clamp(color.r), clamp(color.g), clamp(color.b), clamp(color.a));
 }
 
+/**
+ * Creates the set of valid masks.
+ *
+ * @return Set of valid masks
+ */
+std::set<GLbitfield> ClearNode::createMasks() {
+    std::set<GLbitfield> masks;
+    masks.insert(GL_COLOR_BUFFER_BIT);
+    masks.insert(GL_DEPTH_BUFFER_BIT);
+    masks.insert(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    return masks;
+}
+
 /*
  * Returns a copy of the color this node clears the color buffer with.
  *
@@ -72,9 +89,42 @@ Glycerin::Color ClearNode::getColor() const {
     return color;
 }
 
+/**
+ * Returns the depth this node clears the depth buffer with.
+ *
+ * @return Depth this node clears the depth buffer with
+ */
+GLfloat ClearNode::getDepth() const {
+    return depth;
+}
+
+/**
+ * Returns the mask that defines which buffers this node clears.
+ *
+ * @return Mask that defines which buffers this node clears
+ */
+GLbitfield ClearNode::getMask() const {
+    return mask;
+}
+
+/**
+ * Checks if a bitfield is a valid mask.
+ *
+ * @param bitfield Bitfield to check
+ * @return `true` if bitfield is a valid mask
+ */
+bool ClearNode::isMask(const GLbitfield bitfield) {
+    return MASKS.count(bitfield) > 0;
+}
+
 void ClearNode::visit(State& state) {
-    glClearColor(color.r, color.g, color.b, color.a);
-    glClear(GL_COLOR_BUFFER_BIT);
+    if (mask & GL_COLOR_BUFFER_BIT) {
+        glClearColor(color.r, color.g, color.b, color.a);
+    }
+    if (mask & GL_DEPTH_BUFFER_BIT) {
+        glClearDepth(depth);
+    }
+    glClear(mask);
 }
 
 } /* namespace RapidGL */

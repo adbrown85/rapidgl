@@ -18,6 +18,7 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
+#include <glycerin/Color.hxx>
 #include <iostream>
 #include <map>
 #include <Poco/Path.h>
@@ -241,7 +242,7 @@ public:
         RapidGL::SceneNode sceneNode;
 
         // Create clear
-        RapidGL::ClearNode clearNode;
+        RapidGL::ClearNode clearNode(GL_COLOR_BUFFER_BIT, Glycerin::Color(0, 0, 0, 0), 0);
 
         // Create texture
         std::map<std::string,std::string> attributes;

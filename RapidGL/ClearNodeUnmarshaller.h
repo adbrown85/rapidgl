@@ -39,6 +39,9 @@ public:
 private:
 // Methods
     static Glycerin::Color getColor(const std::map<std::string,std::string>&);
+    static GLfloat getDepth(const std::map<std::string,std::string>&);
+    static bool hasColor(const std::map<std::string,std::string>&);
+    static bool hasDepth(const std::map<std::string,std::string>&);
 };
 
 } /* namespace RapidGL */

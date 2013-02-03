@@ -154,8 +154,8 @@ public:
     TextureAttachmentNodeTest() :
             textureNode("foo", Gloop::TextureTarget::texture2d(), createTextureObject()),
             attachmentNode(RapidGL::AttachmentNode::COLOR, "foo"),
-            firstClearNode(Glycerin::Color(0.0f, 0.0f, 1.0f, 1.0f)),
-            secondClearNode(Glycerin::Color(1.0f, 0.0f, 0.0f, 1.0f)),
+            firstClearNode(GL_COLOR_BUFFER_BIT, Glycerin::Color(0.0f, 0.0f, 1.0f, 1.0f), 0.0f),
+            secondClearNode(GL_COLOR_BUFFER_BIT, Glycerin::Color(1.0f, 0.0f, 0.0f, 1.0f), 0.0f),
             firstProgramNode("first"),
             secondProgramNode("second"),
             firstUseNode("first"),

@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_CLEAR_NODE_H
 #define RAPIDGL_CLEAR_NODE_H
+#include <set>
 #include <glycerin/Color.hxx>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
@@ -29,23 +30,25 @@ namespace RapidGL {
  */
 class ClearNode : public Node {
 public:
-// Constants
-    static const GLfloat DEFAULT_RED = 0.0f; ///< Initial value for red component
-    static const GLfloat DEFAULT_GREEN = 0.0f; ///< Initial value for green component
-    static const GLfloat DEFAULT_BLUE = 0.0f; ///< Initial value for blue component
-    static const GLfloat DEFAULT_ALPHA = 0.0f; ///< Initial value for alpha component
 // Methods
-    ClearNode();
-    ClearNode(const Glycerin::Color& color);
+    ClearNode(GLbitfield mask, const Glycerin::Color& color, GLfloat depth);
     virtual ~ClearNode();
     Glycerin::Color getColor() const;
+    GLfloat getDepth() const;
+    GLbitfield getMask() const;
     virtual void visit(State& state);
 private:
+// Constants
+    static const std::set<GLbitfield> MASKS;
 // Attributes
+    const GLbitfield mask;
     const Glycerin::Color color;
+    const GLfloat depth;
 // Methods
     static GLfloat clamp(GLfloat value);
     static Glycerin::Color clamp(const Glycerin::Color& color);
+    static std::set<GLbitfield> createMasks();
+    static bool isMask(GLbitfield bitfield);
 };
 
 } /* namespace RapidGL */
