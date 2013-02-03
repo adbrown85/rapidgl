@@ -37,16 +37,6 @@ public:
     // Threshold for floating-point comparisons
     static const GLfloat TOLERANCE = 1e-6f;
 
-    // Clear node
-    RapidGL::ClearNode* const clearNode;
-
-    /**
-     * Constructs a ClearNodeTest.
-     */
-    ClearNodeTest() : clearNode(new RapidGL::ClearNode(0.1f, 0.2f, 0.3f, 0.4f)) {
-        // empty
-    }
-
     /**
      * Ensures `ClearNode::ClearNode()` initializes values properly.
      */
@@ -95,9 +85,16 @@ public:
      * Ensures `ClearNode::visit` works correctly.
      */
     void testVisit() {
+
+        // Create the node
+        RapidGL::ClearNode clearNode(0.1f, 0.2f, 0.3f, 0.4f);
+
+        // Visit the node
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        visitor.visit(clearNode);
+        visitor.visit(&clearNode);
+
+        // Refresh
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
