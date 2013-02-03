@@ -19,6 +19,7 @@
 #include <iostream>
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
+#include <glycerin/Color.hxx>
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
@@ -42,43 +43,47 @@ public:
      */
     void testClearNode() {
         const RapidGL::ClearNode node;
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getAlpha(), TOLERANCE);
+        const Glycerin::Color color = node.getColor();
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.r, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.g, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.b, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.a, TOLERANCE);
     }
 
     /**
-     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` initializes values properly.
+     * Ensures `ClearNode::ClearNode(Color)` initializes values properly.
      */
-    void testClearNodeFloatFloatFloatFloat() {
-        const RapidGL::ClearNode node(0.1f, 0.2f, 0.3f, 0.4f);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, node.getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, node.getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, node.getAlpha(), TOLERANCE);
+    void testClearNodeColor() {
+        const RapidGL::ClearNode node(Glycerin::Color(0.1f, 0.2f, 0.3f, 0.4f));
+        const Glycerin::Color color = node.getColor();
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, color.r, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, color.g, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, color.b, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, color.a, TOLERANCE);
     }
 
     /**
-     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` clamps high values.
+     * Ensures `ClearNode::ClearNode(Color)` clamps high values.
      */
-    void testClearNodeFloatFloatFloatFloatWithHighValues() {
-        const RapidGL::ClearNode node(2, 2, 2, 2);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getAlpha(), TOLERANCE);
+    void testClearNodeColorWithHighValues() {
+        const RapidGL::ClearNode node(Glycerin::Color(2, 2, 2, 2));
+        const Glycerin::Color color = node.getColor();
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, color.r, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, color.g, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, color.b, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, color.a, TOLERANCE);
     }
 
     /**
-     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` clamps low values.
+     * Ensures `ClearNode::ClearNode(Color)` clamps low values.
      */
-    void testClearNodeFloatFloatFloatFloatWithLowValues() {
-        const RapidGL::ClearNode node(-1, -1, -1, -1);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getAlpha(), TOLERANCE);
+    void testClearNodeColorWithLowValues() {
+        const RapidGL::ClearNode node(Glycerin::Color(-1, -1, -1, -1));
+        const Glycerin::Color color = node.getColor();
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.r, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.g, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.b, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, color.a, TOLERANCE);
     }
 
     /**
@@ -87,7 +92,7 @@ public:
     void testVisit() {
 
         // Create the node
-        RapidGL::ClearNode clearNode(0.1f, 0.2f, 0.3f, 0.4f);
+        RapidGL::ClearNode clearNode(Glycerin::Color(0.1f, 0.2f, 0.3f, 0.4f));
 
         // Visit the node
         RapidGL::State state;
@@ -120,9 +125,9 @@ int main(int argc, char* argv[]) {
     try {
         ClearNodeTest test;
         test.testClearNode();
-        test.testClearNodeFloatFloatFloatFloat();
-        test.testClearNodeFloatFloatFloatFloatWithHighValues();
-        test.testClearNodeFloatFloatFloatFloatWithLowValues();
+        test.testClearNodeColor();
+        test.testClearNodeColorWithHighValues();
+        test.testClearNodeColorWithLowValues();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

@@ -21,6 +21,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
+#include <glycerin/Color.hxx>
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/ClearNodeUnmarshaller.h"
 #include "RapidGL/Node.h"
@@ -54,10 +55,7 @@ public:
 
         // Make a map of attributes
         map<string,string> attributes;
-        attributes["red"] = "0.1";
-        attributes["green"] = "0.2";
-        attributes["blue"] = "0.3";
-        attributes["alpha"] = "0.4";
+        attributes["color"] = "0.1 0.2 0.3 0.4";
 
         // Unmarshal the node
         const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
@@ -65,10 +63,11 @@ public:
         CPPUNIT_ASSERT(clearNode != NULL);
 
         // Check values
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, clearNode->getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, clearNode->getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, clearNode->getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, clearNode->getAlpha(), TOLERANCE);
+        const Glycerin::Color color = clearNode->getColor();
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, color.r, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, color.g, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, color.b, TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, color.a, TOLERANCE);
     }
 
     /**
@@ -76,7 +75,7 @@ public:
      */
     void testUnmarshalWithInvalidAlpha() {
         map<string,string> attributes;
-        attributes["alpha"] = "foo";
+        attributes["color"] = "0.0 0.0 0.0 foo";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
 
@@ -85,7 +84,7 @@ public:
      */
     void testUnmarshalWithInvalidBlue() {
         map<string,string> attributes;
-        attributes["blue"] = "foo";
+        attributes["color"] = "0.0 0.0 foo 0.0";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
 
@@ -94,7 +93,7 @@ public:
      */
     void testUnmarshalWithInvalidGreen() {
         map<string,string> attributes;
-        attributes["green"] = "foo";
+        attributes["color"] = "0.0 foo 0.0 0.0";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
 
@@ -103,7 +102,7 @@ public:
      */
     void testUnmarshalWithInvalidRed() {
         map<string,string> attributes;
-        attributes["red"] = "foo";
+        attributes["color"] = "foo 0.0 0.0 0.0";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
 

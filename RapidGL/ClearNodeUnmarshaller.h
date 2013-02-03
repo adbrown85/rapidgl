@@ -19,6 +19,7 @@
 #define RAPIDGL_CLEARNODEUNMARSHALLER_H
 #include <map>
 #include <string>
+#include <glycerin/Color.hxx>
 #include "RapidGL/common.h"
 #include "RapidGL/ClearNode.h"
 #include "RapidGL/Node.h"
@@ -35,6 +36,9 @@ public:
     ClearNodeUnmarshaller();
     virtual ~ClearNodeUnmarshaller();
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
+private:
+// Methods
+    static Glycerin::Color getColor(const std::map<std::string,std::string>&);
 };
 
 } /* namespace RapidGL */

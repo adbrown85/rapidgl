@@ -23,20 +23,16 @@ namespace RapidGL {
 /**
  * Constructs a clear node with the default values.
  */
-ClearNode::ClearNode() : red(DEFAULT_RED), green(DEFAULT_GREEN), blue(DEFAULT_BLUE), alpha(DEFAULT_ALPHA) {
+ClearNode::ClearNode() : color(DEFAULT_RED, DEFAULT_GREEN, DEFAULT_BLUE, DEFAULT_ALPHA) {
     // empty
 }
 
 /**
- * Constructs a clear node from red, green, blue, and alpha values.
+ * Constructs a clear node from a color.
  *
- * @param red Value for red component
- * @param green Value for green component
- * @param blue Value for blue component
- * @param alpha Value for alpha component
+ * @param color Color to clear color buffer with
  */
-ClearNode::ClearNode(const GLfloat red, const GLfloat green, const GLfloat blue, const GLfloat alpha) :
-        red(clamp(red)), green(clamp(green)), blue(clamp(blue)), alpha(clamp(alpha)) {
+ClearNode::ClearNode(const Glycerin::Color& color) : color(clamp(color)) {
     // empty
 }
 
@@ -58,43 +54,26 @@ GLfloat ClearNode::clamp(GLfloat value) {
 }
 
 /**
- * Returns the alpha component of the clear color.
+ * Creates a copy of a color, clamping all its components to between zero and one.
  *
- * @return Alpha component of the clear color, in the range [0, 1]
+ * @param color Color to copy
+ * @return Copy of color with all its components clamped to between zero and one
  */
-GLfloat ClearNode::getAlpha() const {
-    return alpha;
+Glycerin::Color ClearNode::clamp(const Glycerin::Color& color) {
+    return Glycerin::Color(clamp(color.r), clamp(color.g), clamp(color.b), clamp(color.a));
 }
 
-/**
- * Returns the blue component of the clear color.
+/*
+ * Returns a copy of the color this node clears the color buffer with.
  *
- * @return Blue component of the clear color, in the range [0, 1]
+ * @return Copy of the color this node clears the color buffer with
  */
-GLfloat ClearNode::getBlue() const {
-    return blue;
-}
-
-/**
- * Returns the green component of the clear color.
- *
- * @return Green component of the clear color, in the range [0, 1]
- */
-GLfloat ClearNode::getGreen() const {
-    return green;
-}
-
-/**
- * Returns the red component of the clear color.
- *
- * @return Red component of the clear color, in the range [0, 1]
- */
-GLfloat ClearNode::getRed() const {
-    return red;
+Glycerin::Color ClearNode::getColor() const {
+    return color;
 }
 
 void ClearNode::visit(State& state) {
-    glClearColor(red, green, blue, alpha);
+    glClearColor(color.r, color.g, color.b, color.a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 

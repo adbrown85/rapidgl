@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_CLEAR_NODE_H
 #define RAPIDGL_CLEAR_NODE_H
+#include <glycerin/Color.hxx>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
@@ -35,21 +36,16 @@ public:
     static const GLfloat DEFAULT_ALPHA = 0.0f; ///< Initial value for alpha component
 // Methods
     ClearNode();
-    ClearNode(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+    ClearNode(const Glycerin::Color& color);
     virtual ~ClearNode();
-    GLfloat getAlpha() const;
-    GLfloat getBlue() const;
-    GLfloat getGreen() const;
-    GLfloat getRed() const;
+    Glycerin::Color getColor() const;
     virtual void visit(State& state);
 private:
 // Attributes
-    const GLfloat red;
-    const GLfloat green;
-    const GLfloat blue;
-    const GLfloat alpha;
+    const Glycerin::Color color;
 // Methods
     static GLfloat clamp(GLfloat value);
+    static Glycerin::Color clamp(const Glycerin::Color& color);
 };
 
 } /* namespace RapidGL */
