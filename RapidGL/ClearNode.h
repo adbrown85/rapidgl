@@ -15,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef RAPIDGL_CLEARNODE_H
-#define RAPIDGL_CLEARNODE_H
+#ifndef RAPIDGL_CLEAR_NODE_H
+#define RAPIDGL_CLEAR_NODE_H
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/State.h"
