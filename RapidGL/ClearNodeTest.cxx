@@ -43,7 +43,7 @@ public:
     /**
      * Constructs a ClearNodeTest.
      */
-    ClearNodeTest() : clearNode(new RapidGL::ClearNode()) {
+    ClearNodeTest() : clearNode(new RapidGL::ClearNode(0.1f, 0.2f, 0.3f, 0.4f)) {
         // empty
     }
 
