@@ -36,7 +36,7 @@ ClearNode::ClearNode() : red(DEFAULT_RED), green(DEFAULT_GREEN), blue(DEFAULT_BL
  * @param alpha Value for alpha component
  */
 ClearNode::ClearNode(const GLfloat red, const GLfloat green, const GLfloat blue, const GLfloat alpha) :
-        red(red), green(green), blue(blue), alpha(alpha) {
+        red(clamp(red)), green(clamp(green)), blue(clamp(blue)), alpha(clamp(alpha)) {
     // empty
 }
 
@@ -45,6 +45,16 @@ ClearNode::ClearNode(const GLfloat red, const GLfloat green, const GLfloat blue,
  */
 ClearNode::~ClearNode() {
     // empty
+}
+
+/**
+ * Clamps a value to between zero and one.
+ *
+ * @param value Value to clamp
+ * @return Value clamped to between zero and one
+ */
+GLfloat ClearNode::clamp(GLfloat value) {
+    return std::max(0.0f, std::min(value, 1.0f));
 }
 
 /**
@@ -84,70 +94,39 @@ GLfloat ClearNode::getRed() const {
 }
 
 /**
- * Checks if a value is in the range zero to one inclusive.
- *
- * @param value Value to check
- * @return `true` if value is in the range [0, 1]
- */
-bool ClearNode::isNormalized(const GLfloat value) {
-    return (value >= 0.0f) && (value <= 1.0f);
-}
-
-/**
- * Ensures that a value is in the range zero to one inclusive.
- *
- * @param value Value to check
- * @param message Message of exception if value is not normalized
- * @throws invalid_argument if value is not in the range [0, 1]
- */
-void ClearNode::requireNormalized(const GLfloat value, const std::string& message) {
-    if (!isNormalized(value)) {
-        throw std::invalid_argument(message);
-    }
-}
-
-/**
  * Changes the alpha component of the clear color.
  *
- * @param alpha Alpha component of the clear color, in the range [0, 1]
- * @throws invalid_argument if alpha component is out of range
+ * @param alpha Alpha component of the clear color, which will be clamped to [0, 1]
  */
 void ClearNode::setAlpha(const GLfloat alpha) {
-    requireNormalized(alpha, "[ClearNode] Alpha component is out of range!");
-    this->alpha = alpha;
+    this->alpha = clamp(alpha);
 }
 
 /**
  * Changes the blue component of the clear color.
  *
- * @param blue Blue component of the clear color, in the range [0, 1]
- * @throws invalid_argument if blue component is out of range
+ * @param blue Blue component of the clear color, which will be clamped to [0, 1]
  */
 void ClearNode::setBlue(const GLfloat blue) {
-    requireNormalized(blue, "[ClearNode] Blue component is out of range!");
-    this->blue = blue;
+    this->blue = clamp(blue);
 }
 
 /**
  * Changes the green component of the clear color.
  *
- * @param green Green component of the clear color, in the range [0, 1]
- * @throws invalid_argument if green component is out of range
+ * @param green Green component of the clear color, which will be clamped to [0, 1]
  */
 void ClearNode::setGreen(const GLfloat green) {
-    requireNormalized(green, "[ClearNode] Green component is out of range!");
-    this->green = green;
+    this->green = clamp(green);
 }
 
 /**
  * Changes the red component of the clear color.
  *
- * @param red Red component of the clear color, in the range [0, 1]
- * @throws invalid_argument if red component is out of range
+ * @param red Red component of the clear color, which will be clamped to [0, 1]
  */
 void ClearNode::setRed(const GLfloat red) {
-    requireNormalized(red, "[ClearNode] Red component is out of range!");
-    this->red = red;
+    this->red = clamp(red);
 }
 
 void ClearNode::visit(State& state) {

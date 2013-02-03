@@ -87,6 +87,28 @@ public:
     }
 
     /**
+     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` clamps high values.
+     */
+    void testClearNodeFloatFloatFloatFloatWithHighValues() {
+        const RapidGL::ClearNode node(2, 2, 2, 2);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getRed(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getGreen(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getBlue(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getAlpha(), TOLERANCE);
+    }
+
+    /**
+     * Ensures `ClearNode::ClearNode(GLfloat, GLfloat, GLfloat, GLfloat)` clamps low values.
+     */
+    void testClearNodeFloatFloatFloatFloatWithLowValues() {
+        const RapidGL::ClearNode node(-1, -1, -1, -1);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getAlpha(), TOLERANCE);
+    }
+
+    /**
      * Ensures `ClearNode::visit` works correctly.
      */
     void testVisit() {
@@ -119,6 +141,8 @@ int main(int argc, char* argv[]) {
         ClearNodeTest test;
         test.testClearNode();
         test.testClearNodeFloatFloatFloatFloat();
+        test.testClearNodeFloatFloatFloatFloatWithHighValues();
+        test.testClearNodeFloatFloatFloatFloatWithLowValues();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

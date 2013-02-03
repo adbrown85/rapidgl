@@ -53,8 +53,7 @@ private:
     GLfloat blue;
     GLfloat alpha;
 // Methods
-    static bool isNormalized(GLfloat value);
-    static void requireNormalized(GLfloat value, const std::string& message);
+    static GLfloat clamp(GLfloat value);
 };
 
 } /* namespace RapidGL */
