@@ -37,7 +37,6 @@ public:
     ClearNode();
     ClearNode(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
     virtual ~ClearNode();
-    virtual void visit(State& state);
     GLfloat getAlpha() const;
     GLfloat getBlue() const;
     GLfloat getGreen() const;
@@ -46,6 +45,7 @@ public:
     void setBlue(GLfloat blue);
     void setGreen(GLfloat green);
     void setRed(GLfloat red);
+    virtual void visit(State& state);
 private:
 // Attributes
     GLfloat red;
