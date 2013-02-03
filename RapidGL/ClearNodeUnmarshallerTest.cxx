@@ -38,13 +38,13 @@ public:
     const static GLfloat TOLERANCE = 1e-6f;
 
     // Unmarshaller to use for testing
-    RapidGL::Unmarshaller* unmarshaller;
+    RapidGL::Unmarshaller* const unmarshaller;
 
     /**
      * Constructs a ClearNodeUnmarshallerTest.
      */
-    ClearNodeUnmarshallerTest() {
-        this->unmarshaller = new RapidGL::ClearNodeUnmarshaller();
+    ClearNodeUnmarshallerTest() : unmarshaller(new RapidGL::ClearNodeUnmarshaller()) {
+        // empty
     }
 
     /**
