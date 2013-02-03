@@ -53,7 +53,7 @@ public:
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, clearNode->getAlpha(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, clearNode->getAlpha(), TOLERANCE);
 
         // Set the values
         clearNode->setRed(0.1f);
@@ -76,7 +76,7 @@ public:
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getRed(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getGreen(), TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, node.getAlpha(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.0f, node.getAlpha(), TOLERANCE);
     }
 
     /**

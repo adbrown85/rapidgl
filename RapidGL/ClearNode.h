@@ -32,7 +32,7 @@ public:
     static const GLfloat DEFAULT_RED = 0.0f; ///< Initial value for red component
     static const GLfloat DEFAULT_GREEN = 0.0f; ///< Initial value for green component
     static const GLfloat DEFAULT_BLUE = 0.0f; ///< Initial value for blue component
-    static const GLfloat DEFAULT_ALPHA = 1.0f; ///< Initial value for alpha component
+    static const GLfloat DEFAULT_ALPHA = 0.0f; ///< Initial value for alpha component
 // Methods
     ClearNode();
     ClearNode(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
