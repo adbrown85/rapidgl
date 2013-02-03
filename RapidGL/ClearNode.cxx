@@ -50,7 +50,7 @@ ClearNode::~ClearNode() {
 /**
  * Returns the alpha component of the clear color.
  *
- * @return Alpha component of the clear color, in the range [0 .. 1]
+ * @return Alpha component of the clear color, in the range [0, 1]
  */
 GLfloat ClearNode::getAlpha() const {
     return alpha;
@@ -59,7 +59,7 @@ GLfloat ClearNode::getAlpha() const {
 /**
  * Returns the blue component of the clear color.
  *
- * @return Blue component of the clear color, in the range [0 .. 1]
+ * @return Blue component of the clear color, in the range [0, 1]
  */
 GLfloat ClearNode::getBlue() const {
     return blue;
@@ -68,7 +68,7 @@ GLfloat ClearNode::getBlue() const {
 /**
  * Returns the green component of the clear color.
  *
- * @return Green component of the clear color, in the range [0 .. 1]
+ * @return Green component of the clear color, in the range [0, 1]
  */
 GLfloat ClearNode::getGreen() const {
     return green;
@@ -77,7 +77,7 @@ GLfloat ClearNode::getGreen() const {
 /**
  * Returns the red component of the clear color.
  *
- * @return Red component of the clear color, in the range [0 .. 1]
+ * @return Red component of the clear color, in the range [0, 1]
  */
 GLfloat ClearNode::getRed() const {
     return red;
@@ -109,7 +109,7 @@ void ClearNode::requireNormalized(const GLfloat value, const std::string& messag
 /**
  * Changes the alpha component of the clear color.
  *
- * @param alpha Alpha component of the clear color, in the range [0 .. 1]
+ * @param alpha Alpha component of the clear color, in the range [0, 1]
  * @throws invalid_argument if alpha component is out of range
  */
 void ClearNode::setAlpha(const GLfloat alpha) {
@@ -120,7 +120,7 @@ void ClearNode::setAlpha(const GLfloat alpha) {
 /**
  * Changes the blue component of the clear color.
  *
- * @param blue Blue component of the clear color, in the range [0 .. 1]
+ * @param blue Blue component of the clear color, in the range [0, 1]
  * @throws invalid_argument if blue component is out of range
  */
 void ClearNode::setBlue(const GLfloat blue) {
@@ -131,7 +131,7 @@ void ClearNode::setBlue(const GLfloat blue) {
 /**
  * Changes the green component of the clear color.
  *
- * @param green Green component of the clear color, in the range [0 .. 1]
+ * @param green Green component of the clear color, in the range [0, 1]
  * @throws invalid_argument if green component is out of range
  */
 void ClearNode::setGreen(const GLfloat green) {
@@ -142,7 +142,7 @@ void ClearNode::setGreen(const GLfloat green) {
 /**
  * Changes the red component of the clear color.
  *
- * @param red Red component of the clear color, in the range [0 .. 1]
+ * @param red Red component of the clear color, in the range [0, 1]
  * @throws invalid_argument if red component is out of range
  */
 void ClearNode::setRed(const GLfloat red) {
