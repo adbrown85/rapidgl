@@ -60,13 +60,15 @@ public:
         attributes["alpha"] = "0.4";
 
         // Unmarshal the node
-        RapidGL::ClearNode* node = (RapidGL::ClearNode*) unmarshaller->unmarshal(attributes);
+        const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
+        const RapidGL::ClearNode* clearNode = dynamic_cast<const RapidGL::ClearNode*>(node);
+        CPPUNIT_ASSERT(clearNode != NULL);
 
         // Check values
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, node->getRed(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, node->getGreen(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, node->getBlue(), TOLERANCE);
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, node->getAlpha(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.1f, clearNode->getRed(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.2f, clearNode->getGreen(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.3f, clearNode->getBlue(), TOLERANCE);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(0.4f, clearNode->getAlpha(), TOLERANCE);
     }
 
     /**
