@@ -1,3 +1,6 @@
+v0.7
+ - CubeNode accepts an identifier
+
 v0.6
  - Added RenderbufferNode and RenderbufferAttachmentNode
  - Added DepthFunctionNode
