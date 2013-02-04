@@ -4,7 +4,7 @@ AC_PREREQ([2.67])
 # Initialize package information
 define([MY_NAME], [RapidGL])
 define([MY_MAJOR_VERSION], [0])
-define([MY_MINOR_VERSION], [6])
+define([MY_MINOR_VERSION], [7])
 define([MY_INCREMENTAL_VERSION], [0])
 define([MY_VERSION], MY_MAJOR_VERSION.MY_MINOR_VERSION.MY_INCREMENTAL_VERSION)
 define([MY_EMAIL], [adb1413@rit.edu])
