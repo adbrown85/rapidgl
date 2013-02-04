@@ -38,8 +38,11 @@ std::vector<M3d::Vec3> CubeNode::COORDS = createCoords();
 
 /**
  * Constructs a `CubeNode`.
+ *
+ * @param id Identifier of node, which may be empty
  */
-CubeNode::CubeNode() :
+CubeNode::CubeNode(const std::string& id) :
+        Node(id),
         ready(false),
         boundingBox(createBoundingBox()),
         layout(createBufferLayout()),

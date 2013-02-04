@@ -34,7 +34,8 @@ CubeNodeUnmarshaller::~CubeNodeUnmarshaller() {
 }
 
 Node* CubeNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
-    return new CubeNode();
+    const std::string id = findValue(attributes, "id");
+    return new CubeNode(id);
 }
 
 } /* namespace RapidGL */

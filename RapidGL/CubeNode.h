@@ -41,7 +41,7 @@ namespace RapidGL {
 class CubeNode : public Node, public Intersectable {
 public:
 // Methods
-    CubeNode();
+    CubeNode(const std::string& id = "");
     virtual ~CubeNode();
     virtual double intersect(const Glycerin::Ray& ray) const;
     virtual void preVisit(State& state);

@@ -163,6 +163,14 @@ public:
     }
 
     /**
+     * Ensures `CubeNode` constructor works with an ID.
+     */
+    void testCubeNodeWithId() {
+        const RapidGL::CubeNode cubeNode("foo");
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), cubeNode.getId());
+    }
+
+    /**
      * Ensures `CubeNode::intersect` works correctly.
      */
     void testIntersect() {
@@ -222,6 +230,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         CubeNodeTest test;
+        test.testCubeNodeWithId();
         test.testIntersect();
         test.testVisit();
     } catch (std::exception& e) {

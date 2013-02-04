@@ -41,9 +41,11 @@ public:
      */
     void testUnmarshal() {
         std::map<std::string,std::string> attributes;
+        attributes["id"] = "foo";
         RapidGL::Node* node = unmarshaller.unmarshal(attributes);
         RapidGL::CubeNode* cubeNode = dynamic_cast<RapidGL::CubeNode*>(node);
         CPPUNIT_ASSERT(cubeNode != NULL);
+        CPPUNIT_ASSERT_EQUAL(std::string("foo"), cubeNode->getId());
     }
 };
 
