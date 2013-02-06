@@ -29,7 +29,7 @@ using std::string;
 
 
 /**
- * Unit test for AttributeNodeUnmarshaller.
+ * Unit test for `AttributeNodeUnmarshaller`.
  */
 class AttributeNodeUnmarshallerTest : public CppUnit::TestFixture {
 public:
@@ -45,7 +45,7 @@ public:
     }
 
     /**
-     * Ensures _unmarshal_ throws an exception if _name_ is empty.
+     * Ensures `unmarshal` throws an exception if _name_ is empty.
      */
     void testUnmarshalWithEmptyName() {
         map<string,string> attributes;
@@ -55,7 +55,7 @@ public:
     }
 
     /**
-     * Ensures _unmarshal_ throws an exception if _usage_ is empty.
+     * Ensures `unmarshal` throws an exception if _usage_ is empty.
      */
     void testUnmarshalWithEmptyUsage() {
         map<string,string> attributes;
@@ -65,7 +65,7 @@ public:
     }
 
     /**
-     * Ensures _unmarshal_ throws an exception if _usage_ is invalid.
+     * Ensures `unmarshal` throws an exception if _usage_ is invalid.
      */
     void testUnmarshalWithInvalidUsage() {
         map<string,string> attributes;
@@ -75,7 +75,7 @@ public:
     }
 
     /**
-     * Ensures _unmarshal_ throws an exception if _name_ is unspecified.
+     * Ensures `unmarshal` throws an exception if _name_ is unspecified.
      */
     void testUnmarshalWithUnspecifiedName() {
         map<string,string> attributes;
@@ -84,7 +84,7 @@ public:
     }
 
     /**
-     * Ensures _unmarshal_ throws an exception if _usage_ is unspecified.
+     * Ensures `unmarshal` throws an exception if _usage_ is unspecified.
      */
     void testUnmarshalWithUnspecifiedUsage() {
         map<string,string> attributes;
