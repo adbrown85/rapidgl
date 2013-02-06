@@ -35,7 +35,14 @@ class AttributeNodeUnmarshallerTest : public CppUnit::TestFixture {
 public:
 
     // Unmarshaller to use for testing
-    RapidGL::AttributeNodeUnmarshaller unmarshaller;
+    RapidGL::Unmarshaller* const unmarshaller;
+
+    /**
+     * Constructs the test.
+     */
+    AttributeNodeUnmarshallerTest() : unmarshaller(new RapidGL::AttributeNodeUnmarshaller()) {
+        // empty
+    }
 
     /**
      * Ensures _unmarshal_ throws an exception if _name_ is empty.
@@ -44,7 +51,7 @@ public:
         map<string,string> attributes;
         attributes["name"] = "";
         attributes["usage"] = "point";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
     /**
@@ -54,7 +61,7 @@ public:
         map<string,string> attributes;
         attributes["name"] = "MCVertex";
         attributes["usage"] = "";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
     /**
@@ -64,7 +71,7 @@ public:
         map<string,string> attributes;
         attributes["name"] = "MCVertex";
         attributes["usage"] = "foo";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
     /**
@@ -73,7 +80,7 @@ public:
     void testUnmarshalWithUnspecifiedName() {
         map<string,string> attributes;
         attributes["usage"] = "point";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
     /**
@@ -82,7 +89,7 @@ public:
     void testUnmarshalWithUnspecifiedUsage() {
         map<string,string> attributes;
         attributes["name"] = "MCVertex";
-        CPPUNIT_ASSERT_THROW(unmarshaller.unmarshal(attributes), runtime_error);
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
     CPPUNIT_TEST_SUITE(AttributeNodeUnmarshallerTest);
