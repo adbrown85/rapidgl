@@ -33,7 +33,8 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::usagesByName = createU
  * @param usage How the attribute is used, i.e. as a point, normal, or texture coordinate
  * @throws invalid_argument if name is empty
  */
-AttributeNode::AttributeNode(const std::string& name, const Usage usage) : name(name), usage(usage), prepared(false) {
+AttributeNode::AttributeNode(const std::string& name, const Usage usage) :
+        name(name), usage(usage), prepared(false) {
     if (name.empty()) {
         throw std::invalid_argument("[AttributeNode] Name is empty!");
     }
