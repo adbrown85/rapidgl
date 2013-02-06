@@ -20,6 +20,8 @@
 #include <GL/glfw.h>
 #include <stdexcept>
 #include "RapidGL/AttributeNode.h"
+#include "RapidGL/ProgramNode.h"
+#include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
 using RapidGL::AttributeNode;
