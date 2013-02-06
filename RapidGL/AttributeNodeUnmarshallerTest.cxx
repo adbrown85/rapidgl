@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "config.h"
+#include <stdexcept>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/ui/text/TestRunner.h>
-#include <stdexcept>
 #include "RapidGL/Node.h"
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/AttributeNodeUnmarshaller.h"
