@@ -60,7 +60,7 @@ public:
         programNode.preVisit(state);
 
         // Check
-        Gloop::Program program = programNode.getProgram();
+        const Gloop::Program program = programNode.getProgram();
         CPPUNIT_ASSERT(program.linked());
     }
 };
