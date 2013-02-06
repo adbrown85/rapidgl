@@ -17,9 +17,8 @@
  */
 #include "config.h"
 #include <stdexcept>
-#include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include <GL/glfw.h>
 #include "RapidGL/Node.h"
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/AttributeNodeUnmarshaller.h"
@@ -31,7 +30,7 @@ using std::string;
 /**
  * Unit test for `AttributeNodeUnmarshaller`.
  */
-class AttributeNodeUnmarshallerTest : public CppUnit::TestFixture {
+class AttributeNodeUnmarshallerTest {
 public:
 
     // Unmarshaller to use for testing
@@ -92,18 +91,37 @@ public:
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
-    CPPUNIT_TEST_SUITE(AttributeNodeUnmarshallerTest);
-    CPPUNIT_TEST(testUnmarshalWithEmptyName);
-    CPPUNIT_TEST(testUnmarshalWithEmptyUsage);
-    CPPUNIT_TEST(testUnmarshalWithInvalidUsage);
-    CPPUNIT_TEST(testUnmarshalWithUnspecifiedName);
-    CPPUNIT_TEST(testUnmarshalWithUnspecifiedUsage);
-    CPPUNIT_TEST_SUITE_END();
 };
 
 int main(int argc, char* argv[]) {
-    CppUnit::TextUi::TestRunner runner;
-    runner.addTest(AttributeNodeUnmarshallerTest::suite());
-    runner.run();
+
+    // Initialize GLFW
+    if (!glfwInit()) {
+        throw std::runtime_error("Could not initialize GLFW!");
+    }
+
+    // Open window
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+    glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    if (!glfwOpenWindow(512, 512, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
+        throw std::runtime_error("Could not open window!");
+    }
+
+    // Run the test
+    try {
+        AttributeNodeUnmarshallerTest test;
+        test.testUnmarshalWithEmptyName();
+        test.testUnmarshalWithEmptyUsage();
+        test.testUnmarshalWithInvalidUsage();
+        test.testUnmarshalWithUnspecifiedName();
+        test.testUnmarshalWithUnspecifiedUsage();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        throw;
+    }
+
+    // Exit
+    glfwTerminate();
     return 0;
 }
