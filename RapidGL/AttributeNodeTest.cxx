@@ -45,7 +45,7 @@ public:
     /**
      * Ensures AttributeNode constructor throws an exception if passed an empty string.
      */
-    void testConstructorWithEmptyName() {
+    void testAttributeNodeWhenNameIsEmpty() {
         CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POINT), std::invalid_argument);
     }
 
@@ -191,7 +191,7 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         AttributeNodeTest test;
-        test.testConstructorWithEmptyName();
+        test.testAttributeNodeWhenNameIsEmpty();
         test.testFormatUsageWithCoordinate();
         test.testFormatUsageWithNormal();
         test.testFormatUsageWithPoint();
