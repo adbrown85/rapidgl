@@ -36,6 +36,51 @@ AttributeNodeUnmarshaller::~AttributeNodeUnmarshaller() {
 }
 
 /**
+ * Returns the value of _location_ attribute in a map.
+ *
+ * @param attributes Map of attributes to look in
+ * @return Value of the attribute in map
+ * @throws std::runtime_error if value is unspecified
+ */
+GLint AttributeNodeUnmarshaller::getLocation(const std::map<std::string,std::string>& attributes) {
+
+    // Find value
+    const std::string value = findValue(attributes, "location");
+
+    // If unspecified let it be bound automatically
+    if (value.empty()) {
+        return -1;
+    }
+
+    // Otherwise parse the value
+    GLint location;
+    try {
+        location = parseInt(value);
+    } catch (std::invalid_argument& e) {
+        throw std::runtime_error("[AttributeNodeUnmarshaller] Location is invalid!");
+    }
+
+    // Check that it's in range
+    if ((location < 0) || (location >= getMaxVertexAttribs())) {
+        throw std::runtime_error("[AttributeNodeUnmarshaller] Location is out of range!");
+    }
+
+    // Return the value
+    return location;
+}
+
+/**
+ * Returns the maximum number of attributes in a shader program.
+ *
+ * @return Maximum number of attributes in a shader program
+ */
+GLint AttributeNodeUnmarshaller::getMaxVertexAttribs() {
+    GLint value;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &value);
+    return value;
+}
+
+/**
  * Returns the value of the _name_ attribute in a map.
  *
  * @param attributes Map of attributes to look in
@@ -76,7 +121,8 @@ AttributeNode::Usage AttributeNodeUnmarshaller::getUsage(const std::map<std::str
 Node* AttributeNodeUnmarshaller::unmarshal(const std::map<std::string,std::string>& attributes) {
     const std::string name = getName(attributes);
     const AttributeNode::Usage usage = getUsage(attributes);
-    return new AttributeNode(name, usage);
+    const GLint location = getLocation(attributes);
+    return new AttributeNode(name, usage, location);
 }
 
 } /* namespace RapidGL */

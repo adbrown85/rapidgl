@@ -119,8 +119,8 @@ public:
             programNode("foo"),
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE),
+            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
+            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1),
             useNode("foo") {
         sceneNode.addChild(&programNode);
         programNode.addChild(&vertexShaderNode);

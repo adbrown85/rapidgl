@@ -33,6 +33,27 @@ using std::string;
 class AttributeNodeUnmarshallerTest {
 public:
 
+    /**
+     * Formats an integer as a string.
+     *
+     * @param i Integer to format
+     * @return Formatted string
+     */
+    static std::string formatInt(const GLint i) {
+        std::stringstream stream;
+        stream << i;
+        return stream.str();
+    }
+
+    /**
+     * Returns the maximum number of attributes in a shader program.
+     */
+    static GLint getMaxVertexAttribs() {
+        GLint value;
+        glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &value);
+        return value;
+    }
+
     // Unmarshaller to use for testing
     RapidGL::Unmarshaller* const unmarshaller;
 
@@ -41,6 +62,107 @@ public:
      */
     AttributeNodeUnmarshallerTest() : unmarshaller(new RapidGL::AttributeNodeUnmarshaller()) {
         // empty
+    }
+
+    /**
+     * Ensures `unmarshal` returns `-1` when location is empty.
+     */
+    void testUnmarshalWhenLocationIsEmpty() {
+
+        // Make map
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+        attributes["location"] = "";
+
+        // Unmarshal node
+        const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
+        const RapidGL::AttributeNode* attributeNode = dynamic_cast<const RapidGL::AttributeNode*>(node);
+        CPPUNIT_ASSERT(attributeNode != NULL);
+
+        // Check location
+        CPPUNIT_ASSERT_EQUAL(-1, attributeNode->getLocation());
+    }
+
+    /**
+     * Ensures `unmarshal` throws when location is the maximum value.
+     */
+    void testUnmarshalWhenLocationIsMax() {
+
+        // Make map
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+        attributes["location"] = formatInt(getMaxVertexAttribs() - 1);
+
+        // Unmarshal node
+        const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
+        const RapidGL::AttributeNode* attributeNode = dynamic_cast<const RapidGL::AttributeNode*>(node);
+        CPPUNIT_ASSERT(attributeNode != NULL);
+
+        // Check location
+        CPPUNIT_ASSERT_EQUAL(getMaxVertexAttribs() - 1, attributeNode->getLocation());
+    }
+
+    /**
+     * Ensures `unmarshal` throws when location is one more than the maximum value.
+     */
+    void testUnmarshalWhenLocationIsMaxPlusOne() {
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+        attributes["location"] = formatInt(getMaxVertexAttribs());
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `unmarshal` throws when location is the minimum value.
+     */
+    void testUnmarshalWhenLocationIsMin() {
+
+        // Make map
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+        attributes["location"] = "0";
+
+        // Unmarshal node
+        const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
+        const RapidGL::AttributeNode* attributeNode = dynamic_cast<const RapidGL::AttributeNode*>(node);
+        CPPUNIT_ASSERT(attributeNode != NULL);
+
+        // Check location
+        CPPUNIT_ASSERT_EQUAL(0, attributeNode->getLocation());
+    }
+
+    /**
+     * Ensures `unmarshal` throws when location is one less than the minimum value.
+     */
+    void testUnmarshalWhenLocationIsMinMinusOne() {
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+        attributes["location"] = "-1";
+        CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
+    }
+
+    /**
+     * Ensures `unmarshal` returns `-1` when location is missing.
+     */
+    void testUnmarshalWhenLocationIsMissing() {
+
+        // Make map
+        map<string,string> attributes;
+        attributes["name"] = "location";
+        attributes["usage"] = "point";
+
+        // Unmarshal node
+        const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
+        const RapidGL::AttributeNode* attributeNode = dynamic_cast<const RapidGL::AttributeNode*>(node);
+        CPPUNIT_ASSERT(attributeNode != NULL);
+
+        // Check location
+        CPPUNIT_ASSERT_EQUAL(-1, attributeNode->getLocation());
     }
 
     /**
@@ -90,7 +212,6 @@ public:
         attributes["name"] = "MCVertex";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
-
 };
 
 int main(int argc, char* argv[]) {
@@ -111,6 +232,12 @@ int main(int argc, char* argv[]) {
     // Run the test
     try {
         AttributeNodeUnmarshallerTest test;
+        test.testUnmarshalWhenLocationIsEmpty();
+        test.testUnmarshalWhenLocationIsMax();
+        test.testUnmarshalWhenLocationIsMaxPlusOne();
+        test.testUnmarshalWhenLocationIsMin();
+        test.testUnmarshalWhenLocationIsMinMinusOne();
+        test.testUnmarshalWhenLocationIsMissing();
         test.testUnmarshalWithEmptyName();
         test.testUnmarshalWithEmptyUsage();
         test.testUnmarshalWithInvalidUsage();

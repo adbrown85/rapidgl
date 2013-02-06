@@ -111,8 +111,8 @@ public:
         RapidGL::ProgramNode programNode("foo");
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
-        RapidGL::AttributeNode vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT);
-        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE);
+        RapidGL::AttributeNode vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
+        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
         RapidGL::UseNode useNode("foo");
         RapidGL::SquareNode squareNode;
 

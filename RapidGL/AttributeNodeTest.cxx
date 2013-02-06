@@ -45,10 +45,61 @@ public:
     };
 
     /**
+     * Returns the maximum number of vertex attributes in a shader program.
+     *
+     * @return Maximum number of vertex attributes in a shader program
+     */
+    static GLint getMaxVertexAttribs() {
+        GLint value;
+        glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &value);
+        return value;
+    }
+
+    // Maximum number of vertex attributes in a shader program
+    const GLint maxVertexAttribs;
+
+    /**
+     * Constructs the test.
+     */
+    AttributeNodeTest() : maxVertexAttribs(getMaxVertexAttribs()) {
+        // empty
+    }
+
+    /**
+     * Ensures constructor works if passed the maximum location value.
+     */
+    void testAttributeNodeWhenLocationIsMax() {
+        const AttributeNode node("foo", AttributeNode::POINT, maxVertexAttribs - 1);
+        CPPUNIT_ASSERT_EQUAL(maxVertexAttribs - 1, node.getLocation());
+    }
+
+    /**
+     * Ensures constructor throws if passed one more than the maximum location value.
+     */
+    void testAttributeNodeWhenLocationIsMaxPlusOne() {
+        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POINT, maxVertexAttribs), std::invalid_argument);
+    }
+
+    /**
+     * Ensures constructor works if passed the minimum location value.
+     */
+    void testAttributeNodeWhenLocationIsMin() {
+        const AttributeNode node("foo", AttributeNode::POINT, -1);
+        CPPUNIT_ASSERT_EQUAL(-1, node.getLocation());
+    }
+
+    /**
+     * Ensures constructor throws if passed one less than the minimum location.
+     */
+    void testAttributeNodeWhenLocationIsMinMinusOne() {
+        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POINT, -2), std::invalid_argument);
+    }
+
+    /**
      * Ensures AttributeNode constructor throws an exception if passed an empty string.
      */
     void testAttributeNodeWhenNameIsEmpty() {
-        CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POINT), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POINT, -1), std::invalid_argument);
     }
 
     /**
@@ -113,7 +164,7 @@ public:
 
         // Make nodes
         FakeNode parentNode;
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
         parentNode.addChild(&attributeNode);
 
         // Check for throw
@@ -127,7 +178,7 @@ public:
     void testPreVisitWithNoParent() {
 
         // Make node
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
 
         // Check for throw
         RapidGL::State state;
@@ -158,7 +209,7 @@ public:
                 "}\n");
 
         // Make attribute node
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
 
         // Make program node and add children
         RapidGL::ProgramNode programNode("foo");
@@ -193,6 +244,10 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         AttributeNodeTest test;
+        test.testAttributeNodeWhenLocationIsMax();
+        test.testAttributeNodeWhenLocationIsMaxPlusOne();
+        test.testAttributeNodeWhenLocationIsMin();
+        test.testAttributeNodeWhenLocationIsMinMinusOne();
         test.testAttributeNodeWhenNameIsEmpty();
         test.testFormatUsageWithCoordinate();
         test.testFormatUsageWithNormal();

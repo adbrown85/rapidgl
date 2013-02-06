@@ -40,9 +40,10 @@ public:
         COORDINATE ///< As a texture coordinate
     };
 // Methods
-    AttributeNode(const std::string& name, Usage usage);
+    AttributeNode(const std::string& name, Usage usage, GLint location);
     virtual ~AttributeNode();
     static std::string formatUsage(Usage usage);
+    GLint getLocation() const;
     std::string getName() const;
     Usage getUsage() const;
     static Usage parseUsage(const std::string& str);
@@ -55,8 +56,10 @@ private:
     bool prepared;
     Usage usage;
     std::string name;
+    GLint location;
 // Methods
     static std::map<std::string,Usage> createUsagesByName();
+    static GLint getMaxVertexAttribs();
 };
 
 } /* namespace RapidGL */

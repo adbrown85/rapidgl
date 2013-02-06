@@ -31,12 +31,20 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::usagesByName = createU
  *
  * @param name Name of the attribute as declared in the shader
  * @param usage How the attribute is used, i.e. as a point, normal, or texture coordinate
- * @throws invalid_argument if name is empty
+ * @param location Desired location to bind the attribute to, or `-1` to have it be bound automatically
+ * @throws invalid_argument if name is empty or location is out of range
  */
-AttributeNode::AttributeNode(const std::string& name, const Usage usage) :
-        name(name), usage(usage), prepared(false) {
+AttributeNode::AttributeNode(const std::string& name, const Usage usage, const GLint location) :
+        name(name), usage(usage), location(location), prepared(false) {
+
+    // Check name
     if (name.empty()) {
         throw std::invalid_argument("[AttributeNode] Name is empty!");
+    }
+
+    // Check location
+    if ((location < -1) || (location >= getMaxVertexAttribs())) {
+        throw std::invalid_argument("[AttributeNode] Location is out of range!");
     }
 }
 
@@ -75,6 +83,26 @@ std::string AttributeNode::formatUsage(const Usage usage) {
     default:
         throw std::runtime_error("[AttributeNode] Unexpected enumeration!");
     }
+}
+
+/**
+ * Returns the location of the attribute in the shader program.
+ *
+ * @return Location of the attribute in the shader program
+ */
+GLint AttributeNode::getLocation() const {
+    return location;
+}
+
+/**
+ * Returns the maximum number of vertex attributes in a shader program.
+ *
+ * @return Maximum number of vertex attributes in a shader program
+ */
+GLint AttributeNode::getMaxVertexAttribs() {
+    GLint value;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &value);
+    return value;
 }
 
 /**

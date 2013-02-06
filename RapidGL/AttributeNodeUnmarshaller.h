@@ -37,6 +37,8 @@ public:
     virtual Node* unmarshal(const std::map<std::string,std::string>& attributes);
 private:
 // Methods
+    static GLint getLocation(const std::map<std::string,std::string>& attributes);
+    static GLint getMaxVertexAttribs();
     static std::string getName(const std::map<std::string,std::string>& attributes);
     static AttributeNode::Usage getUsage(const std::map<std::string,std::string>& attributes);
 };
