@@ -28,9 +28,9 @@ class ProgramNodeTest {
 public:
 
     /**
-     * Ensures ProgramNode::preVisit(State&) works correctly.
+     * Ensures `ProgramNode::preVisit` works when attribute is in program and it's been given an explicit location.
      */
-    void testPreVisit() {
+    void testPreVisitWhenAttributeIsInProgramAndLocationIsSpecified() {
 
         // Create vertex shader
         RapidGL::ShaderNode vertexShaderNode(
@@ -50,10 +50,14 @@ public:
                 "    FragColor = vec4(1);\n"
                 "}\n");
 
-        // Create program node and attach shader nodes
+        // Create attribute node
+        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT, 7);
+
+        // Create program node and attach shader and attribute nodes
         RapidGL::ProgramNode programNode("foo");
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&attributeNode);
 
         // Traverse nodes
         RapidGL::State state;
@@ -62,6 +66,125 @@ public:
         // Check
         const Gloop::Program program = programNode.getProgram();
         CPPUNIT_ASSERT(program.linked());
+        CPPUNIT_ASSERT_EQUAL(7, program.attribLocation("MCVertex"));
+        CPPUNIT_ASSERT_EQUAL(7, attributeNode.getLocation());
+    }
+
+    /**
+     * Ensures `ProgramNode::preVisit` works when attribute is in program and it has not been given a location.
+     */
+    void testPreVisitWhenAttributeIsInProgramAndLocationIsUnspecified() {
+
+        // Create vertex shader
+        RapidGL::ShaderNode vertexShaderNode(
+                GL_VERTEX_SHADER,
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "    gl_Position = MCVertex;\n"
+                "}\n");
+
+        // Create fragment shader
+        RapidGL::ShaderNode fragmentShaderNode(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "    FragColor = vec4(1);\n"
+                "}\n");
+
+        // Create attribute node
+        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
+
+        // Create program node and attach shader and attribute nodes
+        RapidGL::ProgramNode programNode("foo");
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&attributeNode);
+
+        // Traverse nodes
+        RapidGL::State state;
+        programNode.preVisit(state);
+
+        // Check
+        const Gloop::Program program = programNode.getProgram();
+        CPPUNIT_ASSERT(program.linked());
+        CPPUNIT_ASSERT(program.attribLocation("MCVertex") >= 0);
+        CPPUNIT_ASSERT(attributeNode.getLocation() >= 0);
+    }
+
+    /**
+     * Ensures `ProgramNode::preVisit` throws when attribute is not in program and location is specified.
+     */
+    void testPreVisitWhenAttributeIsNotInProgramAndLocationIsSpecified() {
+
+        // Create vertex shader
+        RapidGL::ShaderNode vertexShaderNode(
+                GL_VERTEX_SHADER,
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "    gl_Position = MCVertex;\n"
+                "}\n");
+
+        // Create fragment shader
+        RapidGL::ShaderNode fragmentShaderNode(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "    FragColor = vec4(1);\n"
+                "}\n");
+
+        // Create attribute node
+        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, 4);
+
+        // Create program node and attach shader and attribute nodes
+        RapidGL::ProgramNode programNode("foo");
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&attributeNode);
+
+        // Traverse nodes
+        RapidGL::State state;
+        CPPUNIT_ASSERT_THROW(programNode.preVisit(state), std::runtime_error);
+    }
+
+    /**
+     * Ensures `ProgramNode::preVisit` throws when attribute is not in program and location is unspecified.
+     */
+    void testPreVisitWhenAttributeIsNotInProgramAndLocationIsUnspecified() {
+
+        // Create vertex shader
+        RapidGL::ShaderNode vertexShaderNode(
+                GL_VERTEX_SHADER,
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "    gl_Position = MCVertex;\n"
+                "}\n");
+
+        // Create fragment shader
+        RapidGL::ShaderNode fragmentShaderNode(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "    FragColor = vec4(1);\n"
+                "}\n");
+
+        // Create attribute node
+        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
+
+        // Create program node and attach shader and attribute nodes
+        RapidGL::ProgramNode programNode("foo");
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        programNode.addChild(&attributeNode);
+
+        // Traverse nodes
+        RapidGL::State state;
+        CPPUNIT_ASSERT_THROW(programNode.preVisit(state), std::runtime_error);
     }
 };
 
@@ -82,7 +205,10 @@ int main(int argc, char* argv[]) {
     // Run test
     ProgramNodeTest test;
     try {
-        test.testPreVisit();
+        test.testPreVisitWhenAttributeIsInProgramAndLocationIsSpecified();
+        test.testPreVisitWhenAttributeIsInProgramAndLocationIsUnspecified();
+        test.testPreVisitWhenAttributeIsNotInProgramAndLocationIsSpecified();
+        test.testPreVisitWhenAttributeIsNotInProgramAndLocationIsUnspecified();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;

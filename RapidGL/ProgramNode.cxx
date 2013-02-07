@@ -67,6 +67,17 @@ void ProgramNode::preVisit(State& state) {
         }
     }
 
+    // Find and bind attributes
+    for (node_iterator_t it = children.begin; it != children.end; ++it) {
+        AttributeNode* const attributeNode = dynamic_cast<AttributeNode*>(*it);
+        if (attributeNode != NULL) {
+            const GLint location = attributeNode->getLocation();
+            if (location != -1) {
+                program.attribLocation(attributeNode->getName(), location);
+            }
+        }
+    }
+
     // Link
     program.link();
     if (!program.linked()) {
@@ -80,6 +91,8 @@ void ProgramNode::preVisit(State& state) {
             const GLint location = program.attribLocation(attributeNode->getName());
             if (location == -1) {
                 throw std::runtime_error("[ProgramNode] Attribute is not in program!");
+            } else {
+                attributeNode->location = location;
             }
         }
     }

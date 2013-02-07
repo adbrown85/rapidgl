@@ -59,6 +59,8 @@ private:
 // Methods
     static std::map<std::string,Usage> createUsagesByName();
     static GLint getMaxVertexAttribs();
+// Friends
+    friend class ProgramNode;
 };
 
 } /* namespace RapidGL */
