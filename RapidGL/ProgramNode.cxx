@@ -56,8 +56,10 @@ void ProgramNode::preVisit(State& state) {
         return;
     }
 
-    // Find and attach shaders
+    // Get children
     const node_range_t children = getChildren();
+
+    // Find and attach shaders
     for (node_iterator_t it = children.begin; it != children.end; ++it) {
         ShaderNode* const shaderNode = dynamic_cast<ShaderNode*>(*it);
         if (shaderNode != NULL) {
@@ -69,6 +71,17 @@ void ProgramNode::preVisit(State& state) {
     program.link();
     if (!program.linked()) {
         throw std::runtime_error("[ProgramNode] Program could not be linked!");
+    }
+
+    // Check for invalid attributes
+    for (node_iterator_t it = children.begin; it != children.end; ++it) {
+        AttributeNode* const attributeNode = dynamic_cast<AttributeNode*>(*it);
+        if (attributeNode != NULL) {
+            const GLint location = program.attribLocation(attributeNode->getName());
+            if (location == -1) {
+                throw std::runtime_error("[ProgramNode] Attribute is not in program!");
+            }
+        }
     }
 
     // Successfully prepared

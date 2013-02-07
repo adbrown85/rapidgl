@@ -153,19 +153,6 @@ void AttributeNode::preVisit(State& state) {
         throw std::runtime_error("[AttributeNode] Attribute node does not have a parent!");
     }
 
-    // Cast parent to program node
-    const ProgramNode* parentAsProgramNode = dynamic_cast<const ProgramNode*>(parent);
-    if (parentAsProgramNode == NULL) {
-        throw std::runtime_error("[AttributeNode] Parent of attribute node is not a program node!");
-    }
-
-    // Check if attribute is in program
-    const Gloop::Program program = parentAsProgramNode->getProgram();
-    const GLint location = program.attribLocation(name);
-    if (location == -1) {
-        throw std::runtime_error("[AttributeNode] Attribute is not in program!");
-    }
-
     // Sucessfully prepared
     prepared = true;
 }

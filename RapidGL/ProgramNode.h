@@ -19,6 +19,7 @@
 #define RAPIDGL_PROGRAMNODE_H
 #include <gloop/Program.hxx>
 #include "RapidGL/common.h"
+#include "RapidGL/AttributeNode.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"

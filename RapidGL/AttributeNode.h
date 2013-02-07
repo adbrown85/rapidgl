@@ -22,7 +22,6 @@
 #include <string>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
-#include "RapidGL/ProgramNode.h"
 #include "RapidGL/State.h"
 namespace RapidGL {
 

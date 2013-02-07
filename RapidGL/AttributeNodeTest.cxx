@@ -20,8 +20,6 @@
 #include <GL/glfw.h>
 #include <stdexcept>
 #include "RapidGL/AttributeNode.h"
-#include "RapidGL/ProgramNode.h"
-#include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/Visitor.h"
 using RapidGL::AttributeNode;
@@ -158,21 +156,6 @@ public:
     }
 
     /**
-     * Ensures _preVisit_ throws an exception if called for first time when node has an invalid parent.
-     */
-    void testPreVisitWithInvalidParent() {
-
-        // Make nodes
-        FakeNode parentNode;
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
-        parentNode.addChild(&attributeNode);
-
-        // Check for throw
-        RapidGL::State state;
-        CPPUNIT_ASSERT_THROW(attributeNode.preVisit(state), std::runtime_error);
-    }
-
-    /**
      * Ensures _preVisit_ throws an exception if called for first time when node does not have a parent.
      */
     void testPreVisitWithNoParent() {
@@ -183,44 +166,6 @@ public:
         // Check for throw
         RapidGL::State state;
         CPPUNIT_ASSERT_THROW(attributeNode.preVisit(state), std::runtime_error);
-    }
-
-    /**
-     * Ensures _preVisit_ does not throw an exception when node has a valid parent.
-     */
-    void testPreVisitWithValidParent() {
-
-        // Make vertex shader node
-        RapidGL::ShaderNode vertexShaderNode(
-                GL_VERTEX_SHADER,
-                "#version 140\n"
-                "in vec4 MCVertex;\n"
-                "void main() {\n"
-                "    gl_Position = MCVertex;\n"
-                "}\n");
-
-        // Make fragment shader node
-        RapidGL::ShaderNode fragmentShaderNode(
-                GL_FRAGMENT_SHADER,
-                "#version 140\n"
-                "out vec4 FragColor;\n"
-                "void main() {\n"
-                "    FragColor = vec4(1);\n"
-                "}\n");
-
-        // Make attribute node
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
-
-        // Make program node and add children
-        RapidGL::ProgramNode programNode("foo");
-        programNode.addChild(&vertexShaderNode);
-        programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&attributeNode);
-
-        // Visit nodes
-        RapidGL::State state;
-        RapidGL::Visitor visitor(&state);
-        visitor.visit(&programNode);
     }
 };
 
@@ -256,9 +201,7 @@ int main(int argc, char* argv[]) {
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();
         test.testParseUsageWithVertex();
-        test.testPreVisitWithInvalidParent();
         test.testPreVisitWithNoParent();
-        test.testPreVisitWithValidParent();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
