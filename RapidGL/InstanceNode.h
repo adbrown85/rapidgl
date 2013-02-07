@@ -37,6 +37,7 @@ public:
     std::string getLink() const;
     virtual void preVisit(State& state);
     virtual void visit(State& state);
+private:
 // Attributes
     const std::string link;
     GroupNode* groupNode;
