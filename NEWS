@@ -1,3 +1,7 @@
+v0.8
+ - Added GroupNode and InstanceNode
+ - Can bind attributes to explicit locations
+
 v0.7
  - CubeNode accepts an identifier
 
