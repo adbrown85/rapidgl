@@ -27,7 +27,7 @@ namespace RapidGL {
 
 
 /**
- * Node representing a 4-component vector uniform variable in a shader program.
+ * Node representing a 3-component vector uniform variable in a shader program.
  */
 class Vec3UniformNode : public UniformNode {
 public:
