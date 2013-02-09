@@ -119,8 +119,9 @@ public:
 
         // Check value of uniform in program
         Gloop::Program program = programNode.getProgram();
+        const GLint location = program.uniformLocation(uniformNode.getName());
         GLfloat arr[3];
-        glGetUniformfv(program.id(), uniformNode.getLocation(), arr);
+        glGetUniformfv(program.id(), location, arr);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0f, arr[0], TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(2.0f, arr[1], TOLERANCE);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(3.0f, arr[2], TOLERANCE);

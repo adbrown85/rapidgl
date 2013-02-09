@@ -208,7 +208,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -244,7 +245,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -283,7 +285,8 @@ public:
         // Check actual value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -324,7 +327,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -360,7 +364,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -396,7 +401,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }
@@ -435,7 +441,8 @@ public:
         // Check value
         GLfloat actual[16];
         const Gloop::Program program = programNode.getProgram();
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        const GLint location = program.uniformLocation(uniformNode.getName());
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 16; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }

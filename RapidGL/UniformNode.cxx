@@ -27,19 +27,80 @@ namespace RapidGL {
  * @param type Data type of uniform, e.g. `GL_FLOAT` or `GL_FLOAT_VEC2`
  * @throws invalid_argument if name is empty
  */
-UniformNode::UniformNode(const std::string& name, const GLenum type) :
-        name(name), type(type), location(-1), prepared(false) {
+UniformNode::UniformNode(const std::string& name, const GLenum type) : name(name), type(type) {
     if (name.empty()) {
         throw std::invalid_argument("[UniformNode] Name is empty!");
     }
 }
 
 /**
- * Returns the location of this uniform in the shader program.
+ * Looks up the location of this uniform in a program.
  *
- * @return Location of this uniform in the shader program
+ * @return Location of this uniform in the program, or `-1` if it's not in the program
+ * @throws std::runtime_error if uniform is in program but has the wrong type
  */
-GLint UniformNode::getLocation() const {
+GLint UniformNode::findLocationInProgram(const Gloop::Program& program) const {
+
+    // Get uniforms in program
+    const std::map<std::string,Gloop::Uniform> uniforms = program.activeUniforms();
+
+    // Lookup uniform by name
+    const std::map<std::string,Gloop::Uniform>::const_iterator it = uniforms.find(name);
+    if (it == uniforms.end()) {
+        return -1;
+    }
+
+    // Store uniform
+    const Gloop::Uniform uniform = it->second;
+
+    // Check type
+    if (uniform.type() != type) {
+        throw std::runtime_error("[UniformNode] Uniform is of wrong type!");
+    }
+
+    // Return location
+    return uniform.location();
+}
+
+/**
+ * Returns a handle for the current OpenGL program.
+ *
+ * @return Handle for the current OpenGL program
+ * @throws std::runtime_error if no current program
+ */
+Gloop::Program UniformNode::getCurrentProgram() {
+
+    // Get the ID
+    GLint id;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &id);
+
+    // Check ID
+    if (((GLuint) id) == 0) {
+        throw std::runtime_error("[UniformNode] No current program!");
+    }
+
+    // Wrap it in a program
+    return Gloop::Program::fromId(id);
+}
+
+/**
+ * Returns the location of this uniform in a program.
+ *
+ * @param program Program to get location of this uniform in
+ * @return Location of this uniform in the program, or `-1` if it's not in the program
+ * @throws std::runtime_error if uniform is in the program but has the wrong type
+ */
+GLint UniformNode::getLocationInProgram(const Gloop::Program& program) {
+
+    // Look in cache first
+    const std::map<Gloop::Program,GLint>::const_iterator it = locations.find(program);
+    if (it != locations.end()) {
+        return it->second;
+    }
+
+    // If not in cache find it, store it for next time, and then return it
+    const GLint location = findLocationInProgram(program);
+    locations.insert(std::pair<Gloop::Program,GLint>(program, location));
     return location;
 }
 
@@ -59,48 +120,6 @@ std::string UniformNode::getName() const {
  */
 GLenum UniformNode::getType() const {
     return type;
-}
-
-void UniformNode::preVisit(State& state) {
-
-    // Skip if already prepared
-    if (prepared) {
-        return;
-    }
-
-    // Find use node
-    const UseNode* useNode = findAncestor<UseNode>(this);
-    if (useNode == NULL) {
-        throw std::runtime_error("[UniformNode] Could not find use node!");
-    }
-
-    // Get program node
-    const ProgramNode* programNode = useNode->getProgramNode();
-    if (programNode == NULL) {
-        throw std::runtime_error("[UniformNode] Use node has not been visited yet!");
-    }
-
-    // Get program
-    const Gloop::Program program = programNode->getProgram();
-
-    // Find uniform
-    const std::map<std::string,Gloop::Uniform> uniforms = program.activeUniforms();
-    const std::map<std::string,Gloop::Uniform>::const_iterator it = uniforms.find(name);
-    if (it == uniforms.end()) {
-        location = -1;
-        return;
-    }
-
-    // Check type
-    if (it->second.type() != type) {
-        throw std::runtime_error("[UniformNode] Uniform is of wrong type!");
-    }
-
-    // Store location
-    location = it->second.location();
-
-    // Successfully prepared
-    prepared = true;
 }
 
 } /* namespace RapidGL */

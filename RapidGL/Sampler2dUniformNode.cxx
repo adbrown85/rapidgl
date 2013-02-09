@@ -64,8 +64,6 @@ Gloop::TextureUnit Sampler2dUniformNode::getTextureUnit() const {
 
 void Sampler2dUniformNode::preVisit(State& state) {
 
-    UniformNode::preVisit(state);
-
     // Skip if already prepared
     if (prepared) {
         return;
@@ -90,7 +88,7 @@ void Sampler2dUniformNode::preVisit(State& state) {
 }
 
 void Sampler2dUniformNode::visit(State& state) {
-    const GLint location = getLocation();
+    const GLint location = getLocationInProgram(getCurrentProgram());
     if (location >= 0) {
         glUniform1i(location, unit.toOrdinal());
     }

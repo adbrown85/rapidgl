@@ -56,8 +56,16 @@ public:
             // empty
         }
 
+        Gloop::Program getCurrentProgram() {
+            return UniformNode::getCurrentProgram();
+        }
+
+        GLint getLocationInProgram(const Gloop::Program& program) {
+            return UniformNode::getLocationInProgram(program);
+        }
+
         virtual void visit(RapidGL::State& state) {
-            // empty
+            getLocationInProgram(getCurrentProgram());
         }
     };
 
@@ -116,9 +124,18 @@ public:
     }
 
     /**
-     * Ensures `UniformNode::preVisit` throws if name is not in the shader program.
+     * Ensures `UniformNode::getCurrentProgram` throws if there is no current program.
      */
-    void testPreVisitWithInvalidName() {
+    void testGetCurrentProgramWithNoCurrentProgram() {
+        FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
+        glUseProgram(0);
+        CPPUNIT_ASSERT_THROW(uniformNode.getCurrentProgram(), std::runtime_error);
+    }
+
+    /**
+     * Ensures `UniformNode::getLocationInProgram` returns `-1` if uniform is not in the shader program.
+     */
+    void testGetLocationInProgramWithInvalidName() {
 
         // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Foo", GL_FLOAT);
@@ -127,16 +144,19 @@ public:
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
+        visitor.visit(&sceneNode);
+
+        // Check location
+        CPPUNIT_ASSERT_EQUAL(-1, uniformNode.getLocationInProgram(programNode.getProgram()));
 
         // Disconnect uniform node
         useNode.removeChild(&uniformNode);
     }
 
     /**
-     * Ensures `UniformNode::preVisit` throws if type is not what's declared in the shader.
+     * Ensures `UniformNode::getLocationInProgram` throws if type is not what's declared in the shader.
      */
-    void testPreVisitWithInvalidType() {
+    void testGetLocationInProgramWithInvalidType() {
 
         // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Color", GL_FLOAT);
@@ -152,29 +172,58 @@ public:
     }
 
     /**
-     * Ensures `UniformNode::preVisit` throws if it does not have a program node ancestor.
+     * Ensures `UniformNode::getLocationInProgram` works correctly for two different programs.
      */
-    void testPreVisitWithNoProgramNodeAncestor() {
+    void testGetLocationInProgramWithTwoPrograms() {
 
-        // Make nodes
-        FakeNode fooNode;
-        FakeNode barNode;
+        // Make a uniform node
         FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
 
-        // Connect nodes
-        fooNode.addChild(&barNode);
-        barNode.addChild(&uniformNode);
+        // Connect the node
+        useNode.addChild(&uniformNode);
 
         // Visit the nodes
         RapidGL::State state;
         RapidGL::Visitor visitor(&state);
-        CPPUNIT_ASSERT_THROW(visitor.visit(&fooNode), std::runtime_error);
+        visitor.visit(&sceneNode);
+
+        // Disconnect uniform node
+        useNode.removeChild(&uniformNode);
+
+        // Make another scene
+        RapidGL::SceneNode secondSceneNode;
+
+        // Make another program
+        RapidGL::ProgramNode secondProgramNode("bar");
+        RapidGL::ShaderNode secondVertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
+        RapidGL::ShaderNode secondFragmentShaderNode(
+                GL_FRAGMENT_SHADER,
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  FragColor = vec4(1);\n"
+                "}\n");
+        RapidGL::UseNode secondUseNode("bar");
+
+        // Connect nodes
+        secondSceneNode.addChild(&secondProgramNode);
+        secondProgramNode.addChild(&secondVertexShaderNode);
+        secondProgramNode.addChild(&secondFragmentShaderNode);
+        secondSceneNode.addChild(&secondUseNode);
+        secondUseNode.addChild(&uniformNode);
+
+        // Visit the nodes
+        visitor.visit(&secondSceneNode);
+
+        // Check locations
+        CPPUNIT_ASSERT(uniformNode.getLocationInProgram(programNode.getProgram()) >= 0);
+        CPPUNIT_ASSERT(uniformNode.getLocationInProgram(secondProgramNode.getProgram()) < 0);
     }
 
     /**
-     * Ensures `UniformNode::preVisit` works correctly with a valid name and type.
+     * Ensures `UniformNode::getLocationInProgram` works correctly with a valid name and type.
      */
-    void testPreVisitWithValidNameAndType() {
+    void testGetLocationInProgramWithValidNameAndType() {
 
         // Make a uniform node and connect it to the use node
         FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
@@ -186,7 +235,7 @@ public:
         visitor.visit(&sceneNode);
 
         // Check location
-        CPPUNIT_ASSERT(uniformNode.getLocation() != -1);
+        CPPUNIT_ASSERT(uniformNode.getLocationInProgram(programNode.getProgram()) >= 0);
 
         // Disconnect uniform node
         useNode.removeChild(&uniformNode);
@@ -211,10 +260,11 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         UniformNodeTest test;
-        test.testPreVisitWithInvalidName();
-        test.testPreVisitWithInvalidType();
-        test.testPreVisitWithNoProgramNodeAncestor();
-        test.testPreVisitWithValidNameAndType();
+        test.testGetCurrentProgramWithNoCurrentProgram();
+        test.testGetLocationInProgramWithInvalidName();
+        test.testGetLocationInProgramWithInvalidType();
+        test.testGetLocationInProgramWithTwoPrograms();
+        test.testGetLocationInProgramWithValidNameAndType();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;

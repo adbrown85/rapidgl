@@ -126,9 +126,10 @@ public:
 
         // Check value
         Gloop::Program program = programNode.getProgram();
+        const GLint location = program.uniformLocation(uniformNode.getName());
         GLfloat expected[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         GLfloat actual[9];
-        glGetUniformfv(program.id(), uniformNode.getLocation(), actual);
+        glGetUniformfv(program.id(), location, actual);
         for (int i = 0; i < 9; ++i) {
             CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[i], actual[i], TOLERANCE);
         }

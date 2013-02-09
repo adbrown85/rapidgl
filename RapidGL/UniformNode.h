@@ -17,7 +17,9 @@
  */
 #ifndef RAPIDGL_UNIFORM_NODE_H
 #define RAPIDGL_UNIFORM_NODE_H
+#include <map>
 #include <string>
+#include <gloop/Program.hxx>
 #include "RapidGL/common.h"
 #include "RapidGL/Node.h"
 #include "RapidGL/ProgramNode.h"
@@ -33,16 +35,19 @@ class UniformNode : public Node {
 public:
 // Methods
     UniformNode(const std::string& name, GLenum type);
-    GLint getLocation() const;
     std::string getName() const;
     GLenum getType() const;
-    virtual void preVisit(State& state);
+protected:
+// Methods
+    static Gloop::Program getCurrentProgram();
+    GLint getLocationInProgram(const Gloop::Program& program);
 private:
 // Attributes
     std::string name;
-    GLint location;
-    bool prepared;
+    std::map<Gloop::Program,GLint> locations;
     GLenum type;
+// Methods
+    GLint findLocationInProgram(const Gloop::Program& program) const;
 };
 
 } /* namespace RapidGL */

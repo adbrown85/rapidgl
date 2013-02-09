@@ -118,8 +118,9 @@ public:
 
         // Check value
         const Gloop::Program program = programNode.getProgram();
+        const GLint location = program.uniformLocation(uniformNode.getName());
         GLfloat actual;
-        glGetUniformfv(program.id(), uniformNode.getLocation(), &actual);
+        glGetUniformfv(program.id(), location, &actual);
         CPPUNIT_ASSERT_DOUBLES_EQUAL(0.5f, actual, TOLERANCE);
     }
 };
