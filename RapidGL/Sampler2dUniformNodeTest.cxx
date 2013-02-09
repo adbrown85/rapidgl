@@ -169,13 +169,26 @@ public:
     void testPreVisitWithWrongType() {
 
         // Make nodes
+        RapidGL::SceneNode sceneNode;
+        RapidGL::ProgramNode programNode("bar");
+        RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
+        RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
         RapidGL::TextureNode textureNode("foo", Gloop::TextureTarget::texture3d(), Gloop::TextureObject::generate());
-        RapidGL::Sampler2dUniformNode uniformNode("Texture", "foo");
-        textureNode.addChild(&uniformNode);
+        RapidGL::UseNode useNode("bar");
+        RapidGL::Sampler2dUniformNode uniformNode("Texture1", "foo");
 
-        // Call `preVisit`
+        // Connect nodes
+        sceneNode.addChild(&programNode);
+        programNode.addChild(&vertexShaderNode);
+        programNode.addChild(&fragmentShaderNode);
+        sceneNode.addChild(&textureNode);
+        textureNode.addChild(&useNode);
+        useNode.addChild(&uniformNode);
+
+        // Visit the nodes
         RapidGL::State state;
-        CPPUNIT_ASSERT_THROW(uniformNode.preVisit(state), std::runtime_error);
+        RapidGL::Visitor visitor(&state);
+        CPPUNIT_ASSERT_THROW(visitor.visit(&sceneNode), std::runtime_error);
     }
 
     /**
