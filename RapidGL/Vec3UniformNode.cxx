@@ -48,7 +48,10 @@ void Vec3UniformNode::setValue(const M3d::Vec3& value) {
 }
 
 void Vec3UniformNode::visit(State& state) {
-    glUniform3f(getLocation(), value.x, value.y, value.z);
+    const GLint location = getLocation();
+    if (location >= 0) {
+        glUniform3f(location, value.x, value.y, value.z);
+    }
 }
 
 } /* namespace RapidGL */

@@ -48,9 +48,12 @@ void Mat3UniformNode::setValue(const M3d::Mat3& value) {
 }
 
 void Mat3UniformNode::visit(State& state) {
-    GLfloat arr[9];
-    value.toArrayInColumnMajor(arr);
-    glUniformMatrix3fv(getLocation(), 1, false, arr);
+    const GLint location = getLocation();
+    if (location >= 0) {
+        GLfloat arr[9];
+        value.toArrayInColumnMajor(arr);
+        glUniformMatrix3fv(location, 1, false, arr);
+    }
 }
 
 } /* namespace RapidGL */

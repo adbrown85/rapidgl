@@ -87,7 +87,8 @@ void UniformNode::preVisit(State& state) {
     const std::map<std::string,Gloop::Uniform> uniforms = program.activeUniforms();
     const std::map<std::string,Gloop::Uniform>::const_iterator it = uniforms.find(name);
     if (it == uniforms.end()) {
-        throw std::runtime_error("[UniformNode] Could not find uniform!");
+        location = -1;
+        return;
     }
 
     // Check type

@@ -115,6 +115,12 @@ Mat4UniformNode::Usage Mat4UniformNode::parseUsage(const std::string& str) {
 
 void Mat4UniformNode::visit(State& state) {
 
+    // Get the location
+    const GLint location = getLocation();
+    if (location < 0) {
+        return;
+    }
+
     // Get the value
     if (usage != IDENTITY) {
         value = getMatrixFromState(state, usage);
@@ -123,7 +129,7 @@ void Mat4UniformNode::visit(State& state) {
     // Load the value
     GLfloat arr[16];
     value.toArrayInColumnMajor(arr);
-    glUniformMatrix4fv(getLocation(), 1, false, arr);
+    glUniformMatrix4fv(location, 1, false, arr);
 }
 
 } /* namespace RapidGL */

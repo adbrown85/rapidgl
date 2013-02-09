@@ -48,7 +48,10 @@ void FloatUniformNode::setValue(const GLfloat value) {
 }
 
 void FloatUniformNode::visit(State& state) {
-    glUniform1f(getLocation(), value);
+    const GLint location = getLocation();
+    if (location >= 0) {
+        glUniform1f(location, value);
+    }
 }
 
 } /* namespace RapidGL */

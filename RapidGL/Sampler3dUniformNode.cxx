@@ -90,7 +90,10 @@ void Sampler3dUniformNode::preVisit(State& state) {
 }
 
 void Sampler3dUniformNode::visit(State& state) {
-    glUniform1i(getLocation(), unit.toOrdinal());
+    const GLint location = getLocation();
+    if (location >= 0) {
+        glUniform1i(location, unit.toOrdinal());
+    }
 }
 
 } /* namespace RapidGL */
