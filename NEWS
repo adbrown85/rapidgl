@@ -1,3 +1,6 @@
+v0.8.1
+ - Fixed two sampler tests accepting wrong exception
+
 v0.8
  - Added GroupNode and InstanceNode
  - Can bind attributes to explicit locations
