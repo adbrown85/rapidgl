@@ -116,7 +116,7 @@ Mat4UniformNode::Usage Mat4UniformNode::parseUsage(const std::string& str) {
 void Mat4UniformNode::visit(State& state) {
 
     // Get the location
-    const GLint location = getLocationInProgram(getCurrentProgram());
+    const GLint location = getLocationInProgram(Gloop::Program::current());
     if (location < 0) {
         return;
     }

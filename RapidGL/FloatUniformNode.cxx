@@ -48,7 +48,7 @@ void FloatUniformNode::setValue(const GLfloat value) {
 }
 
 void FloatUniformNode::visit(State& state) {
-    const GLint location = getLocationInProgram(getCurrentProgram());
+    const GLint location = getLocationInProgram(Gloop::Program::current());
     if (location >= 0) {
         glUniform1f(location, value);
     }

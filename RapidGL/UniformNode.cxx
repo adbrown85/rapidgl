@@ -63,27 +63,6 @@ GLint UniformNode::findLocationInProgram(const Gloop::Program& program) const {
 }
 
 /**
- * Returns a handle for the current OpenGL program.
- *
- * @return Handle for the current OpenGL program
- * @throws std::runtime_error if no current program
- */
-Gloop::Program UniformNode::getCurrentProgram() {
-
-    // Get the ID
-    GLint id;
-    glGetIntegerv(GL_CURRENT_PROGRAM, &id);
-
-    // Check ID
-    if (((GLuint) id) == 0) {
-        throw std::runtime_error("[UniformNode] No current program!");
-    }
-
-    // Wrap it in a program
-    return Gloop::Program::fromId(id);
-}
-
-/**
  * Returns the location of this uniform in a program.
  *
  * @param program Program to get location of this uniform in

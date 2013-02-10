@@ -39,7 +39,6 @@ public:
     GLenum getType() const;
 protected:
 // Methods
-    static Gloop::Program getCurrentProgram();
     GLint getLocationInProgram(const Gloop::Program& program);
 private:
 // Attributes

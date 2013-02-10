@@ -48,7 +48,7 @@ void Mat3UniformNode::setValue(const M3d::Mat3& value) {
 }
 
 void Mat3UniformNode::visit(State& state) {
-    const GLint location = getLocationInProgram(getCurrentProgram());
+    const GLint location = getLocationInProgram(Gloop::Program::current());
     if (location >= 0) {
         GLfloat arr[9];
         value.toArrayInColumnMajor(arr);

@@ -48,7 +48,7 @@ void Vec4UniformNode::setValue(const M3d::Vec4& value) {
 }
 
 void Vec4UniformNode::visit(State& state) {
-    const GLint location = getLocationInProgram(getCurrentProgram());
+    const GLint location = getLocationInProgram(Gloop::Program::current());
     if (location >= 0) {
         glUniform4f(location, value.x, value.y, value.z, value.w);
     }

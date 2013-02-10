@@ -88,7 +88,7 @@ void Sampler2dUniformNode::preVisit(State& state) {
 }
 
 void Sampler2dUniformNode::visit(State& state) {
-    const GLint location = getLocationInProgram(getCurrentProgram());
+    const GLint location = getLocationInProgram(Gloop::Program::current());
     if (location >= 0) {
         glUniform1i(location, unit.toOrdinal());
     }

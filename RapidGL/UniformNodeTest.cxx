@@ -18,6 +18,7 @@
 #include "config.h"
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
+#include <gloop/Program.hxx>
 #include <iostream>
 #include <stdexcept>
 #include "RapidGL/ProgramNode.h"
@@ -56,16 +57,12 @@ public:
             // empty
         }
 
-        Gloop::Program getCurrentProgram() {
-            return UniformNode::getCurrentProgram();
-        }
-
         GLint getLocationInProgram(const Gloop::Program& program) {
             return UniformNode::getLocationInProgram(program);
         }
 
         virtual void visit(RapidGL::State& state) {
-            getLocationInProgram(getCurrentProgram());
+            getLocationInProgram(Gloop::Program::current());
         }
     };
 
@@ -121,15 +118,6 @@ public:
         programNode.addChild(&vertexShaderNode);
         programNode.addChild(&fragmentShaderNode);
         sceneNode.addChild(&useNode);
-    }
-
-    /**
-     * Ensures `UniformNode::getCurrentProgram` throws if there is no current program.
-     */
-    void testGetCurrentProgramWithNoCurrentProgram() {
-        FakeUniformNode uniformNode("Color", GL_FLOAT_VEC4);
-        glUseProgram(0);
-        CPPUNIT_ASSERT_THROW(uniformNode.getCurrentProgram(), std::runtime_error);
     }
 
     /**
@@ -260,7 +248,6 @@ int main(int argc, char* argv[]) {
     // Run test
     try {
         UniformNodeTest test;
-        test.testGetCurrentProgramWithNoCurrentProgram();
         test.testGetLocationInProgramWithInvalidName();
         test.testGetLocationInProgramWithInvalidType();
         test.testGetLocationInProgramWithTwoPrograms();
