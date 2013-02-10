@@ -49,7 +49,7 @@ public:
 private:
 // Constants
     static const int VERTEX_COUNT = 36;
-    static Gloop::BufferTarget arrayBuffer;
+    static const Gloop::BufferTarget arrayBuffer;
     static std::vector<int> INDICES;
     static std::vector<M3d::Vec3> POINTS;
     static std::vector<M3d::Vec3> COORDS;

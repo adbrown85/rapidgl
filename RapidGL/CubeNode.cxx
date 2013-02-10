@@ -25,7 +25,7 @@
 namespace RapidGL {
 
 // Array buffer target
-Gloop::BufferTarget CubeNode::arrayBuffer = Gloop::BufferTarget::arrayBuffer();
+const Gloop::BufferTarget CubeNode::arrayBuffer = Gloop::BufferTarget::arrayBuffer();
 
 // Indices determining which triangle vertices correspond to which corners
 std::vector<int> CubeNode::INDICES = createIndices();
