@@ -69,7 +69,7 @@ PKG_CHECK_EXISTS([cppunit], [AC_MSG_RESULT([yes])], [error_no_cppunit])
 
 # Check for Gloop
 define([GLOOP_ID], [gloop-0])
-define([GLOOP_VERSION], [0.6.0])
+define([GLOOP_VERSION], [0.7.0])
 define([GLOOP_REQUIREMENT], [GLOOP_ID >= GLOOP_VERSION])
 PACKAGE_REQUIREMENTS+='GLOOP_REQUIREMENT '
 error_no_gloop() {
@@ -101,7 +101,7 @@ PKG_CHECK_EXISTS([M3D_REQUIREMENT], [AC_MSG_RESULT([yes])], [error_no_m3d])
 
 # Check for Glycerin
 define([GLYCERIN_ID], [glycerin-0])
-define([GLYCERIN_VERSION], [0.7.0])
+define([GLYCERIN_VERSION], [0.7.1])
 define([GLYCERIN_REQUIREMENT], [GLYCERIN_ID >= GLYCERIN_VERSION])
 PACKAGE_REQUIREMENTS+='GLYCERIN_REQUIREMENT '
 error_no_glycerin() {
