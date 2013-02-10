@@ -80,6 +80,20 @@ bool containsKey(std::map<K,V> map, K key) {
 
 
 /**
+ * Calls a function on each value in a map.
+ *
+ * @param map Map to call function on each value in
+ * @param f Function to call on each value in map
+ */
+template<typename K,typename V>
+void forEachValue(const std::map<K,V>& map, void (*f)(const V&)) {
+    for (typename std::map<K,V>::const_iterator it = map.begin(); it != map.end(); ++it) {
+        f(it->second);
+    }
+}
+
+
+/**
  * Gets the value of a key in a map.
  *
  * @param map Map to look in
