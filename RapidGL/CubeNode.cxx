@@ -28,13 +28,13 @@ namespace RapidGL {
 const Gloop::BufferTarget CubeNode::arrayBuffer = Gloop::BufferTarget::arrayBuffer();
 
 // Indices determining which triangle vertices correspond to which corners
-std::vector<int> CubeNode::INDICES = createIndices();
+const std::vector<int> CubeNode::INDICES = createIndices();
 
 // Points for each corner
-std::vector<M3d::Vec3> CubeNode::POINTS = createPoints();
+const std::vector<M3d::Vec3> CubeNode::POINTS = createPoints();
 
 // Texture coordinates for each corner
-std::vector<M3d::Vec3> CubeNode::COORDS = createCoords();
+const std::vector<M3d::Vec3> CubeNode::COORDS = createCoords();
 
 /**
  * Constructs a `CubeNode`.
