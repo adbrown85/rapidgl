@@ -17,9 +17,9 @@
  */
 #ifndef RAPIDGL_NODE_H
 #define RAPIDGL_NODE_H
-#include <vector>
 #include <string>
 #include <stdexcept>
+#include <vector>
 #include "RapidGL/common.h"
 #include "RapidGL/State.h"
 namespace RapidGL {
