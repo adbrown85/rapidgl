@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_NODE_H
 #define RAPIDGL_NODE_H
+#include <queue>
 #include <string>
 #include <stdexcept>
 #include <vector>
@@ -55,6 +56,19 @@ private:
     Node(const Node& node);
     Node& operator=(const Node& node);
 };
+
+/**
+ * Adds a range of nodes to a queue.
+ *
+ * @param q Queue to add to
+ * @param nodes Range of nodes to add to queue
+ */
+template<typename T>
+void addToQueue(std::queue<T>& q, const Node::node_range_t& nodes) {
+    for (Node::node_iterator_t it = nodes.begin; it != nodes.end; ++it) {
+        q.push(*it);
+    }
+}
 
 /**
  * Finds an ancestor of a particular type.
