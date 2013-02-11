@@ -17,6 +17,7 @@
  */
 #include "config.h"
 #include <stdexcept>
+#include <utility>
 #include <glycerin/BufferLayoutBuilder.hxx>
 #include <glycerin/BufferRegion.hxx>
 #include "RapidGL/SquareNode.h"
@@ -33,7 +34,6 @@ const Glycerin::BufferLayout SquareNode::bufferLayout = createBufferLayout();
 SquareNode::SquareNode() :
         prepared(false),
         boundingBox(createBoundingBox()),
-        vao(Gloop::VertexArrayObject::generate()),
         vbo(Gloop::BufferObject::generate()) {
 
     // Bind the VBO
@@ -70,7 +70,7 @@ SquareNode::SquareNode() :
  * Destructs this square node.
  */
 SquareNode::~SquareNode() {
-    vao.dispose();
+    forEachValue(vaos, &disposeVertexArrayObject);
     vbo.dispose();
 }
 
@@ -95,29 +95,17 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
         .build();
 }
 
-double SquareNode::intersect(const Glycerin::Ray& ray) const {
-    return boundingBox.intersect(ray);
-}
+Gloop::VertexArrayObject SquareNode::createVertexArrayObject(const Gloop::Program& program) {
 
-void SquareNode::preVisit(State& state) {
-
-    // Skip if already prepared
-    if (prepared) {
-        return;
-    }
-
-    // Find the use node
-    const UseNode* useNode = findAncestor<UseNode>(this);
-    if (useNode == NULL) {
-        throw std::runtime_error("[SquareNode] Could not find use node!");
-    }
-
-    // Get the program
-    const ProgramNode* programNode = useNode->getProgramNode();
+    // Find the program node for the program
+    const Node* root = findRoot(this);
+    const ProgramNode* programNode = findProgramNode(root, program);
     if (programNode == NULL) {
-        throw std::runtime_error("[SquareNode] Use node has not been visited yet!");
+        throw std::runtime_error("[SquareNode] Could not find program node for program!");
     }
-    Gloop::Program program = programNode->getProgram();
+
+    // Generate a VAO
+    const Gloop::VertexArrayObject vao = Gloop::VertexArrayObject::generate();
 
     // Look for attributes
     map<string,string> namesByUsage;
@@ -158,13 +146,54 @@ void SquareNode::preVisit(State& state) {
     arrayBuffer.unbind(vbo);
     vao.unbind();
 
-    // Successfully prepared
-    prepared = true;
+    // Return VAO
+    return vao;
+}
+
+/**
+ * Disposes of a vertex array object.
+ *
+ * @param vao Vertex array object to dispose of
+ */
+void SquareNode::disposeVertexArrayObject(const Gloop::VertexArrayObject& vao) {
+    vao.dispose();
+}
+
+Gloop::VertexArrayObject SquareNode::getVertexArrayObject(const Gloop::Program& program) {
+
+    // Check if already made VAO for program
+    std::map<Gloop::Program,Gloop::VertexArrayObject>::const_iterator it = vaos.find(program);
+    if (it != vaos.end()) {
+        return it->second;
+    }
+
+    // Otherwise make VAO
+    const Gloop::VertexArrayObject vao = createVertexArrayObject(program);
+
+    // Store it for next time
+    vaos.insert(std::pair<Gloop::Program,Gloop::VertexArrayObject>(program, vao));
+
+    // Return it
+    return vao;
+}
+
+double SquareNode::intersect(const Glycerin::Ray& ray) const {
+    return boundingBox.intersect(ray);
 }
 
 void SquareNode::visit(State& state) {
+
+    // Get current program
+    const Gloop::Program program = Gloop::Program::current();
+
+    // Get VAO for program and bind it
+    const Gloop::VertexArrayObject vao = getVertexArrayObject(program);
     vao.bind();
+
+    // Draw square
     glDrawArrays(GL_TRIANGLES, 0, COUNT);
+
+    // Unbind VAO
     vao.unbind();
 }
 

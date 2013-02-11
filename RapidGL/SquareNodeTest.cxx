@@ -22,6 +22,8 @@
 #include <iostream>
 #include <m3d/Vec4.h>
 #include "RapidGL/AttributeNode.h"
+#include "RapidGL/GroupNode.h"
+#include "RapidGL/InstanceNode.h"
 #include "RapidGL/Intersectable.h"
 #include "RapidGL/ProgramNode.h"
 #include "RapidGL/SceneNode.h"
@@ -45,9 +47,9 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
-     * Returns the source code for the vertex shader.
+     * Returns the source code for the first vertex shader.
      */
-    static std::string getVertexShaderSource() {
+    static std::string getFirstVertexShaderSource() {
         return
                 "#version 140\n"
                 "in vec4 MCVertex;\n"
@@ -60,15 +62,39 @@ public:
     }
 
     /**
-     * Returns the source code for the fragment shader.
+     * Returns the source code for the first fragment shader.
      */
-    static std::string getFragmentShaderSource() {
+    static std::string getFirstFragmentShaderSource() {
         return
                 "#version 140\n"
                 "in vec4 Coord0;\n"
                 "out vec4 FragColor;\n"
                 "void main() {\n"
                 "  FragColor = Coord0;\n"
+                "}\n";
+    }
+
+    /**
+     * Returns the source code for the second vertex shader.
+     */
+    static std::string getSecondVertexShaderSource() {
+        return
+                "#version 140\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "  gl_Position = MCVertex;\n"
+                "}\n";
+    }
+
+    /**
+     * Returns the source code for the second fragment shader.
+     */
+    static std::string getSecondFragmentShaderSource() {
+        return
+                "#version 140\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  FragColor = vec4(1);\n"
                 "}\n";
     }
 
@@ -94,42 +120,80 @@ public:
     }
 
     /**
-     * Ensures `SquareNode::preVisit` throws if could not find use node.
+     * Ensures `SquareNode::visit` works correctly with instancing.
      */
-    void testPreVisitWithNoUseNode() {
+    void testVisitWithInstancing() {
+
+        // Create scene node
+        RapidGL::SceneNode sceneNode;
+
+        // Create first program, shader, and attribute nodes
+        RapidGL::ProgramNode firstProgramNode("foo");
+        RapidGL::ShaderNode firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource());
+        RapidGL::ShaderNode firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource());
+        RapidGL::AttributeNode firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
+        RapidGL::AttributeNode firstCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
+
+        // Create second program, shader, and attribute nodes
+        RapidGL::ProgramNode secondProgramNode("bar");
+        RapidGL::ShaderNode secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource());
+        RapidGL::ShaderNode secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource());
+        RapidGL::AttributeNode secondVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
+
+        // Create first use node, group, and square
+        RapidGL::UseNode firstUseNode("foo");
+        RapidGL::GroupNode groupNode("baz");
         RapidGL::SquareNode squareNode;
-        CPPUNIT_ASSERT_THROW(squareNode.preVisit(state), std::runtime_error);
+
+        // Create second use node and instance
+        RapidGL::UseNode secondUseNode("bar");
+        RapidGL::InstanceNode instanceNode("baz");
+
+        // Add first program, shader, and attribute nodes
+        sceneNode.addChild(&firstProgramNode);
+        firstProgramNode.addChild(&firstVertexShaderNode);
+        firstProgramNode.addChild(&firstFragmentShaderNode);
+        firstProgramNode.addChild(&firstVertexAttributeNode);
+        firstProgramNode.addChild(&firstCoordAttributeNode);
+
+        // Add second program, shader, and attribute nodes
+        sceneNode.addChild(&secondProgramNode);
+        secondProgramNode.addChild(&secondVertexShaderNode);
+        secondProgramNode.addChild(&secondFragmentShaderNode);
+        secondProgramNode.addChild(&secondVertexAttributeNode);
+
+        // Add first use node, group, and square
+        sceneNode.addChild(&firstUseNode);
+        firstUseNode.addChild(&groupNode);
+        groupNode.addChild(&squareNode);
+
+        // Add second use node and instance
+        sceneNode.addChild(&secondUseNode);
+        secondUseNode.addChild(&instanceNode);
+
+        // Visit program nodes
+        RapidGL::Visitor visitor(&state);
+        visitor.visit(&firstProgramNode);
+        visitor.visit(&secondProgramNode);
+
+        // Visit group
+        visitor.visit(&firstUseNode);
+        glfwSwapBuffers();
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
+
+        // Visit instance
+        visitor.visit(&secondUseNode);
+        glfwSwapBuffers();
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
     }
 
     /**
-     * Ensures `SquareNode::visit` works correctly.
+     * Ensures `SquareNode::visit` throws if there is no current program.
      */
-    void testVisit() {
-
-        // Create nodes
-        RapidGL::SceneNode sceneNode;
-        RapidGL::ProgramNode programNode("foo");
-        RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource());
-        RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource());
-        RapidGL::AttributeNode vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
-        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
-        RapidGL::UseNode useNode("foo");
+    void testVisitWithNoCurrentProgram() {
         RapidGL::SquareNode squareNode;
-
-        // Connect nodes
-        sceneNode.addChild(&programNode);
-        programNode.addChild(&vertexShaderNode);
-        programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&vertexAttributeNode);
-        programNode.addChild(&coordAttributeNode);
-        sceneNode.addChild(&useNode);
-        useNode.addChild(&squareNode);
-
-        // Visit
-        RapidGL::Visitor visitor(&state);
-        visitor.visit(&sceneNode);
-        glfwSwapBuffers();
-        glfwSleep(SLEEP_TIME_IN_SECONDS);
+        glUseProgram(0);
+        CPPUNIT_ASSERT_THROW(squareNode.visit(state), std::runtime_error);
     }
 };
 
@@ -152,8 +216,8 @@ int main(int argc, char* argv[]) {
     try {
         SquareNodeTest test;
         test.testIntersect();
-        test.testPreVisitWithNoUseNode();
-        test.testVisit();
+        test.testVisitWithInstancing();
+        test.testVisitWithNoCurrentProgram();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
         throw;

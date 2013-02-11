@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_SQUARENODE_H
 #define RAPIDGL_SQUARENODE_H
+#include <map>
 #include <gloop/BufferObject.hxx>
 #include <gloop/BufferTarget.hxx>
 #include <gloop/Program.hxx>
@@ -43,7 +44,6 @@ public:
     SquareNode();
     virtual ~SquareNode();
     virtual double intersect(const Glycerin::Ray& ray) const;
-    virtual void preVisit(State& state);
     virtual void visit(State& state);
 private:
 // Constants
@@ -53,11 +53,14 @@ private:
 // Attributes
     bool prepared;
     Glycerin::AxisAlignedBoundingBox boundingBox;
-    Gloop::VertexArrayObject vao;
+    std::map<Gloop::Program,Gloop::VertexArrayObject> vaos;
     Gloop::BufferObject vbo;
 // Methods
     static Glycerin::AxisAlignedBoundingBox createBoundingBox();
     static Glycerin::BufferLayout createBufferLayout();
+    Gloop::VertexArrayObject createVertexArrayObject(const Gloop::Program& program);
+    static void disposeVertexArrayObject(const Gloop::VertexArrayObject& vao);
+    Gloop::VertexArrayObject getVertexArrayObject(const Gloop::Program& program);
 };
 
 } /* namespace RapidGL */
