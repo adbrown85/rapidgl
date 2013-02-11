@@ -25,7 +25,7 @@ using std::string;
 namespace RapidGL {
 
 const Gloop::BufferTarget SquareNode::arrayBuffer = Gloop::BufferTarget::arrayBuffer();
-Glycerin::BufferLayout SquareNode::bufferLayout = createBufferLayout();
+const Glycerin::BufferLayout SquareNode::bufferLayout = createBufferLayout();
 
 /**
  * Constructs a square node.
