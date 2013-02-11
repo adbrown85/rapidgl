@@ -19,6 +19,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/State.h"
 
 
 /**
