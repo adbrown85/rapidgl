@@ -154,6 +154,10 @@ void SquareNode::preVisit(State& state) {
         }
     }
 
+    // Unbind
+    arrayBuffer.unbind(vbo);
+    vao.unbind();
+
     // Successfully prepared
     prepared = true;
 }
@@ -161,6 +165,7 @@ void SquareNode::preVisit(State& state) {
 void SquareNode::visit(State& state) {
     vao.bind();
     glDrawArrays(GL_TRIANGLES, 0, COUNT);
+    vao.unbind();
 }
 
 } /* namespace RapidGL */
