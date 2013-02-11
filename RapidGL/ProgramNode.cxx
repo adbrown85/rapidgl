@@ -41,6 +41,34 @@ ProgramNode::~ProgramNode() {
 }
 
 /**
+ * Finds a program node for a program.
+ *
+ * @param root Root of tree to look in
+ * @param program Program to look for
+ * @return Program node with program, or `NULL` if not found
+ */
+const ProgramNode* findProgramNode(const Node* root, const Gloop::Program& program) {
+
+    // Create a queue and push the root into it
+    std::queue<const Node*> q;
+    q.push(root);
+
+    // Look for program node with program
+    while (!q.empty()) {
+        const Node* node = q.front();
+        const ProgramNode* programNode = dynamic_cast<const ProgramNode*>(node);
+        if ((programNode != NULL) && (programNode->getProgram() == program)) {
+            return programNode;
+        }
+        addToQueue(q, node->getChildren());
+        q.pop();
+    }
+
+    // Not found
+    return NULL;
+}
+
+/**
  * Returns the underlying OpenGL shader program.
  *
  * @return Underlying OpenGL shader program

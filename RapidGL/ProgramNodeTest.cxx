@@ -19,6 +19,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <GL/glfw.h>
 #include "RapidGL/ProgramNode.h"
+#include "RapidGL/SceneNode.h"
 #include "RapidGL/State.h"
 
 
@@ -27,6 +28,54 @@
  */
 class ProgramNodeTest {
 public:
+
+    /**
+     * Fake node used for testing.
+     */
+    class FakeNode : public RapidGL::Node {
+    public:
+        FakeNode() { }
+        virtual void visit(RapidGL::State& state) { }
+    };
+
+    /**
+     * Ensures `findProgramNode` works when the program is in the tree.
+     */
+    void testFindProgramNodeWhenProgramIsInTree() {
+
+        // Create nodes
+        RapidGL::SceneNode sceneNode;
+        FakeNode fakeNode;
+        RapidGL::ProgramNode programNode("foo");
+
+        // Connect nodes
+        sceneNode.addChild(&fakeNode);
+        fakeNode.addChild(&programNode);
+
+        // Check results
+        const RapidGL::ProgramNode* actual = findProgramNode(&sceneNode, programNode.getProgram());
+        CPPUNIT_ASSERT_EQUAL((const RapidGL::ProgramNode*) &programNode, actual);
+    }
+
+    /**
+     * Ensures `findProgramNode` works when the program is not in the tree.
+     */
+    void testFindProgramNodeWhenProgramIsNotInTree() {
+
+        // Create nodes
+        RapidGL::SceneNode sceneNode;
+        FakeNode fakeNode;
+        RapidGL::ProgramNode programNode("foo");
+
+        // Connect nodes
+        sceneNode.addChild(&fakeNode);
+        fakeNode.addChild(&programNode);
+
+        // Check results
+        const Gloop::Program program = Gloop::Program::create();
+        const RapidGL::ProgramNode* actual = findProgramNode(&sceneNode, program);
+        CPPUNIT_ASSERT_EQUAL((const RapidGL::ProgramNode*) NULL, actual);
+    }
 
     /**
      * Ensures `ProgramNode::preVisit` works when attribute is in program and it's been given an explicit location.
@@ -206,6 +255,8 @@ int main(int argc, char* argv[]) {
     // Run test
     ProgramNodeTest test;
     try {
+        test.testFindProgramNodeWhenProgramIsInTree();
+        test.testFindProgramNodeWhenProgramIsNotInTree();
         test.testPreVisitWhenAttributeIsInProgramAndLocationIsSpecified();
         test.testPreVisitWhenAttributeIsInProgramAndLocationIsUnspecified();
         test.testPreVisitWhenAttributeIsNotInProgramAndLocationIsSpecified();

@@ -43,5 +43,7 @@ private:
     Gloop::Program program;
 };
 
+const ProgramNode* findProgramNode(const Node* root, const Gloop::Program& program);
+
 } /* namespace RapidGL */
 #endif
