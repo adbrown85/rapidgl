@@ -1,3 +1,6 @@
+v0.9.1
+ - Cube and square node tests use attrib locations to better test instancing
+
 v0.9
  - Cube and square nodes support instancing
  - Uniform nodes support instancing
