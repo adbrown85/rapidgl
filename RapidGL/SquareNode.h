@@ -48,7 +48,7 @@ public:
 private:
 // Constants
     static const int COUNT = 6;
-    static Gloop::BufferTarget arrayBuffer;
+    static const Gloop::BufferTarget arrayBuffer;
     static Glycerin::BufferLayout bufferLayout;
 // Attributes
     bool prepared;
