@@ -20,12 +20,24 @@
 namespace RapidGL {
 
 /**
- * Constructs a `Mat3UniformNode`.
+ * Constructs a `Mat3UniformNode` with the default value.
  *
  * @param name Name of uniform as declared in the shader
  * @throws invalid_argument if name is empty
  */
 Mat3UniformNode::Mat3UniformNode(const std::string& name) : UniformNode(name, TYPE) {
+    // empty
+}
+
+/**
+ * Constructs a `Mat3UniformNode` with an initial value.
+ *
+ * @param name Name of uniform as declared in the shader
+ * @param value Initial value of uniform
+ * @throws invalid_argument if name is empty
+ */
+Mat3UniformNode::Mat3UniformNode(const std::string& name, const M3d::Mat3& value) :
+        UniformNode(name, TYPE), value(value) {
     // empty
 }
 

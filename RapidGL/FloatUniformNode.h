@@ -30,6 +30,7 @@ class FloatUniformNode : public UniformNode {
 public:
 // Methods
     FloatUniformNode(const std::string& name);
+    FloatUniformNode(const std::string& name, GLfloat value);
     GLfloat getValue() const;
     void setValue(GLfloat value);
     virtual void visit(State& state);

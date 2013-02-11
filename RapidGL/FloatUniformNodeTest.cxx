@@ -104,6 +104,15 @@ public:
         CPPUNIT_ASSERT_EQUAL(0.0f, uniformNode.getValue());
     }
 
+    /*
+     * Ensures `FloatUniformNode::FloatUniformNode(const string&, GLfloat)` works correctly.
+     */
+    void testFloatUniformNodeStringFloat() {
+        const GLfloat value = 1.0f;
+        const RapidGL::FloatUniformNode uniformNode("foo", value);
+        CPPUNIT_ASSERT_EQUAL(value, uniformNode.getValue());
+    }
+
     /**
      * Ensures `FloatUniformNode::getType` returns `GL_FLOAT`.
      */
@@ -152,6 +161,7 @@ int main(int argc, char* argv[]) {
     try {
         FloatUniformNodeTest test;
         test.testFloatUniformNodeString();
+        test.testFloatUniformNodeStringFloat();
         test.testGetType();
         test.testVisit();
     } catch (std::exception& e) {

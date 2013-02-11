@@ -20,12 +20,24 @@
 namespace RapidGL {
 
 /**
- * Constructs a `Vec3UniformNode`.
+ * Constructs a `Vec3UniformNode` with the default value.
  *
  * @param name Name of the uniform as declared in the shader
  * @throws invalid_argument if name is empty
  */
 Vec3UniformNode::Vec3UniformNode(const std::string& name) : UniformNode(name, TYPE) {
+    // empty
+}
+
+/**
+ * Constructs a `Vec3UniformNode` with an initial value.
+ *
+ * @param name Name of the uniform as declared in the shader
+ * @param value Initial value of uniform
+ * @throws invalid_argument if name is empty
+ */
+Vec3UniformNode::Vec3UniformNode(const std::string& name, const M3d::Vec3& value) :
+        UniformNode(name, TYPE), value(value) {
     // empty
 }
 

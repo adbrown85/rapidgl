@@ -31,6 +31,7 @@ class Mat3UniformNode : public UniformNode {
 public:
 // Methods
     Mat3UniformNode(const std::string& name);
+    Mat3UniformNode(const std::string& name, const M3d::Mat3& value);
     M3d::Mat3 getValue() const;
     void setValue(const M3d::Mat3& value);
     virtual void visit(State& state);

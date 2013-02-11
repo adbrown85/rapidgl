@@ -108,6 +108,22 @@ public:
     }
 
     /**
+     * Ensures `Mat3UniformNode::Mat3UniformNode(const string&, const Mat3&)` works correctly.
+     */
+    void testMat3UniformNodeStringMat3() {
+
+        // Make initial value
+        M3d::Mat3 value;
+        value[0] = M3d::Vec3(1, 2, 3);
+        value[1] = M3d::Vec3(4, 5, 6);
+        value[2] = M3d::Vec3(7, 8, 9);
+
+        // Construct node and check value
+        const RapidGL::Mat3UniformNode uniformNode("foo", value);
+        CPPUNIT_ASSERT_EQUAL(value, uniformNode.getValue());
+    }
+
+    /**
      * Ensures `Mat3UniformNode::visit` works correctly.
      */
     void testVisit() {
@@ -155,6 +171,7 @@ int main(int argc, char* argv[]) {
     try {
         Mat3UniformNodeTest test;
         test.testGetType();
+        test.testMat3UniformNodeStringMat3();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

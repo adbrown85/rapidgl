@@ -33,6 +33,7 @@ class Vec3UniformNode : public UniformNode {
 public:
 // Methods
     Vec3UniformNode(const std::string& name);
+    Vec3UniformNode(const std::string& name, const M3d::Vec3& value);
     M3d::Vec3 getValue() const;
     void setValue(const M3d::Vec3& value);
     virtual void visit(State& state);

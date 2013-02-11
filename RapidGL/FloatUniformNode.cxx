@@ -20,12 +20,24 @@
 namespace RapidGL {
 
 /**
- * Constructs a `FloatUniformNode`.
+ * Constructs a `FloatUniformNode` with the default value.
  *
  * @param name Name of the uniform as declared in the shader
  * @throws invalid_argument if name is empty
  */
 FloatUniformNode::FloatUniformNode(const std::string& name) : UniformNode(name, TYPE), value(0) {
+    // empty
+}
+
+/**
+ * Constructs a `FloatUniformNode` with an initial value.
+ *
+ * @param name Name of the uniform as declared in the shader
+ * @param value Initial value of uniform
+ * @throws invalid_argument if name is empty
+ */
+FloatUniformNode::FloatUniformNode(const std::string& name, const GLfloat value) :
+        UniformNode(name, TYPE), value(value) {
     // empty
 }
 

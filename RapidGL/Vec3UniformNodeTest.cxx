@@ -105,6 +105,15 @@ public:
     }
 
     /**
+     * Ensures `Vec3UniformNode::Vec3UniformNode(const string&, const Vec3&)` works correctly.
+     */
+    void testVec3UniformNodeStringVec3() {
+        const M3d::Vec3 value(1, 2, 3);
+        const RapidGL::Vec3UniformNode uniformNode("foo", value);
+        CPPUNIT_ASSERT_EQUAL(value, uniformNode.getValue());
+    }
+
+    /**
      * Ensures `Vec3UniformNode::visit` works correctly.
      */
     void testVisit() {
@@ -147,6 +156,7 @@ int main(int argc, char* argv[]) {
     try {
         Vec3UniformNodeTest test;
         test.testGetType();
+        test.testVec3UniformNodeStringVec3();
         test.testVisit();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
