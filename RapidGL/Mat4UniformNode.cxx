@@ -31,7 +31,7 @@ std::map<std::string,Mat4UniformNode::Usage> Mat4UniformNode::usagesByName = cre
  * @throws invalid_argument if name is empty
  */
 Mat4UniformNode::Mat4UniformNode(const std::string& name, const Usage usage) :
-        UniformNode(name, GL_FLOAT_MAT4),
+        UniformNode(name, TYPE),
         value(M3d::Mat4(1)),
         usage(usage) {
     // empty

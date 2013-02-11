@@ -25,7 +25,7 @@ namespace RapidGL {
  * @param name Name of the uniform as declared in the shader
  * @throws invalid_argument if name is empty
  */
-Vec3UniformNode::Vec3UniformNode(const std::string& name) : UniformNode(name, GL_FLOAT_VEC3) {
+Vec3UniformNode::Vec3UniformNode(const std::string& name) : UniformNode(name, TYPE) {
     // empty
 }
 

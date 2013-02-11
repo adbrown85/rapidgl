@@ -28,7 +28,7 @@ namespace RapidGL {
  * @throws std::invalid_argument if name or link is empty
  */
 Sampler3dUniformNode::Sampler3dUniformNode(const std::string& name, const std::string& link) :
-        UniformNode(name, GL_SAMPLER_3D),
+        UniformNode(name, TYPE),
         link(link),
         unit(Gloop::TextureUnit::fromEnum(GL_TEXTURE0)),
         prepared(false) {

@@ -38,6 +38,8 @@ public:
     virtual void preVisit(State& state);
     virtual void visit(State& state);
 private:
+// Constants
+    static const GLenum TYPE = GL_SAMPLER_3D;
 // Attributes
     bool prepared;
     const std::string link;

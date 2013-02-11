@@ -35,6 +35,8 @@ public:
     void setValue(const M3d::Mat3& value);
     virtual void visit(State& state);
 private:
+// Constants
+    static const GLenum TYPE = GL_FLOAT_MAT3;
 // Attributes
     M3d::Mat3 value;
 };

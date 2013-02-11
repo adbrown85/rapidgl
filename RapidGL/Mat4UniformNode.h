@@ -48,6 +48,7 @@ public:
     virtual void visit(State& state);
 private:
 // Constants
+    static const GLenum TYPE = GL_FLOAT_MAT4;
     static std::map<std::string,Usage> usagesByName;
 // Attributes
     const Usage usage;

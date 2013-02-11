@@ -34,6 +34,8 @@ public:
     void setValue(GLfloat value);
     virtual void visit(State& state);
 private:
+// Constants
+    static const GLenum TYPE = GL_FLOAT;
 // Attributes
     GLfloat value;
 };

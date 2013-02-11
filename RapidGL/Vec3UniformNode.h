@@ -37,6 +37,8 @@ public:
     void setValue(const M3d::Vec3& value);
     virtual void visit(State& state);
 private:
+// Constants
+    static const GLenum TYPE = GL_FLOAT_VEC3;
 // Attributes
     M3d::Vec3 value;
 };
