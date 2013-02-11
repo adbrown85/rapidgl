@@ -29,6 +29,8 @@
 #include <GL/glfw.h>
 #include "RapidGL/AttributeNode.h"
 #include "RapidGL/CubeNode.h"
+#include "RapidGL/GroupNode.h"
+#include "RapidGL/InstanceNode.h"
 #include "RapidGL/Intersectable.h"
 #include "RapidGL/Mat4UniformNode.h"
 #include "RapidGL/ProgramNode.h"
@@ -36,6 +38,7 @@
 #include "RapidGL/ShaderNode.h"
 #include "RapidGL/State.h"
 #include "RapidGL/UseNode.h"
+#include "RapidGL/Vec4UniformNode.h"
 #include "RapidGL/Visitor.h"
 
 
@@ -52,9 +55,9 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
-     * Returns the source code for the vertex shader.
+     * Returns the source code for the first vertex shader.
      */
-    static std::string getVertexShaderSource() {
+    static std::string getFirstVertexShaderSource() {
         return
                 "#version 140\n"
                 "uniform mat4 MVPMatrix = mat4(1);\n"
@@ -68,15 +71,41 @@ public:
     }
 
     /**
-     * Returns the source code for the fragment shader.
+     * Returns the source code for the first fragment shader.
      */
-    static std::string getFragmentShaderSource() {
+    static std::string getFirstFragmentShaderSource() {
         return
                 "#version 140\n"
                 "in vec4 Coord0;\n"
                 "out vec4 FragColor;\n"
                 "void main() {\n"
                 "  FragColor = Coord0;\n"
+                "}\n";
+    }
+
+    /**
+     * Returns the source code for the first vertex shader.
+     */
+    static std::string getSecondVertexShaderSource() {
+        return
+                "#version 140\n"
+                "uniform mat4 MVPMatrix = mat4(1);\n"
+                "in vec4 MCVertex;\n"
+                "void main() {\n"
+                "  gl_Position = MVPMatrix * MCVertex;\n"
+                "}\n";
+    }
+
+    /**
+     * Returns the source code for the second fragment shader.
+     */
+    static std::string getSecondFragmentShaderSource() {
+        return
+                "#version 140\n"
+                "uniform vec4 Color = vec4(1);\n"
+                "out vec4 FragColor;\n"
+                "void main() {\n"
+                "  FragColor = Color;\n"
                 "}\n";
     }
 
@@ -117,49 +146,73 @@ public:
     // Root of scene
     RapidGL::SceneNode sceneNode;
 
-    // Shader program
-    RapidGL::ProgramNode programNode;
+    // First program, shader, and attributes
+    RapidGL::ProgramNode firstProgramNode;
+    RapidGL::ShaderNode firstVertexShaderNode;
+    RapidGL::ShaderNode firstFragmentShaderNode;
+    RapidGL::AttributeNode firstVertexAttributeNode;
+    RapidGL::AttributeNode firstCoordinateAttributeNode;
 
-    // Vertex shader
-    RapidGL::ShaderNode vertexShaderNode;
+    // Second program, shader, and attributes
+    RapidGL::ProgramNode secondProgramNode;
+    RapidGL::ShaderNode secondVertexShaderNode;
+    RapidGL::ShaderNode secondFragmentShaderNode;
+    RapidGL::AttributeNode secondVertexAttributeNode;
 
-    // Fragment shader
-    RapidGL::ShaderNode fragmentShaderNode;
-
-    // Description of attribute for vertices
-    RapidGL::AttributeNode vertexAttributeNode;
-
-    // Description of attribute for texture coordinates
-    RapidGL::AttributeNode coordinateAttributeNode;
-
-    // Usage of program
-    RapidGL::UseNode useNode;
-
-    // Uniform for model-view-projection matrix
-    RapidGL::Mat4UniformNode uniformNode;
-
-    // Cube node
+    // Group rendered with first program
+    RapidGL::UseNode firstUseNode;
+    RapidGL::GroupNode groupNode;
+    RapidGL::Mat4UniformNode mat4UniformNode;
+    RapidGL::Vec4UniformNode vec4UniformNode;
     RapidGL::CubeNode cubeNode;
+
+    // Instance rendered with second program
+    RapidGL::UseNode secondUseNode;
+    RapidGL::InstanceNode instanceNode;
 
     /**
      * Constructs the test.
      */
     CubeNodeTest() :
-            programNode("foo"),
-            vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
-            fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
-            vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1),
-            useNode("foo"),
-            uniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION) {
-        sceneNode.addChild(&programNode);
-        programNode.addChild(&vertexShaderNode);
-        programNode.addChild(&fragmentShaderNode);
-        programNode.addChild(&vertexAttributeNode);
-        programNode.addChild(&coordinateAttributeNode);
-        sceneNode.addChild(&useNode);
-        useNode.addChild(&uniformNode);
-        useNode.addChild(&cubeNode);
+            firstProgramNode("foo"),
+            firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource()),
+            firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource()),
+            firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
+            firstCoordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1),
+            secondProgramNode("bar"),
+            secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource()),
+            secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource()),
+            secondVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
+            firstUseNode("foo"),
+            groupNode("baz"),
+            mat4UniformNode("MVPMatrix", RapidGL::Mat4UniformNode::MODEL_VIEW_PROJECTION),
+            vec4UniformNode("Color", M3d::Vec4(1, 1, 0, 1)),
+            secondUseNode("bar"),
+            instanceNode("baz") {
+
+        // Add first program
+        sceneNode.addChild(&firstProgramNode);
+        firstProgramNode.addChild(&firstVertexShaderNode);
+        firstProgramNode.addChild(&firstFragmentShaderNode);
+        firstProgramNode.addChild(&firstVertexAttributeNode);
+        firstProgramNode.addChild(&firstCoordinateAttributeNode);
+
+        // Add second program
+        sceneNode.addChild(&secondProgramNode);
+        secondProgramNode.addChild(&secondVertexShaderNode);
+        secondProgramNode.addChild(&secondFragmentShaderNode);
+        secondProgramNode.addChild(&secondVertexAttributeNode);
+
+        // Add first program with group
+        sceneNode.addChild(&firstUseNode);
+        firstUseNode.addChild(&groupNode);
+        groupNode.addChild(&mat4UniformNode);
+        groupNode.addChild(&vec4UniformNode);
+        groupNode.addChild(&cubeNode);
+
+        // Add second program with instance
+        sceneNode.addChild(&secondUseNode);
+        secondUseNode.addChild(&instanceNode);
     }
 
     /**
@@ -202,11 +255,18 @@ public:
         state.setViewMatrix(getViewMatrix());
         state.setProjectionMatrix(getProjectionMatrix());
 
-        // Visit nodes
+        // Visit program nodes
         RapidGL::Visitor visitor(&state);
-        visitor.visit(&sceneNode);
+        visitor.visit(&firstProgramNode);
+        visitor.visit(&secondProgramNode);
 
-        // Flush
+        // Visit group
+        visitor.visit(&firstUseNode);
+        glfwSwapBuffers();
+        glfwSleep(SLEEP_TIME_IN_SECONDS);
+
+        // Visit instance
+        visitor.visit(&secondUseNode);
         glfwSwapBuffers();
         glfwSleep(SLEEP_TIME_IN_SECONDS);
     }

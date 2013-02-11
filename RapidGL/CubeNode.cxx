@@ -46,7 +46,6 @@ CubeNode::CubeNode(const std::string& id) :
         ready(false),
         boundingBox(createBoundingBox()),
         layout(createBufferLayout()),
-        vao(Gloop::VertexArrayObject::generate()),
         vbo(Gloop::BufferObject::generate()) {
 
     // Bind buffer
@@ -77,7 +76,7 @@ CubeNode::CubeNode(const std::string& id) :
  * Destructs a `CubeNode`.
  */
 CubeNode::~CubeNode() {
-    vao.dispose();
+    forEachValue(vaos, &disposeVertexArrayObject);
     vbo.dispose();
 }
 
@@ -162,29 +161,17 @@ std::vector<M3d::Vec3> CubeNode::createPoints() {
     return points;
 }
 
-double CubeNode::intersect(const Glycerin::Ray& ray) const {
-    return boundingBox.intersect(ray);
-}
+Gloop::VertexArrayObject CubeNode::createVertexArrayObject(const Gloop::Program& program) {
 
-void CubeNode::preVisit(State& state) {
+    // Generate VAO
+    const Gloop::VertexArrayObject vao = Gloop::VertexArrayObject::generate();
 
-    // Skip if already ready
-    if (ready) {
-        return;
-    }
-
-    // Find use node
-    const UseNode* useNode = findAncestor<UseNode>(this);
-    if (useNode == NULL) {
-        throw std::runtime_error("[CubeNode] Could not find use node!");
-    }
-
-    // Get program
-    const ProgramNode* programNode = useNode->getProgramNode();
+    // Find program node for program
+    const Node* root = findRoot(this);
+    const ProgramNode* programNode = findProgramNode(root, program);
     if (programNode == NULL) {
-        throw std::runtime_error("[CubeNode] Use node has not been visited yet!");
+        throw std::runtime_error("[CubeNode] Could not find program node for program!");
     }
-    const Gloop::Program program = programNode->getProgram();
 
     // Find attribute locations by usage
     std::map<AttributeNode::Usage,GLint> locationsByUsage;
@@ -225,13 +212,60 @@ void CubeNode::preVisit(State& state) {
     // Unbind VAO
     vao.unbind();
 
-    // Ready
-    ready = true;
+    // Return VAO
+    return vao;
+}
+
+/**
+ * Disposes of a vertex array object.
+ *
+ * @param vao Vertex Array Object to dispose of
+ */
+void CubeNode::disposeVertexArrayObject(const Gloop::VertexArrayObject& vao) {
+    vao.dispose();
+}
+
+/**
+ * Returns the vertex array object to use for a program.
+ *
+ * @param program Program to find vertex array object for
+ * @return Vertex array object for program
+ */
+Gloop::VertexArrayObject CubeNode::getVertexArrayObject(const Gloop::Program& program) {
+
+    // If VAO already made for the program just return it
+    std::map<Gloop::Program,Gloop::VertexArrayObject>::const_iterator it = vaos.find(program);
+    if (it != vaos.end()) {
+        return it->second;
+    }
+
+    // Otherwise create it
+    const Gloop::VertexArrayObject vao = createVertexArrayObject(program);
+
+    // Store it for next time
+    vaos.insert(std::pair<Gloop::Program,Gloop::VertexArrayObject>(program, vao));
+
+    // Return it
+    return vao;
+}
+
+double CubeNode::intersect(const Glycerin::Ray& ray) const {
+    return boundingBox.intersect(ray);
 }
 
 void CubeNode::visit(State& state) {
+
+    // Get current program
+    const Gloop::Program program = Gloop::Program::current();
+
+    // Get the VAO and bind it
+    const Gloop::VertexArrayObject vao = getVertexArrayObject(program);
     vao.bind();
+
+    // Draw the cube
     glDrawArrays(GL_TRIANGLES, 0, VERTEX_COUNT);
+
+    // Unbind the VAO
     vao.unbind();
 }
 

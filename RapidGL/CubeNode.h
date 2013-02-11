@@ -17,6 +17,7 @@
  */
 #ifndef RAPIDGL_CUBE_NODE_H
 #define RAPIDGL_CUBE_NODE_H
+#include <map>
 #include <vector>
 #include <gloop/BufferObject.hxx>
 #include <gloop/BufferTarget.hxx>
@@ -44,7 +45,6 @@ public:
     CubeNode(const std::string& id = "");
     virtual ~CubeNode();
     virtual double intersect(const Glycerin::Ray& ray) const;
-    virtual void preVisit(State& state);
     virtual void visit(State& state);
 private:
 // Constants
@@ -58,13 +58,16 @@ private:
     const Glycerin::AxisAlignedBoundingBox boundingBox;
     const Gloop::BufferObject vbo;
     const Glycerin::BufferLayout layout;
-    const Gloop::VertexArrayObject vao;
+    std::map<Gloop::Program,Gloop::VertexArrayObject> vaos;
 // Methods
     static Glycerin::AxisAlignedBoundingBox createBoundingBox();
     static Glycerin::BufferLayout createBufferLayout();
     static std::vector<M3d::Vec3> createCoords();
     static std::vector<int> createIndices();
     static std::vector<M3d::Vec3> createPoints();
+    Gloop::VertexArrayObject createVertexArrayObject(const Gloop::Program& program);
+    static void disposeVertexArrayObject(const Gloop::VertexArrayObject& vao);
+    Gloop::VertexArrayObject getVertexArrayObject(const Gloop::Program& program);
 };
 
 } /* namespace RapidGL */
