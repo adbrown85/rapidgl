@@ -94,9 +94,9 @@ public:
     }
 
     /**
-     * Ensures `SquareNode::preVisit` throws if could not find program node.
+     * Ensures `SquareNode::preVisit` throws if could not find use node.
      */
-    void testPreVisitWithNoProgramNode() {
+    void testPreVisitWithNoUseNode() {
         RapidGL::SquareNode squareNode;
         CPPUNIT_ASSERT_THROW(squareNode.preVisit(state), std::runtime_error);
     }
@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
     try {
         SquareNodeTest test;
         test.testIntersect();
-        test.testPreVisitWithNoProgramNode();
+        test.testPreVisitWithNoUseNode();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;
