@@ -1,3 +1,8 @@
+v0.10
+ - Renamed AttributeNode::Usage POINT to POSITION
+ - Renamed AttributeNode::Usage COORDINATE TO TEXCOORD0
+ - Added AttributeNode::Usage COLOR
+
 v0.9.1
  - Cube and square node tests use attrib locations to better test instancing
 
