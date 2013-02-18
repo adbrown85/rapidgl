@@ -166,7 +166,7 @@ public:
             secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource()),
             secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource()),
             secondPointAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1),
-            secondCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1) {
+            secondCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1) {
 
         sceneNode.addChild(&firstProgramNode);
         firstProgramNode.addChild(&firstVertexShaderNode);

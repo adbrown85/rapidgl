@@ -178,7 +178,7 @@ public:
             firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource()),
             firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource()),
             firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, 1),
-            firstCoordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, 2),
+            firstCoordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, 2),
             secondProgramNode("bar"),
             secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource()),
             secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource()),

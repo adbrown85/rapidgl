@@ -84,7 +84,7 @@ public:
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1);
-        RapidGL::AttributeNode coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
+        RapidGL::AttributeNode coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1);
         RapidGL::UseNode useNode("foo");
         RapidGL::SquareNode squareNode;
 
@@ -255,7 +255,7 @@ public:
         RapidGL::ShaderNode vertexShaderNode(GL_VERTEX_SHADER, vertexShaderSource);
         RapidGL::ShaderNode fragmentShaderNode(GL_FRAGMENT_SHADER, fragmentShaderSource);
         RapidGL::AttributeNode pointAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1);
-        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
+        RapidGL::AttributeNode coordAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1);
         RapidGL::UseNode useNode("foo");
 
         // Create square

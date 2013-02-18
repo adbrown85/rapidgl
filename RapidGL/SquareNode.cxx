@@ -53,7 +53,7 @@ SquareNode::SquareNode() :
     arrayBuffer.subData(vertexRegion.offset(), vertexRegion.sizeInBytes(), points);
 
     // Add coordinates
-    const Glycerin::BufferRegion coordRegion = *(bufferLayout.find("COORDINATE"));
+    const Glycerin::BufferRegion coordRegion = *(bufferLayout.find("TEXCOORD"));
     GLfloat coords[COUNT][2] = { { 1.0f, 1.0f },
                                  { 0.0f, 1.0f },
                                  { 0.0f, 0.0f },
@@ -91,7 +91,7 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
         .count(COUNT)
         .components(2)
         .region("POSITION")
-        .region("COORDINATE")
+        .region("TEXCOORD")
         .build();
 }
 

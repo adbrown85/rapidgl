@@ -187,7 +187,7 @@ public:
                 "}\n");
 
         // Create attribute node
-        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, 4);
+        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, 4);
 
         // Create program node and attach shader and attribute nodes
         RapidGL::ProgramNode programNode("foo");
@@ -224,7 +224,7 @@ public:
                 "}\n");
 
         // Create attribute node
-        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1);
+        RapidGL::AttributeNode attributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1);
 
         // Create program node and attach shader and attribute nodes
         RapidGL::ProgramNode programNode("foo");

@@ -146,7 +146,7 @@ public:
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1),
+            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1),
             useNode("foo"),
             crateUniformNode("Texture1", "crate"),
             stoneUniformNode("Texture2", "stone") {

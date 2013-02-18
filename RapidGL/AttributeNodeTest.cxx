@@ -108,10 +108,10 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::formatUsage` works for `COORDINATE`.
+     * Ensures `AttributeNode::formatUsage` works for `TEXCOORD`.
      */
-    void testFormatUsageWithCoordinate() {
-        CPPUNIT_ASSERT_EQUAL(std::string("COORDINATE"), AttributeNode::formatUsage(AttributeNode::COORDINATE));
+    void testFormatUsageWithTexCoord() {
+        CPPUNIT_ASSERT_EQUAL(std::string("TEXCOORD"), AttributeNode::formatUsage(AttributeNode::TEXCOORD));
     }
 
     /**
@@ -138,11 +138,11 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::parseUsage` works for 'COORDINATE'.
+     * Ensures `AttributeNode::parseUsage` works for 'TEXCOORD'.
      */
-    void testParseUsageWithCoordinate() {
-        const AttributeNode::Usage expected = AttributeNode::COORDINATE;
-        const AttributeNode::Usage actual = AttributeNode::parseUsage("COORDINATE");
+    void testParseUsageWithTexCoord() {
+        const AttributeNode::Usage expected = AttributeNode::TEXCOORD;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("TEXCOORD");
         CPPUNIT_ASSERT_EQUAL(expected, actual);
     }
 
@@ -211,11 +211,11 @@ int main(int argc, char* argv[]) {
         test.testAttributeNodeWhenLocationIsMinMinusOne();
         test.testAttributeNodeWhenNameIsEmpty();
         test.testFormatUsageWithColor();
-        test.testFormatUsageWithCoordinate();
+        test.testFormatUsageWithTexCoord();
         test.testFormatUsageWithNormal();
         test.testFormatUsageWithPosition();
         test.testParseUsageWithColor();
-        test.testParseUsageWithCoordinate();
+        test.testParseUsageWithTexCoord();
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();
         test.testParseUsageWithVertex();
