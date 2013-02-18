@@ -34,7 +34,7 @@ public:
 // Types
     /// How an attribute should be used.
     enum Usage {
-        POINT, ///< As a point
+        POSITION, ///< As a position
         NORMAL, ///< As a normal
         COORDINATE ///< As a texture coordinate
     };

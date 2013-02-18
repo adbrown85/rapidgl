@@ -60,7 +60,7 @@ AttributeNode::~AttributeNode() {
  */
 std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
     std::map<std::string,AttributeNode::Usage> usagesByName;
-    usagesByName["POINT"] = POINT;
+    usagesByName["POSITION"] = POSITION;
     usagesByName["NORMAL"] = NORMAL;
     usagesByName["COORDINATE"] = COORDINATE;
     return usagesByName;
@@ -74,8 +74,8 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
  */
 std::string AttributeNode::formatUsage(const Usage usage) {
     switch (usage) {
-    case POINT:
-        return "POINT";
+    case POSITION:
+        return "POSITION";
     case NORMAL:
         return "NORMAL";
     case COORDINATE:

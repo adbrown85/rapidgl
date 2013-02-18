@@ -67,7 +67,7 @@ public:
      * Ensures constructor works if passed the maximum location value.
      */
     void testAttributeNodeWhenLocationIsMax() {
-        const AttributeNode node("foo", AttributeNode::POINT, maxVertexAttribs - 1);
+        const AttributeNode node("foo", AttributeNode::POSITION, maxVertexAttribs - 1);
         CPPUNIT_ASSERT_EQUAL(maxVertexAttribs - 1, node.getLocation());
     }
 
@@ -75,14 +75,14 @@ public:
      * Ensures constructor throws if passed one more than the maximum location value.
      */
     void testAttributeNodeWhenLocationIsMaxPlusOne() {
-        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POINT, maxVertexAttribs), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POSITION, maxVertexAttribs), std::invalid_argument);
     }
 
     /**
      * Ensures constructor works if passed the minimum location value.
      */
     void testAttributeNodeWhenLocationIsMin() {
-        const AttributeNode node("foo", AttributeNode::POINT, -1);
+        const AttributeNode node("foo", AttributeNode::POSITION, -1);
         CPPUNIT_ASSERT_EQUAL(-1, node.getLocation());
     }
 
@@ -90,14 +90,14 @@ public:
      * Ensures constructor throws if passed one less than the minimum location.
      */
     void testAttributeNodeWhenLocationIsMinMinusOne() {
-        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POINT, -2), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(AttributeNode("foo", AttributeNode::POSITION, -2), std::invalid_argument);
     }
 
     /**
      * Ensures AttributeNode constructor throws an exception if passed an empty string.
      */
     void testAttributeNodeWhenNameIsEmpty() {
-        CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POINT, -1), std::invalid_argument);
+        CPPUNIT_ASSERT_THROW(new AttributeNode("", AttributeNode::POSITION, -1), std::invalid_argument);
     }
 
     /**
@@ -115,10 +115,10 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::formatUsage` works for `POINT`.
+     * Ensures `AttributeNode::formatUsage` works for `POSITION`.
      */
-    void testFormatUsageWithPoint() {
-        CPPUNIT_ASSERT_EQUAL(std::string("POINT"), AttributeNode::formatUsage(AttributeNode::POINT));
+    void testFormatUsageWithPosition() {
+        CPPUNIT_ASSERT_EQUAL(std::string("POSITION"), AttributeNode::formatUsage(AttributeNode::POSITION));
     }
 
     /**
@@ -147,11 +147,11 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::parseUsage` works for 'POINT'.
+     * Ensures `AttributeNode::parseUsage` works for 'POSITION'.
      */
     void testParseUsageWithVertex() {
-        const AttributeNode::Usage expected = AttributeNode::POINT;
-        const AttributeNode::Usage actual = AttributeNode::parseUsage("POINT");
+        const AttributeNode::Usage expected = AttributeNode::POSITION;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("POSITION");
         CPPUNIT_ASSERT_EQUAL(expected, actual);
     }
 
@@ -161,7 +161,7 @@ public:
     void testPreVisitWithNoParent() {
 
         // Make node
-        AttributeNode attributeNode("MCVertex", AttributeNode::POINT, -1);
+        AttributeNode attributeNode("MCVertex", AttributeNode::POSITION, -1);
 
         // Check for throw
         RapidGL::State state;
@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
         test.testAttributeNodeWhenNameIsEmpty();
         test.testFormatUsageWithCoordinate();
         test.testFormatUsageWithNormal();
-        test.testFormatUsageWithPoint();
+        test.testFormatUsageWithPosition();
         test.testParseUsageWithCoordinate();
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();

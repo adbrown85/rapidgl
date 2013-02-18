@@ -162,10 +162,10 @@ public:
             secondUseNode("second"),
             firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource()),
             firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource()),
-            firstPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
+            firstPointAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1),
             secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource()),
             secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource()),
-            secondPointAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1),
+            secondPointAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1),
             secondCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, -1) {
 
         sceneNode.addChild(&firstProgramNode);

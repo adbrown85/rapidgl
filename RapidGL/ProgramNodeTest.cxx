@@ -101,7 +101,7 @@ public:
                 "}\n");
 
         // Create attribute node
-        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT, 7);
+        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POSITION, 7);
 
         // Create program node and attach shader and attribute nodes
         RapidGL::ProgramNode programNode("foo");
@@ -144,7 +144,7 @@ public:
                 "}\n");
 
         // Create attribute node
-        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POINT, -1);
+        RapidGL::AttributeNode attributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1);
 
         // Create program node and attach shader and attribute nodes
         RapidGL::ProgramNode programNode("foo");

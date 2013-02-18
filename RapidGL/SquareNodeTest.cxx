@@ -131,14 +131,14 @@ public:
         RapidGL::ProgramNode firstProgramNode("foo");
         RapidGL::ShaderNode firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource());
         RapidGL::ShaderNode firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource());
-        RapidGL::AttributeNode firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, 1);
+        RapidGL::AttributeNode firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, 1);
         RapidGL::AttributeNode firstCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::COORDINATE, 2);
 
         // Create second program, shader, and attribute nodes
         RapidGL::ProgramNode secondProgramNode("bar");
         RapidGL::ShaderNode secondVertexShaderNode(GL_VERTEX_SHADER, getSecondVertexShaderSource());
         RapidGL::ShaderNode secondFragmentShaderNode(GL_FRAGMENT_SHADER, getSecondFragmentShaderSource());
-        RapidGL::AttributeNode secondVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POINT, 3);
+        RapidGL::AttributeNode secondVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, 3);
 
         // Create first use node, group, and square
         RapidGL::UseNode firstUseNode("foo");

@@ -97,7 +97,7 @@ Glycerin::BufferLayout CubeNode::createBufferLayout() {
             .count(VERTEX_COUNT)
             .interleaved(true)
             .components(3)
-            .region("POINT")
+            .region("POSITION")
             .region("COORDINATE")
             .build();
 }

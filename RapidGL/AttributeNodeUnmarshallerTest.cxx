@@ -72,7 +72,7 @@ public:
         // Make map
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         attributes["location"] = "";
 
         // Unmarshal node
@@ -92,7 +92,7 @@ public:
         // Make map
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         attributes["location"] = formatInt(getMaxVertexAttribs() - 1);
 
         // Unmarshal node
@@ -110,7 +110,7 @@ public:
     void testUnmarshalWhenLocationIsMaxPlusOne() {
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         attributes["location"] = formatInt(getMaxVertexAttribs());
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
@@ -123,7 +123,7 @@ public:
         // Make map
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         attributes["location"] = "0";
 
         // Unmarshal node
@@ -141,7 +141,7 @@ public:
     void testUnmarshalWhenLocationIsMinMinusOne() {
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         attributes["location"] = "-1";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), std::runtime_error);
     }
@@ -154,7 +154,7 @@ public:
         // Make map
         map<string,string> attributes;
         attributes["name"] = "location";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
 
         // Unmarshal node
         const RapidGL::Node* node = unmarshaller->unmarshal(attributes);
@@ -171,7 +171,7 @@ public:
     void testUnmarshalWithEmptyName() {
         map<string,string> attributes;
         attributes["name"] = "";
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 
@@ -200,7 +200,7 @@ public:
      */
     void testUnmarshalWithUnspecifiedName() {
         map<string,string> attributes;
-        attributes["usage"] = "point";
+        attributes["usage"] = "position";
         CPPUNIT_ASSERT_THROW(unmarshaller->unmarshal(attributes), runtime_error);
     }
 

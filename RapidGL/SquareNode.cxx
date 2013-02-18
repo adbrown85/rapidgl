@@ -43,7 +43,7 @@ SquareNode::SquareNode() :
     arrayBuffer.data(bufferLayout.sizeInBytes(), NULL, GL_STATIC_DRAW);
 
     // Add vertices
-    const Glycerin::BufferRegion vertexRegion = *(bufferLayout.find("POINT"));
+    const Glycerin::BufferRegion vertexRegion = *(bufferLayout.find("POSITION"));
     GLfloat points[COUNT][2] = { { +0.5f, +0.5f },
                                  { -0.5f, +0.5f },
                                  { -0.5f, -0.5f },
@@ -90,7 +90,7 @@ Glycerin::BufferLayout SquareNode::createBufferLayout() {
     return Glycerin::BufferLayoutBuilder()
         .count(COUNT)
         .components(2)
-        .region("POINT")
+        .region("POSITION")
         .region("COORDINATE")
         .build();
 }
