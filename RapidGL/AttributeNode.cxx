@@ -63,7 +63,8 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
     usagesByName["POSITION"] = POSITION;
     usagesByName["NORMAL"] = NORMAL;
     usagesByName["COLOR"] = COLOR;
-    usagesByName["TEXCOORD"] = TEXCOORD;
+    usagesByName["TEXCOORD0"] = TEXCOORD0;
+    usagesByName["TEXCOORD1"] = TEXCOORD1;
     return usagesByName;
 }
 
@@ -81,8 +82,10 @@ std::string AttributeNode::formatUsage(const Usage usage) {
         return "NORMAL";
     case COLOR:
         return "COLOR";
-    case TEXCOORD:
-        return "TEXCOORD";
+    case TEXCOORD0:
+        return "TEXCOORD0";
+    case TEXCOORD1:
+        return "TEXCOORD1";
     default:
         throw std::runtime_error("[AttributeNode] Unexpected enumeration!");
     }

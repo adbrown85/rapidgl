@@ -154,7 +154,7 @@ public:
             vertexShaderNode(GL_VERTEX_SHADER, getVertexShaderSource()),
             fragmentShaderNode(GL_FRAGMENT_SHADER, getFragmentShaderSource()),
             vertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, -1),
-            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, -1),
+            coordinateAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD0, -1),
             useNode("foo"),
             bunnyUniformNode("Texture1", "bunny"),
             headUniformNode("Texture2", "head"),

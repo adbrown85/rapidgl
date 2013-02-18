@@ -98,7 +98,7 @@ Glycerin::BufferLayout CubeNode::createBufferLayout() {
             .interleaved(true)
             .components(3)
             .region("POSITION")
-            .region("TEXCOORD")
+            .region("TEXCOORD0")
             .build();
 }
 

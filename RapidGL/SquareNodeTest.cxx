@@ -132,7 +132,7 @@ public:
         RapidGL::ShaderNode firstVertexShaderNode(GL_VERTEX_SHADER, getFirstVertexShaderSource());
         RapidGL::ShaderNode firstFragmentShaderNode(GL_FRAGMENT_SHADER, getFirstFragmentShaderSource());
         RapidGL::AttributeNode firstVertexAttributeNode("MCVertex", RapidGL::AttributeNode::POSITION, 1);
-        RapidGL::AttributeNode firstCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD, 2);
+        RapidGL::AttributeNode firstCoordAttributeNode("TexCoord0", RapidGL::AttributeNode::TEXCOORD0, 2);
 
         // Create second program, shader, and attribute nodes
         RapidGL::ProgramNode secondProgramNode("bar");

@@ -37,7 +37,8 @@ public:
         POSITION, ///< As a position
         NORMAL, ///< As a normal
         COLOR, ///< As a color
-        TEXCOORD ///< As a texture coordinate
+        TEXCOORD0, ///< As primary texture coordinate
+        TEXCOORD1 ///< As secondary texture coordinate
     };
 // Methods
     AttributeNode(const std::string& name, Usage usage, GLint location);

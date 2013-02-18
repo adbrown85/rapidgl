@@ -108,10 +108,17 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::formatUsage` works for `TEXCOORD`.
+     * Ensures `AttributeNode::formatUsage` works for `TEXCOORD0`.
      */
-    void testFormatUsageWithTexCoord() {
-        CPPUNIT_ASSERT_EQUAL(std::string("TEXCOORD"), AttributeNode::formatUsage(AttributeNode::TEXCOORD));
+    void testFormatUsageWithTexCoord0() {
+        CPPUNIT_ASSERT_EQUAL(std::string("TEXCOORD0"), AttributeNode::formatUsage(AttributeNode::TEXCOORD0));
+    }
+
+    /**
+     * Ensures `AttributeNode::formatUsage` works for `TEXCOORD1`.
+     */
+    void testFormatUsageWithTexCoord1() {
+        CPPUNIT_ASSERT_EQUAL(std::string("TEXCOORD1"), AttributeNode::formatUsage(AttributeNode::TEXCOORD1));
     }
 
     /**
@@ -138,11 +145,20 @@ public:
     }
 
     /**
-     * Ensures `AttributeNode::parseUsage` works for 'TEXCOORD'.
+     * Ensures `AttributeNode::parseUsage` works for 'TEXCOORD0'.
      */
-    void testParseUsageWithTexCoord() {
-        const AttributeNode::Usage expected = AttributeNode::TEXCOORD;
-        const AttributeNode::Usage actual = AttributeNode::parseUsage("TEXCOORD");
+    void testParseUsageWithTexCoord0() {
+        const AttributeNode::Usage expected = AttributeNode::TEXCOORD0;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("TEXCOORD0");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
+    }
+
+    /**
+     * Ensures `AttributeNode::parseUsage` works for 'TEXCOORD1'.
+     */
+    void testParseUsageWithTexCoord1() {
+        const AttributeNode::Usage expected = AttributeNode::TEXCOORD1;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("TEXCOORD1");
         CPPUNIT_ASSERT_EQUAL(expected, actual);
     }
 
@@ -211,11 +227,13 @@ int main(int argc, char* argv[]) {
         test.testAttributeNodeWhenLocationIsMinMinusOne();
         test.testAttributeNodeWhenNameIsEmpty();
         test.testFormatUsageWithColor();
-        test.testFormatUsageWithTexCoord();
+        test.testFormatUsageWithTexCoord0();
+        test.testFormatUsageWithTexCoord1();
         test.testFormatUsageWithNormal();
         test.testFormatUsageWithPosition();
         test.testParseUsageWithColor();
-        test.testParseUsageWithTexCoord();
+        test.testParseUsageWithTexCoord0();
+        test.testParseUsageWithTexCoord1();
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();
         test.testParseUsageWithVertex();
