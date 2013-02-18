@@ -101,6 +101,13 @@ public:
     }
 
     /**
+     * Ensures `AttributeNode::formatUsage` works for `COLOR`.
+     */
+    void testFormatUsageWithColor() {
+        CPPUNIT_ASSERT_EQUAL(std::string("COLOR"), AttributeNode::formatUsage(AttributeNode::COLOR));
+    }
+
+    /**
      * Ensures `AttributeNode::formatUsage` works for `COORDINATE`.
      */
     void testFormatUsageWithCoordinate() {
@@ -119,6 +126,15 @@ public:
      */
     void testFormatUsageWithPosition() {
         CPPUNIT_ASSERT_EQUAL(std::string("POSITION"), AttributeNode::formatUsage(AttributeNode::POSITION));
+    }
+
+    /**
+     * Ensures `AttributeNode::parseUsage` works for 'COLOR'.
+     */
+    void testParseUsageWithColor() {
+        const AttributeNode::Usage expected = AttributeNode::COLOR;
+        const AttributeNode::Usage actual = AttributeNode::parseUsage("COLOR");
+        CPPUNIT_ASSERT_EQUAL(expected, actual);
     }
 
     /**
@@ -194,9 +210,11 @@ int main(int argc, char* argv[]) {
         test.testAttributeNodeWhenLocationIsMin();
         test.testAttributeNodeWhenLocationIsMinMinusOne();
         test.testAttributeNodeWhenNameIsEmpty();
+        test.testFormatUsageWithColor();
         test.testFormatUsageWithCoordinate();
         test.testFormatUsageWithNormal();
         test.testFormatUsageWithPosition();
+        test.testParseUsageWithColor();
         test.testParseUsageWithCoordinate();
         test.testParseUsageWithInvalidString();
         test.testParseUsageWithNormal();

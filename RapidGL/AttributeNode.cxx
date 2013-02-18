@@ -62,6 +62,7 @@ std::map<std::string,AttributeNode::Usage> AttributeNode::createUsagesByName() {
     std::map<std::string,AttributeNode::Usage> usagesByName;
     usagesByName["POSITION"] = POSITION;
     usagesByName["NORMAL"] = NORMAL;
+    usagesByName["COLOR"] = COLOR;
     usagesByName["COORDINATE"] = COORDINATE;
     return usagesByName;
 }
@@ -78,6 +79,8 @@ std::string AttributeNode::formatUsage(const Usage usage) {
         return "POSITION";
     case NORMAL:
         return "NORMAL";
+    case COLOR:
+        return "COLOR";
     case COORDINATE:
         return "COORDINATE";
     default:
