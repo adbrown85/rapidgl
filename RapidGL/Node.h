@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <vector>
 #include "RapidGL/common.h"
+#include "RapidGL/NodeListener.h"
 #include "RapidGL/State.h"
 namespace RapidGL {
 
@@ -38,6 +39,7 @@ public:
     Node(const std::string& id = "");
     virtual ~Node();
     void addChild(Node* node);
+    void addNodeListener(NodeListener* nodeListener);
     node_range_t getChildren() const;
     std::string getId() const;
     Node* getParent() const;
@@ -46,12 +48,17 @@ public:
     virtual void postVisit(State& state);
     virtual void preVisit(State& state);
     bool removeChild(Node* node);
+    bool removeNodeListener(NodeListener* nodeListener);
     virtual void visit(State& state) = 0;
+protected:
+// Methods
+    void fireNodeChangedEvent();
 private:
 // Attributes
     std::vector<Node*> children;
     std::string id;
     Node* parent;
+    std::vector<NodeListener*> nodeListeners;
 // Methods
     Node(const Node& node);
     Node& operator=(const Node& node);

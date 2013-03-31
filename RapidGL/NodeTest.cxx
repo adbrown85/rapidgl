@@ -29,6 +29,23 @@ class NodeTest : public CppUnit::TestFixture {
 public:
 
     /**
+     * Fake `NodeListener` that stores the node that changed.
+     */
+    class FakeNodeListener : public RapidGL::NodeListener {
+    public:
+
+        RapidGL::Node* node;
+
+        FakeNodeListener() : node(NULL) {
+            // empty
+        }
+
+        virtual void nodeChanged(RapidGL::Node* const node) {
+            this->node = node;
+        }
+    };
+
+    /**
      * Fake node for testing.
      */
     class FooNode : public RapidGL::Node {
@@ -40,6 +57,10 @@ public:
 
         virtual void visit(RapidGL::State& state) {
             // empty
+        }
+
+        void fire() {
+            fireNodeChangedEvent();
         }
     };
 
@@ -82,6 +103,30 @@ public:
     void testAddChildWithSelf() {
         FooNode node;
         CPPUNIT_ASSERT_THROW(node.addChild(&node), std::invalid_argument);
+    }
+
+    /**
+     * Ensures `Node::addNodeListener` works correctly with a listener that is not `NULL`.
+     */
+    void testAddNodeListenerWithNonNull() {
+
+        // Make node and register listener
+        FooNode fooNode;
+        FakeNodeListener fakeNodeListener;
+        fooNode.addNodeListener(&fakeNodeListener);
+
+        // Fire event and check listener was notified
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+        fooNode.fire();
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &fooNode, fakeNodeListener.node);
+    }
+
+    /**
+     * Ensures `Node::addNodeListener` throws if passed `NULL`.
+     */
+    void testAddNodeListenerWithNull() {
+        FooNode fooNode;
+        CPPUNIT_ASSERT_THROW(fooNode.addNodeListener(NULL), std::invalid_argument);
     }
 
     /**
@@ -345,9 +390,37 @@ public:
         CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, child.getParent());
     }
 
+    /**
+     * Ensures `Node::removeNodeListener` works correctly with a listener that is not `NULL`.
+     */
+    void testRemoveNodeListenerWithNonNull() {
+
+        // Make node
+        FooNode fooNode;
+        FakeNodeListener fakeNodeListener;
+
+        // Register and deregister listener
+        fooNode.addNodeListener(&fakeNodeListener);
+        CPPUNIT_ASSERT(fooNode.removeNodeListener(&fakeNodeListener));
+
+        // Fire event and check listener was not notified
+        fooNode.fire();
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+    }
+
+    /**
+     * Ensures `Node::removeNodeListener` throws if passed `NULL`.
+     */
+    void testRemoveNodeListenerWithNull() {
+        FooNode fooNode;
+        CPPUNIT_ASSERT_THROW(fooNode.removeNodeListener(NULL), std::invalid_argument);
+    }
+
     CPPUNIT_TEST_SUITE(NodeTest);
     CPPUNIT_TEST(testAddChild);
     CPPUNIT_TEST(testAddChildWithSelf);
+    CPPUNIT_TEST(testAddNodeListenerWithNonNull);
+    CPPUNIT_TEST(testAddNodeListenerWithNull);
     CPPUNIT_TEST(testFindAncestorNodeStringWithAncestorOfTypeAndWithId);
     CPPUNIT_TEST(testFindAncestorNodeStringWithEmptyId);
     CPPUNIT_TEST(testFindAncestorNodeStringWithNoAncestorOfType);
@@ -368,6 +441,8 @@ public:
     CPPUNIT_TEST(testFindRootWithNull);
     CPPUNIT_TEST(testFindRootWithRoot);
     CPPUNIT_TEST(testRemoveChild);
+    CPPUNIT_TEST(testRemoveNodeListenerWithNonNull);
+    CPPUNIT_TEST(testRemoveNodeListenerWithNull);
     CPPUNIT_TEST_SUITE_END();
 };
 

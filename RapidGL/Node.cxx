@@ -116,6 +116,28 @@ void Node::addChild(Node* const node) {
 }
 
 /**
+ * Registers a listener of this node.
+ *
+ * @param nodeListener Node listener to register
+ * @throws invalid_argument if node is `NULL`
+ */
+void Node::addNodeListener(NodeListener* const nodeListener) {
+    if (nodeListener == NULL) {
+        throw std::invalid_argument("[Node] Node listener is NULL!");
+    }
+    nodeListeners.push_back(nodeListener);
+}
+
+/**
+ * Notifies each registered listener that this node has changed.
+ */
+void Node::fireNodeChangedEvent() {
+    for (std::vector<NodeListener*>::const_iterator it = nodeListeners.begin(); it != nodeListeners.end(); ++it) {
+        (*it)->nodeChanged(this);
+    }
+}
+
+/**
  * Returns a pair of iterators for accessing this node's children.
  *
  * @return Pair of iterators for accessing this node's children
@@ -199,6 +221,30 @@ bool Node::removeChild(Node* const node) {
     // Remove it
     children.erase(it);
     (*it)->parent = NULL;
+    return true;
+}
+
+/**
+ * Deregisters a node listener.
+ *
+ * @param nodeListener Node listener to deregister
+ * @return `true` if the node listener was removed
+ * @throws invalid_argument if listener is `NULL`
+ */
+bool Node::removeNodeListener(NodeListener* const nodeListener) {
+
+    if (nodeListener == NULL) {
+        throw std::invalid_argument("[Node] Node listener is NULL!");
+    }
+
+    // Find the node listener
+    std::vector<NodeListener*>::iterator it = std::find(nodeListeners.begin(), nodeListeners.end(), nodeListener);
+    if (it == nodeListeners.end()) {
+        return false;
+    }
+
+    // Remove it
+    nodeListeners.erase(it);
     return true;
 }
 
