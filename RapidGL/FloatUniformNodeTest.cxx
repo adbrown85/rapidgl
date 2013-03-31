@@ -38,6 +38,20 @@ public:
     static const double TOLERANCE = 1e-9;
 
     /**
+     * Fake `NodeListener` that stores the node that changed.
+     */
+    class FakeNodeListener : public RapidGL::NodeListener {
+    public:
+    // Attributes
+        RapidGL::Node* node;
+    // Methods
+        FakeNodeListener() : node(NULL) { }
+        virtual void nodeChanged(RapidGL::Node* node) {
+            this->node = node;
+        }
+    };
+
+    /**
      * Returns the source code for the vertex shader.
      */
     static std::string getVertexShaderSource() {
@@ -121,6 +135,22 @@ public:
     }
 
     /**
+     * Ensures `FloatUniformNode::setValue` fires an event.
+     */
+    void testSetValue() {
+
+        // Make node and register listener
+        RapidGL::FloatUniformNode floatUniformNode("foo");
+        FakeNodeListener fakeNodeListener;
+        floatUniformNode.addNodeListener(&fakeNodeListener);
+
+        // Change value and check listener was notified
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+        floatUniformNode.setValue(1.0f);
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &floatUniformNode, fakeNodeListener.node);
+    }
+
+    /**
      * Ensures `FloatUniformNode::visit` works correctly.
      */
     void testVisit() {
@@ -163,6 +193,7 @@ int main(int argc, char* argv[]) {
         test.testFloatUniformNodeString();
         test.testFloatUniformNodeStringFloat();
         test.testGetType();
+        test.testSetValue();
         test.testVisit();
     } catch (std::exception& e) {
         std::cerr << e.what() << std::endl;

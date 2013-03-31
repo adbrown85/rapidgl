@@ -57,6 +57,7 @@ GLfloat FloatUniformNode::getValue() const {
  */
 void FloatUniformNode::setValue(const GLfloat value) {
     this->value = value;
+    fireNodeChangedEvent();
 }
 
 void FloatUniformNode::visit(State& state) {
