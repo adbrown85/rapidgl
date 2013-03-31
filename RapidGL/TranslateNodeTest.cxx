@@ -38,6 +38,36 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
+     * Fake `NodeListener` that stores the node that changed.
+     */
+    class FakeNodeListener : public RapidGL::NodeListener {
+    public:
+    // Attributes
+        RapidGL::Node* node;
+    // Methods
+        FakeNodeListener() : node(NULL) { }
+        virtual void nodeChanged(RapidGL::Node* node) {
+            this->node = node;
+        }
+    };
+
+    /**
+     * Ensures `TranslateNode::setTranslation` fires an event.
+     */
+    void testSetTranslation() {
+
+        // Make node and register listener
+        RapidGL::TranslateNode translateNode;
+        FakeNodeListener fakeNodeListener;
+        translateNode.addNodeListener(&fakeNodeListener);
+
+        // Change translation and check listener was notified
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+        translateNode.setTranslation(M3d::Vec3(10, 20, 30));
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &translateNode, fakeNodeListener.node);
+    }
+
+    /**
      * Ensures `TranslateNode::visit` post-multiplies in the translation matrix.
      */
     void testVisit() {
@@ -69,6 +99,7 @@ public:
     }
 
     CPPUNIT_TEST_SUITE(TranslateNodeTest);
+    CPPUNIT_TEST(testSetTranslation);
     CPPUNIT_TEST(testVisit);
     CPPUNIT_TEST_SUITE_END();
 };

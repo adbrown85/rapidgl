@@ -60,6 +60,7 @@ M3d::Vec3 TranslateNode::getTranslation() const {
  */
 void TranslateNode::setTranslation(const M3d::Vec3& translation) {
     this->translation = translation;
+    fireNodeChangedEvent();
 }
 
 void TranslateNode::visit(State& state) {
