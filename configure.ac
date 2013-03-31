@@ -5,7 +5,7 @@ AC_PREREQ([2.67])
 define([MY_NAME], [RapidGL])
 define([MY_MAJOR_VERSION], [0])
 define([MY_MINOR_VERSION], [10])
-define([MY_INCREMENTAL_VERSION], [0])
+define([MY_INCREMENTAL_VERSION], [1])
 define([MY_VERSION], MY_MAJOR_VERSION.MY_MINOR_VERSION.MY_INCREMENTAL_VERSION)
 define([MY_EMAIL], [adb1413@rit.edu])
 define([MY_TARNAME], [rapidgl])
@@ -101,7 +101,7 @@ PKG_CHECK_EXISTS([M3D_REQUIREMENT], [AC_MSG_RESULT([yes])], [error_no_m3d])
 
 # Check for Glycerin
 define([GLYCERIN_ID], [glycerin-0])
-define([GLYCERIN_VERSION], [0.7.1])
+define([GLYCERIN_VERSION], [0.8.0])
 define([GLYCERIN_REQUIREMENT], [GLYCERIN_ID >= GLYCERIN_VERSION])
 PACKAGE_REQUIREMENTS+='GLYCERIN_REQUIREMENT '
 error_no_glycerin() {
