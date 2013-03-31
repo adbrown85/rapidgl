@@ -1,3 +1,6 @@
+v0.10.1
+ - Depend on Glycerin v0.8
+
 v0.10
  - Renamed AttributeNode::Usage POINT to POSITION
  - Renamed AttributeNode::Usage COORDINATE TO TEXCOORD0
