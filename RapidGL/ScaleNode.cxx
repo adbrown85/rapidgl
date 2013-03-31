@@ -59,6 +59,7 @@ M3d::Vec3 ScaleNode::getScale() const {
  */
 void ScaleNode::setScale(const M3d::Vec3& scale) {
     this->scale = scale;
+    fireNodeChangedEvent();
 }
 
 void ScaleNode::visit(State& state) {

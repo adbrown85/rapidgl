@@ -36,6 +36,20 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
+     * Fake `NodeListener` that stores the node that changed.
+     */
+    class FakeNodeListener : public RapidGL::NodeListener {
+    public:
+    // Attributes
+        RapidGL::Node* node;
+    // Methods
+        FakeNodeListener() : node(NULL) { }
+        virtual void nodeChanged(RapidGL::Node* node) {
+            this->node = node;
+        }
+    };
+
+    /**
      * Creates a translation matrix for a translation.
      *
      * @param x Translation in X direction
@@ -47,6 +61,22 @@ public:
         M3d::Mat4 mat(1);
         mat[3] = M3d::Vec4(x, y, z, 1);
         return mat;
+    }
+
+    /**
+     * Ensures `ScaleNode::setScale` fires an event.
+     */
+    void testSetScale() {
+
+        // Make node and register listener
+        RapidGL::ScaleNode scaleNode;
+        FakeNodeListener fakeNodeListener;
+        scaleNode.addNodeListener(&fakeNodeListener);
+
+        // Change scale and check listener was notified
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+        scaleNode.setScale(M3d::Vec3(10, 20, 30));
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &scaleNode, fakeNodeListener.node);
     }
 
     /**
@@ -74,6 +104,7 @@ public:
     }
 
     CPPUNIT_TEST_SUITE(ScaleNodeTest);
+    CPPUNIT_TEST(testSetScale);
     CPPUNIT_TEST(testVisit);
     CPPUNIT_TEST_SUITE_END();
 };
