@@ -57,6 +57,7 @@ M3d::Vec3 Vec3UniformNode::getValue() const {
  */
 void Vec3UniformNode::setValue(const M3d::Vec3& value) {
     this->value = value;
+    fireNodeChangedEvent();
 }
 
 void Vec3UniformNode::visit(State& state) {
