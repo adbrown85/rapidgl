@@ -57,6 +57,7 @@ M3d::Vec4 Vec4UniformNode::getValue() const {
  */
 void Vec4UniformNode::setValue(const M3d::Vec4& value) {
     this->value = value;
+    fireNodeChangedEvent();
 }
 
 void Vec4UniformNode::visit(State& state) {
