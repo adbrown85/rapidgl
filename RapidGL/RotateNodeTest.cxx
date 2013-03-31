@@ -37,6 +37,20 @@ public:
     static const double TOLERANCE = 1e-6;
 
     /**
+     * Fake `NodeListener` that stores the node that changed.
+     */
+    class FakeNodeListener : public RapidGL::NodeListener {
+    public:
+    // Attributes
+        RapidGL::Node* node;
+    // Methods
+        FakeNodeListener() : node(NULL) { }
+        virtual void nodeChanged(RapidGL::Node* node) {
+            this->node = node;
+        }
+    };
+
+    /**
      * Creates a translation matrix for a translation.
      *
      * @param x Translation in X direction
@@ -48,6 +62,22 @@ public:
         M3d::Mat4 mat(1);
         mat[3] = M3d::Vec4(x, y, z, 1);
         return mat;
+    }
+
+    /**
+     * Ensures `RotateNode::setRotation` fires an event.
+     */
+    void testSetRotation() {
+
+        // Make node and register listener
+        RapidGL::RotateNode rotateNode;
+        FakeNodeListener fakeNodeListener;
+        rotateNode.addNodeListener(&fakeNodeListener);
+
+        // Change rotation and check listener was notified
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
+        rotateNode.setRotation(M3d::Quat::Quat(0, 0, 0, 1));
+        CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &rotateNode, fakeNodeListener.node);
     }
 
     /**
@@ -81,6 +111,7 @@ public:
     }
 
     CPPUNIT_TEST_SUITE(RotateNodeTest);
+    CPPUNIT_TEST(testSetRotation);
     CPPUNIT_TEST(testVisit);
     CPPUNIT_TEST_SUITE_END();
 };

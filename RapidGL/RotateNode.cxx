@@ -59,6 +59,7 @@ M3d::Quat RotateNode::getRotation() const {
  */
 void RotateNode::setRotation(const M3d::Quat& rotation) {
     this->rotation = rotation;
+    fireNodeChangedEvent();
 }
 
 void RotateNode::visit(State& state) {
