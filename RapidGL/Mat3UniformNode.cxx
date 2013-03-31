@@ -57,6 +57,7 @@ M3d::Mat3 Mat3UniformNode::getValue() const {
  */
 void Mat3UniformNode::setValue(const M3d::Mat3& value) {
     this->value = value;
+    fireNodeChangedEvent();
 }
 
 void Mat3UniformNode::visit(State& state) {
