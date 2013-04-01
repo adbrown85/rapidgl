@@ -1,3 +1,6 @@
+v0.11
+ - Added support for observing nodes
+
 v0.10.1
  - Depend on Glycerin v0.8
 
