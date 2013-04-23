@@ -21,10 +21,14 @@
 #include <map>
 #include <stdexcept>
 #ifdef __APPLE__
+#ifndef GL3_PROTOTYPES
 #define GL3_PROTOTYPES
+#endif
 #include <OpenGL/gl3.h>
 #else
+#ifndef GL_GLEXT_PROTOTYPES
 #define GL_GLEXT_PROTOTYPES
+#endif
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <GL/glx.h>
