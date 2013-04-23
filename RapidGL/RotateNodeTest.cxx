@@ -76,7 +76,7 @@ public:
 
         // Change rotation and check listener was notified
         CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) NULL, fakeNodeListener.node);
-        rotateNode.setRotation(M3d::Quat::Quat(0, 0, 0, 1));
+        rotateNode.setRotation(M3d::Quat(0, 0, 0, 1));
         CPPUNIT_ASSERT_EQUAL((RapidGL::Node*) &rotateNode, fakeNodeListener.node);
     }
 
