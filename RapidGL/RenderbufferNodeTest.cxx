@@ -41,6 +41,125 @@ public:
         return value;
     }
 
+    /**
+     * Checks if an enumeration is a depth component.
+     *
+     * @param enumeration Enumeration to check
+     * @return `true` if enumeration is a depth component
+     */
+    static bool isDepthComponent(const GLenum enumeration) {
+        switch (enumeration) {
+        case GL_DEPTH_COMPONENT:
+        case GL_DEPTH_COMPONENT16:
+        case GL_DEPTH_COMPONENT24:
+        case GL_DEPTH_COMPONENT32:
+        case GL_DEPTH_COMPONENT32F:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * Checks if an enumeration is a red format.
+     *
+     * @param enumeration Enumeration to check
+     * @return `true` if enumeration is a red format
+     */
+    static bool isRed(const GLenum enumeration) {
+        switch (enumeration) {
+        case GL_RED:
+        case GL_R8:
+        case GL_R16:
+        case GL_R16F:
+        case GL_R32F:
+        case GL_R8I:
+        case GL_R8UI:
+        case GL_R16I:
+        case GL_R16UI:
+        case GL_R32I:
+        case GL_R32UI:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * Checks if an enumeration is a red-green format.
+     *
+     * @param enumeration Enumeration to check
+     * @return `true` if enumeration is a red-green format
+     */
+    static bool isRedGreen(const GLenum enumeration) {
+        switch (enumeration) {
+        case GL_RG:
+        case GL_RG8:
+        case GL_RG16:
+        case GL_RG16F:
+        case GL_RG32F:
+        case GL_RG8I:
+        case GL_RG8UI:
+        case GL_RG16I:
+        case GL_RG16UI:
+        case GL_RG32I:
+        case GL_RG32UI:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * Checks if an enumeration is a red-green-blue format.
+     *
+     * @param enumeration Enumeration to check
+     * @return `true` if enumeration is a red-green-blue format
+     */
+    static bool isRedGreenBlue(const GLenum enumeration) {
+        switch (enumeration) {
+        case GL_RGB:
+        case GL_RGB8:
+        case GL_RGB16:
+        case GL_RGB16F:
+        case GL_RGB32F:
+        case GL_RGB8I:
+        case GL_RGB8UI:
+        case GL_RGB16I:
+        case GL_RGB16UI:
+        case GL_RGB32I:
+        case GL_RGB32UI:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    /**
+     * Checks if an enumeration is a red-green-blue-alpha format.
+     *
+     * @param enumeration Enumeration to check
+     * @return `true` if enumeration is a red-green-blue-alpha format
+     */
+    static bool isRedGreenBlueAlpha(const GLenum enumeration) {
+        switch (enumeration) {
+        case GL_RGBA:
+        case GL_RGBA8:
+        case GL_RGBA16:
+        case GL_RGBA16F:
+        case GL_RGBA32F:
+        case GL_RGBA8I:
+        case GL_RGBA8UI:
+        case GL_RGBA16I:
+        case GL_RGBA16UI:
+        case GL_RGBA32I:
+        case GL_RGBA32UI:
+            return true;
+        default:
+            return false;
+        }
+    }
+
     // Maximum renderbuffer size
     const GLsizei maxRenderbufferSize;
 
@@ -65,7 +184,7 @@ public:
 
         // Check format
         renderbuffer.bind(rbo);
-        CPPUNIT_ASSERT_EQUAL((GLenum) GL_DEPTH_COMPONENT24, renderbuffer.internalFormat());
+        CPPUNIT_ASSERT(isDepthComponent(renderbuffer.internalFormat()));
         renderbuffer.unbind();
     }
 
@@ -80,7 +199,7 @@ public:
 
         // Check format
         renderbuffer.bind(rbo);
-        CPPUNIT_ASSERT_EQUAL((GLenum) GL_R8, renderbuffer.internalFormat());
+        CPPUNIT_ASSERT(isRed(renderbuffer.internalFormat()));
         renderbuffer.unbind();
     }
 
@@ -95,7 +214,7 @@ public:
 
         // Check format
         renderbuffer.bind(rbo);
-        CPPUNIT_ASSERT_EQUAL((GLenum) GL_RG8, renderbuffer.internalFormat());
+        CPPUNIT_ASSERT(isRedGreen(renderbuffer.internalFormat()));
         renderbuffer.unbind();
     }
 
@@ -110,7 +229,7 @@ public:
 
         // Check format
         renderbuffer.bind(rbo);
-        CPPUNIT_ASSERT_EQUAL((GLenum) GL_RGB8, renderbuffer.internalFormat());
+        CPPUNIT_ASSERT(isRedGreenBlue(renderbuffer.internalFormat()));
         renderbuffer.unbind();
     }
 
@@ -125,7 +244,7 @@ public:
 
         // Check format
         renderbuffer.bind(rbo);
-        CPPUNIT_ASSERT_EQUAL((GLenum) GL_RGBA8, renderbuffer.internalFormat());
+        CPPUNIT_ASSERT(isRedGreenBlueAlpha(renderbuffer.internalFormat()));
         renderbuffer.unbind();
     }
 
