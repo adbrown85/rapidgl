@@ -1,3 +1,8 @@
+v0.11.1
+ - Fixed undeclared OpenGL functions on Linux
+ - Fixed RotateNodeTest calling M3d::Quat ctor incorrectly
+ - Fixed tests for renderbuffer formats failing on NVIDIA cards
+
 v0.11
  - Added support for observing nodes
 
